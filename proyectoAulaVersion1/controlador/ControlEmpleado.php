@@ -11,7 +11,6 @@ class ControlEmpleado {
 
 	function guardar(){
 
-		print("ingreso a guardar"); 
 		$sv="localhost";
 		$us="root";
 		$ps="";
@@ -43,8 +42,6 @@ class ControlEmpleado {
 		$us="root";
 		$ps="";
 		$bd="bdproyectoaulav1";
-		print("ingreso modificacion");
-	
 	
 		$doc=$this->objEmpleado->getDocumento();
 		$nom=$this->objEmpleado->getNombre();
@@ -75,9 +72,7 @@ class ControlEmpleado {
 		$us="root";
 		$ps="";
 		$bd="bdproyectoaulav1";
-
 		$doc=$this->objEmpleado->getDocumento();
-		PRINT("documento inac" .$doc);
 		$objConexion = new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
 		$comandoSql="UPDATE Empleado SET inactivo=1 WHERE documento='".$doc."'";
@@ -95,8 +90,6 @@ class ControlEmpleado {
 		
 
 		$doc=$this->objEmpleado->getDocumento();
-		print("ingreso a consultar".$doc);
-
 		$objConexion = new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
 	    $comandoSql="SELECT * FROM Empleado  WHERE DOCUMENTO='".$doc."'";

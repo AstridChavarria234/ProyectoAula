@@ -5,22 +5,21 @@
             if(!isset($_SESSION['usuario']) && !isset($_SESSION['clave']))
             header('Location:Index.php');
 
-
             include("../controlador/configBd.php");
-            include("../modelo/Cliente.php");
-            include("../controlador/ControlCliente.php");
+            include("../modelo/Producto.php");
+            include("../controlador/ControlProducto.php");
+            include("../modelo/Proveedor.php");
+            include("../controlador/ControlProveedor.php");
             include("../controlador/ControlConexion.php");
 
             
+        
+           $listProductos = array();
 
             $cod=$_POST['txtCodigo']; 
             $nom=$_POST['txtNombre'];
-            $tPersona=$_POST['txtTipo_Persona'];
-            $fReg=$_POST['txtRegistro'];
-            $fInact=$_POST['txtInactivo'];
-            $email=$_POST['txtEmail'];
-            $tel=$_POST['txtTelefono'];
-            $topCred=$_POST['txtTope_Credito'];
+            $SESSION["contador"] = 0; 
+            
             $statusActualizar="display:none";
             $statusInactivar="display:none";
             $statusRegistrar="display:block";
@@ -32,9 +31,9 @@
             $statusActivado="display:none";
             $statusConfInactivar="display:none";
             $statusArchivoImg="display:none";
-            $statusImg="display:none"; 
+            $statusImg="display:none";
             $urlImg;
-            $objetoSesion = $_SESSION["cliente"];
+            $objetoSesion = $_SESSION["producto"];
             $objetoSesion = unserialize($objetoSesion); 
             $button=$_POST['button'];
 
@@ -42,12 +41,6 @@
             if(!empty($objetoSesion)){
               $CODIGO=$objetoSesion->getCodigo();
               $NOMBRE=$objetoSesion->getNombre();
-              $PERSONA=$objetoSesion->getTipoPersona();
-              $REGISTRO=$objetoSesion->getFRegistro();
-              $INACTIVO=$objetoSesion->getFInactivo();
-              $EMAIL=$objetoSesion->getEmail();
-              $TELEFONO=$objetoSesion->getTelefono();
-              $TCREDITO=$objetoSesion->getTopeCred();
               $urlImg=$objetoSesion->getUrlImagen();
               $statusImg="display:block";
               $statusActualizar="display:block";
@@ -56,68 +49,77 @@
               $statusLectura="readonly='true'";
             }
 
-
-// Aqui comienza el guardado de archivos
-
               if(!empty($_FILES['archivo']['name']))
               {
               
                     
                     $urlImg= "../archivos/".$_FILES['archivo']['name'];
                     if (file_exists($urlImg)) {
-                     $statusArchivoImg ="display:block";
+                    $statusArchivoImg ="display:block";
 
                 }else{
 
                       $ruta_temporal = $_FILES['archivo']['tmp_name'];
                       move_uploaded_file($ruta_temporal, $urlImg);
 
-                      echo "<script>
-                                 alert('El archivo se subio de manera exitosa');
-                            
-                                </script>";
-
                        }
 
              }
 
-             
-
-            
-// Aqui termina el guardado
+        
 
             switch($button){
 
               case "registrar":
 
-              $objCliente= new Cliente($cod,"","","","","","","","","");
-              $objControlCliente= new ControlCliente($objCliente);
-              $objCliente=$objControlCliente->consultar();
+                $codigoProveedor= $SESSION["codigo"];
 
+                for($i=0; $i<count($listProductos); $i++){
+                  //guardar en tabla productoProveedor el codigo del producto
+                  //que se encuentra en listaproducto y el codigo del proveedor
+
+                }
+              
+            break; 
+
+
+            case "next": 
+            //consultar como hacer para que el contador no se inicialice y pueda iterar n veces
+            //o bien como son las listas en php
+            
+            $listProductos[$contador++] = $cod;
+            array_push($listProductos);
+            print_r($listProductos[1]);
              
-              if(empty($objCliente->getNombre())){
+             $objProducto= new Producto($cod,"","");
+              $objControlProducto= new ControlProducto($objProducto);
+              $objProducto=$objControlProducto->consultar();
 
-                $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,0);
-                $objControlCliente= new ControlCliente($objCliente);
-                $objControlCliente->guardar();
+            
+              if(empty($objProducto->getNombre())){
+
+                $objProducto= new Producto($cod,$nom,$urlImg);
+                $objControlProducto= new ControlProducto($objProducto);
+                $objControlProducto->guardar();
                 $statusRegistrarM="display:block";
                 actualizarValor();
               }else
               $statusExistencia="display:block";
               
-            break; 
 
+
+            break; 
               case "actualizar":  
               
-                $objCliente= new Cliente($cod,"","","","","","","","","");
-                $objControlCliente= new ControlCliente($objCliente);
-                $objCliente=$objControlCliente->consultar();
+                $objProducto= new Producto($cod,"","");
+                $objControlProducto= new ControlProducto($objProducto);
+                $objProducto=$objControlProducto->consultar();
 
             
                   $statusActivado="display:block";
-                  $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,0);
-                  $objControlCliente= new ControlCliente($objCliente);
-                  $objControlCliente->modificar();
+                  $objProducto= new Producto($cod,$nom,$urlImg);
+                  $objControlProducto= new ControlProducto($objProducto);
+                  $objControlProducto->modificar();
                   $statusActualizarM="display:block";
                
                    actualizarValor();
@@ -127,17 +129,17 @@
               
               case "inactivar":
 
-                $objCliente= new Cliente($cod,"","","","","","","","","");
-                $objControlCliente= new ControlCliente($objCliente);
-                $objCliente=$objControlCliente->consultar();
+                $objProducto= new Producto($cod,"","");
+                $objControlProducto= new ControlProducto($objProducto);
+                $objProducto=$objControlProducto->consultar();
 
-                if($objCliente->getInactivo()==1){
+                if($objProducto->getInactivo()==1){
                   
                   $statusConfInactivar="display:block";
                 }else{
-                 
-                  $objControlCliente= new ControlCliente($objCliente);
-                  $objControlCliente->inactivar();
+
+                  $objControlProducto= new ControlProducto($objProducto);
+                  $objControlProducto->inactivar();
                   $statusInactivarM="display:block";
                 }
 
@@ -150,10 +152,11 @@
 
 
             function actualizarValor(){
-              unset($_SESSION["cliente"]);
-              header('Refresh:4; URL=HomeAula.php');
+              unset($_SESSION["Producto"]);
+              header('Refresh:4; URL=Producto.php');
             }
 
+          
 
         
                 echo"
@@ -166,55 +169,14 @@
                 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
                 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
                 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
-                <title>Cliente</title>
+                <title>Producto</title>
 
                 <script type=\"text/javascript\">
 
                 function validarCampos(){
                 
-                        var codigo =document.getElementById(\"codigo\").value;
-                        var nombre =document.getElementById(\"nombre\").value;
-                        var persona =document.getElementById(\"persona\").value;
-                        var telefono =document.getElementById(\"telefono\").value;
-                        var credito =document.getElementById(\"credito\").value;
-                        var registro =document.getElementById(\"registro\").value;
-                        var inactivo =document.getElementById(\"inactivo\").value;
-                        var arrayRegistro=registro.split(\"-\"); 
-                        var arrayInactivo=inactivo.split(\"-\"); 
-
-                
-
-                        if(isNaN(codigo)){
-                          alert('Formato Invalido');
-                          return false;
-                         }
-      
-                     
-                         if(!isNaN(nombre)){
-                          alert('Formato de Nombre Invalido');
-                          return false;
-                         }
- 
-                         if(isNaN(persona)){
-                          alert('Formato de Tipo de persona Invalido');
-                          return false;
-                         }
-      
-                         if(isNaN(telefono)){
-                          alert('Formato de Telefono Invalido');
-                          return false;
-                         }
-      
+                  
                         
-                         if(isNaN(credito)){
-                          alert('Formato de Credito Invalido');
-                          return false;
-                         }
-
-                         if((arrayInactivo[0]<arrayRegistro[0]) || (arrayInactivo[2]<arrayRegistro[2])){
-                          alert('Fecha de Inactividad Invalida: Debe ser superior o igual a la Fecha de Registro');
-                          return false;
-                         }
                       
                    
                 }
@@ -228,7 +190,7 @@
             <span class=\"navbar-toggler-icon\"></span>
           </button>
           <div class=\"collapse navbar-collapse\" id=\"navbarToggler\">
-            <a class=\"navbar-brand\" href=\"#\">Administración de Clientes</a>
+            <a class=\"navbar-brand\" href=\"#\">Administración de Productos</a>
             <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">
             <li class=\"nav-item dropdown\">
       
@@ -273,6 +235,7 @@
 
           
             </li>
+
       
               <li class=\"nav-item dropdown\">
       
@@ -300,91 +263,63 @@
               <form method=\"POST\" enctype=\"multipart/form-data\" onsubmit=\"return validarCampos();\"> <br><br>
 
       <div class=\"alert alert-success\" role=\"alert\" id=\"txtActualizado\" style=\"$statusActualizarM\">
-      <strong>Bien Hecho!</strong> El cliente ha sido actualizado con exito.
+      <strong>Bien Hecho!</strong> El Productos ha sido actualizado con exito.
       </div>
       <div class=\"alert alert-success\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusRegistrarM\">
-      <strong>Bien Hecho!</strong> El cliente ha sido registrado con exito.
+      <strong>Bien Hecho!</strong> El Producto ha sido registrado con exito.
       </div>
       <div class=\"alert alert-success\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusInactivarM\">
-      <strong>Bien Hecho!</strong> El cliente ha sido inactivado con exito.
+      <strong>Bien Hecho!</strong> El Producto ha sido inactivado con exito.
       </div>
       <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusConfInactivar\">
-      <strong>Ups!</strong> El cliente se encuentra en estado inactivado.
+      <strong>Ups!</strong> El Producto se encuentra en estado inactivado.
       </div>
       <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusExistencia\">
-      <strong>Ups!</strong> El cliente con numero de identificacion $cod ya existe en la base de datos xxxxx
+      <strong>Ups!</strong> El Producto con numero de identificacion $doc ya existe en la base de datos xxxxx
       </div>
 
       <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusActivado\">
-      <strong>Ups!</strong> Al actualizar el cliente esta activando su acceso en caso que este inactivado
+      <strong>Ups!</strong> Al actualizar el Producto esta activando su acceso en caso que este inactivado
       </div>
-
       <?php>
       <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtArchivo\" style=\"$statusArchivoImg\">
       <strong>Ups!</strong>Intente subir un archivo diferente.El archivo $urlImg ya existe
       </div>
 
       <?>
+            
                 
-                <img src=\"$urlImg\" height=\"150\" width=\"120\" style =\"$statusImg\">
+                <img src=\"$urlImg\" height=\"150\" width=\"120\" style =\"$statusImg\"> 
 
                 <div class=\"form-group\" id=\"Imagen\">
-                <label for=\"Imagen\">Imagen del Cliente</label>
+                <label for=\"Imagen\">Imagen del producto</label>
                 <input type=\"file\" class=\"form-control-file\" name=\"archivo\" style =\"$statusImagen\">
                 <br>
                 </div>
           
                 <div class=\"form-group\">
                 <label for=\"codigo\">Codigo</label>
-                <input type=\"text\" class=\"form-control\"value=\"$CODIGO\"  id=\"codigo\" name=\"txtCodigo\" placeholder=\"Codigo de Cliente\" $statusLectura>
+                <input type=\"text\" class=\"form-control\"value=\"$CODIGO\"  id=\"codigo\" name=\"txtCodigo\" placeholder=\"Codigo de Productos\" $statusLectura>
                 </div>
           
                 <div class=\"form-group\">
                 <label for=\"nombre\">Nombre</label>
-                <input type=\"text\" class=\"form-control\" value=\"$NOMBRE\" id=\"nombre\" name=\"txtNombre\" placeholder=\"Nombre de cliente\" required>
+                <input type=\"text\" class=\"form-control\" value=\"$NOMBRE\" id=\"nombre\" name=\"txtNombre\" placeholder=\"Nombre de Producto\">
                 </div>
 
-                <div class=\"form-group\">
-                <label for=\"persona\">Tipo Persona</label>
-                <input type=\"text\" class=\"form-control\" value=\"$PERSONA\" id=\"persona\" name=\"txtTipo_Persona\" placeholder=\"Persona natural o juridica\">
-                </div>
-          
-                <div class=\"form-group\">
-                <label for=\"fRegistro\">Fecha de Registro</label>
-                <input type=\"date\" class=\"form-control\"  value=\"$REGISTRO\" id=\"registro\"name=\"txtRegistro\" placeholder=\"Fecha de Registro a la empresa\" >
-                </div>
-          
-                <div class=\"form-group\">
-                <label for=\"fInactivo\">Fecha de Inactividad</label>
-              <input type=\"date\" class=\"form-control\"value=\"$INACTIVO\" id=\"inactivo\" name=\"txtInactivo\" placeholder=\"Fecha de Inactividad en la empresa\">
-                </div>
-                  
-          
-                <div class=\"form-group\">
-                <label for=\"email\">Correo Electronico </label>
-                <input type=\"email\" class=\"form-control\"value=\"$EMAIL\" name=\"txtEmail\" aria-describedby=\"emailHelp\" placeholder=\"Correo Electronico Personal\">
-                <small id=\"emailHelp\" class=\"form-text text-muted\">We'll never share your email with anyone else.</small>
-                </div>
-          
-          
-                <div class=\"form-group\">
-                <label for=\"telefono\">Telefono</label>
-                <input type=\"text\" class=\"form-control\" value=\"$TELEFONO\" id=\"telefono\" name=\"txtTelefono\" placeholder=\"Telefono\">
-                </div>
-          
-                <div class=\"form-group\">
-                <label for=\"credito\">Tope de credito</label>
-                <input type=\"text\" class=\"form-control\"value=\"$TCREDITO\" id=\"credito\" name=\"txtTope_Credito\" placeholder=\"Tope de credito del cliente\">
-                </div><br>
+                <br>
                 <table class=\"table table-hover  tableFixHead\" >
         
                 <tbody>
                   <tr>
-                  <td><button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"$statusRegistrar\" >Registrar cliente</button>
+                  <td><button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"$statusRegistrar\" >Terminar Registro </button>
                   <br></td>
-                  <td>  <button type=\"submit\" class=\"btn btn-primary\" value=\"actualizar\" id=\"actualizar\"  name=\"button\" style=\"$statusActualizar\">Actualizar cliente</button>
+                  <td>  <button type=\"submit\" class=\"btn btn-primary\" value=\"actualizar\" id=\"actualizar\"  name=\"button\" style=\"$statusActualizar\">Actualizar Producto</button>
                   <br> <td>
-                  <button type=\"submit\" class=\"btn btn-primary\" value=\"inactivar\"  id=\"inactivar\"  name=\"button\" style=\"$statusInactivar\">Inactivar cliente</button>
+                  <button type=\"submit\" class=\"btn btn-primary\" value=\"inactivar\"  id=\"inactivar\"  name=\"button\" style=\"$statusInactivar\">Inactivar Producto</button>
+                  <br> <td>
+
+                  <button type=\"submit\" class=\"btn btn-primary\" value=\"next\"  id=\"next\"  name=\"button\" style=\"\">Ingresar producto </button>
                   <br> <td>
                   </tr> 
                 </tbody>

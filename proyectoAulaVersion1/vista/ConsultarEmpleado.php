@@ -102,9 +102,16 @@ function validar(){
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
               <a class=\"dropdown-item\" href=\"Producto.php\">Producto</a>
               <a class=\"dropdown-item\" href=\"ConsultarProducto.php\">Consultar Producto</a>
-
-          
             </li>
+            <li class=\"nav-item dropdown\">
+    
+            <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownMenuLink\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
+            Proveedor
+            </a>
+            <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
+            <a class=\"dropdown-item\" href=\"Proveedor.php\">Proveedor</a>
+            <a class=\"dropdown-item\" href=\"ConsultarProveedor.php\">Consultar Proveedor</a>
+          </li>
       
               <li class=\"nav-item dropdown\">
       

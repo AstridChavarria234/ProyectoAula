@@ -2,7 +2,7 @@
 
 session_start();
 if(!isset($_SESSION['usuario']) && !isset($_SESSION['clave']))
-header('Location:InicioSesion.php');
+header('Location:Index.php');
 
 
 echo"

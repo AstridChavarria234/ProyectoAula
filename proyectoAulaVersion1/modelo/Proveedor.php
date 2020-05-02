@@ -11,8 +11,8 @@ class Proveedor{
     var $urlImagen;
     var $email;
     var $telefono;
-
-    function __construct($codigo,$nombre,$tipo,$fRegistro,$fInactivo,$urlImagen,$email,$telefono)
+    var $inactivo;
+    function __construct($codigo,$nombre,$tipo,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$inactivo)
     {
         $this->codigo=$codigo;
         $this->nombre=$nombre;
@@ -22,6 +22,7 @@ class Proveedor{
         $this->urlImagen=$urlImagen;
         $this->email=$email;
         $this->telefono=$telefono;
+        $this->inactivo=$inactivo;
         
       
     }
@@ -49,6 +50,10 @@ class Proveedor{
 
     function setTelefono($telefono) { $this->setTelefono = $telefono; }
     function getTelefono() { return $this->telefono; }
+
+
+    function setInactivo($inactivo) { $this->setInactivo = $inactivo; }
+    function getInactivo() { return $this->inactivo; }
 
 
 }
