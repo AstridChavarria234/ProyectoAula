@@ -67,12 +67,12 @@
              }
 
         // comprobacion que se subir archivos pero no escribir
-
+        //pull sin hacer push
             switch($button){
 
               case "registrar":
 
-                $objProducto= new Producto($cod,"","");
+              $objProducto= new Producto($cod,"","");
               $objControlProducto= new ControlProducto($objProducto);
               $objProducto=$objControlProducto->consultar();
 
