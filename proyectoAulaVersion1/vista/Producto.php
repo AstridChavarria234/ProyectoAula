@@ -72,13 +72,20 @@
 
               case "registrar":
 
-                $codigoProveedor= $SESSION["codigo"];
+                $objProducto= new Producto($cod,"","");
+              $objControlProducto= new ControlProducto($objProducto);
+              $objProducto=$objControlProducto->consultar();
 
-                for($i=0; $i<count($listProductos); $i++){
-                  //guardar en tabla productoProveedor el codigo del producto
-                  //que se encuentra en listaproducto y el codigo del proveedor
+             
+              if(empty($objProducto->getNombre())){
 
-                }
+                $objProducto= new Producto($cod,$nom,$urlImg);
+                $objControlProducto= new ControlProducto($objProducto);
+                $objControlProducto->guardar();
+                $statusRegistrarM="display:block";
+                actualizarValor();
+              }else
+              $statusExistencia="display:block";
               
             break; 
 
