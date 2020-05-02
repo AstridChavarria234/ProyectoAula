@@ -66,7 +66,7 @@
 
              }
 
-        
+        // comprobacion que se subir archivos pero no escribir
 
             switch($button){
 
