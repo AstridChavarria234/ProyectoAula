@@ -1,0 +1,36 @@
+Tabla de Usuarios: No se registra solo inicia sesion(CRUD DE USUARIOS)
+Cerrar sesion y enviar al home
+
+Nombre Usuario---
+Contrasena-----
+Nivel de Acceso
+
+
+
+
+1.Debe haber un administrador de usuario previamente
+2.Al iniciar sesion diferente de administrador  solo
+puede actualizar los datos de usuario(datos propios)
+Al actualizar no se modifican los datos automaticamente
+se envia solicitud al administrador(pantalla tabla de solicitudes para aprobar con los campos a modificar)
+3.Inactivar cliente no se puede borrar
+4.Como guardar imagenes? Como cargar la imagen?Con la ruta de la imagen
+5.fecha de retiro cambiar por fecha de ingreso
+6.Salario basico actual al año actual de retiro
+7.deducciones no calculable
+8.cargar hoja de vida por el admnistrador de usuario(tipo de archivo)
+9.Proveedores relacion con productos.TABLA DE PRODUCTOS EN CRUD DE PROVEEDORES. 
+TABLA INTERMEDIA. DESDE PROVEEDOR PUEDO AÑADIR PRODUCTOS 
+10. 
+
+
+
+
+
+
+
+
+
+
+
+
