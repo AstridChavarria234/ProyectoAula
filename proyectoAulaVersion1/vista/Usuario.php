@@ -7,20 +7,16 @@
 
 
             include("../controlador/configBd.php");
-            include("../modelo/Cliente.php");
-            include("../controlador/ControlCliente.php");
+            include("../modelo/Usuario.php");
+            include("../controlador/ControlUsuario.php");
             include("../controlador/ControlConexion.php");
 
             
 
-            $cod=$_POST['txtCodigo']; 
-            $nom=$_POST['txtNombre'];
-            $tPersona=$_POST['txtTipo_Persona'];
-            $fReg=$_POST['txtRegistro'];
-            $fInact=$_POST['txtInactivo'];
-            $email=$_POST['txtEmail'];
-            $tel=$_POST['txtTelefono'];
-            $topCred=$_POST['txtTope_Credito'];
+            $id=$_POST['txtId']; 
+            $usu=$_POST['txtUsuario'];
+            $clave=$_POST['txtClave'];
+            $nivel=$_POST['txtNivel'];
             $statusActualizar="display:none";
             $statusInactivar="display:none";
             $statusRegistrar="display:block";
@@ -31,25 +27,16 @@
             $statusExistencia="display:none";
             $statusActivado="display:none";
             $statusConfInactivar="display:none";
-            $statusArchivoImg="display:none";
-            $statusImg="display:none"; 
-            $urlImg;
-            $objetoSesion = $_SESSION["cliente"];
+            $objetoSesion = $_SESSION["usuario"];
             $objetoSesion = unserialize($objetoSesion); 
             $button=$_POST['button'];
 
            
             if(!empty($objetoSesion)){
-              $CODIGO=$objetoSesion->getCodigo();
-              $NOMBRE=$objetoSesion->getNombre();
-              $PERSONA=$objetoSesion->getTipoPersona();
-              $REGISTRO=$objetoSesion->getFRegistro();
-              $INACTIVO=$objetoSesion->getFInactivo();
-              $EMAIL=$objetoSesion->getEmail();
-              $TELEFONO=$objetoSesion->getTelefono();
-              $TCREDITO=$objetoSesion->getTopeCred();
-              $urlImg=$objetoSesion->getUrlImagen();
-              $statusImg="display:block";
+              $ID=$objetoSesion->getId();
+              $USUARIO=$objetoSesion->getUsuario();
+              $CLAVE=$objetoSesion->getClave();
+              $NIVEL=$objetoSesion->getNivel();
               $statusActualizar="display:block";
               $statusInactivar="display:block";
               $statusRegistrar="display:none";
@@ -57,49 +44,22 @@
             }
 
 
-// Aqui comienza el guardado de archivos
-
-              if(!empty($_FILES['archivo']['name']))
-              {
-              
-                    
-                    $urlImg= "../archivos/".$_FILES['archivo']['name'];
-                    if (file_exists($urlImg)) {
-                     $statusArchivoImg ="display:block";
-
-                }else{
-
-                      $ruta_temporal = $_FILES['archivo']['tmp_name'];
-                      move_uploaded_file($ruta_temporal, $urlImg);
-
-                      echo "<script>
-                                 alert('El archivo se subio de manera exitosa');
-                            
-                                </script>";
-
-                       }
-
-             }
-
-             
-
-            
-// Aqui termina el guardado
 
             switch($button){
 
               case "registrar":
 
-              $objCliente= new Cliente($cod,"","","","","","","","","");
-              $objControlCliente= new ControlCliente($objCliente);
-              $objCliente=$objControlCliente->consultar();
+              $objUsuario= new Usuario("",$usu,"","");
+              $objControlUsuario= new ControlUsuario($objUsuario);
+              print("case registrar " .$usu);
+              $objUsuario=$objControlUsuario->consultar();
 
              
-              if(empty($objCliente->getNombre())){
+              if(empty($objUsuario->getId())){
 
-                $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,0);
-                $objControlCliente= new ControlCliente($objCliente);
-                $objControlCliente->guardar();
+                $objUsuario= new Usuario("",$usu,$clave,$nivel);
+                $objControlUsuario= new ControlUsuario($objUsuario);
+                $objControlUsuario->guardar();
                 $statusRegistrarM="display:block";
                 actualizarValor();
               }else
@@ -109,15 +69,15 @@
 
               case "actualizar":  
               
-                $objCliente= new Cliente($cod,"","","","","","","","","");
-                $objControlCliente= new ControlCliente($objCliente);
-                $objCliente=$objControlCliente->consultar();
+                $objUsuario= new Usuario("",$usu,"","");
+                $objControlUsuario= new ControlUsuario($objUsuario);
+                $objUsuario=$objControlUsuario->consultar();
 
             
                   $statusActivado="display:block";
-                  $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,0);
-                  $objControlCliente= new ControlCliente($objCliente);
-                  $objControlCliente->modificar();
+                  $objUsuario= new Usuario("",$usu,$clave,$nivel);
+                  $objControlUsuario= new ControlUsuario($objUsuario);
+                  $objControlUsuario->modificar();
                   $statusActualizarM="display:block";
                
                    actualizarValor();
@@ -127,17 +87,17 @@
               
               case "inactivar":
 
-                $objCliente= new Cliente($cod,"","","","","","","","","");
-                $objControlCliente= new ControlCliente($objCliente);
-                $objCliente=$objControlCliente->consultar();
+                $objUsuario= new Usuario($cod,"","","","","","","","","");
+                $objControlUsuario= new ControlUsuario($objUsuario);
+                $objUsuario=$objControlUsuario->consultar();
 
-                if($objCliente->getInactivo()==1){
+                if($objUsuario->getInactivo()==1){
                   
                   $statusConfInactivar="display:block";
                 }else{
                  
-                  $objControlCliente= new ControlCliente($objCliente);
-                  $objControlCliente->inactivar();
+                  $objControlUsuario= new ControlUsuario($objUsuario);
+                  $objControlUsuario->inactivar();
                   $statusInactivarM="display:block";
                 }
 
@@ -150,7 +110,7 @@
 
 
             function actualizarValor(){
-              unset($_SESSION["cliente"]);
+              unset($_SESSION["usuario"]);
               header('Refresh:4; URL=HomeAula.php');
             }
 
@@ -166,55 +126,33 @@
                 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
                 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
                 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
-                <title>Cliente</title>
+                <title>Usuario</title>
 
                 <script type=\"text/javascript\">
 
                 function validarCampos(){
                 
-                        var codigo =document.getElementById(\"codigo\").value;
-                        var nombre =document.getElementById(\"nombre\").value;
-                       // var persona =document.getElementById(\"persona\").value;
-                        var telefono =document.getElementById(\"telefono\").value;
-                        var credito =document.getElementById(\"credito\").value;
-                        var registro =document.getElementById(\"registro\").value;
-                        //var inactivo =document.getElementById(\"inactivo\").value;
-                        var arrayRegistro=registro.split(\"-\"); 
-                        //var arrayInactivo=inactivo.split(\"-\"); 
-
+                        
+                        var usuario =document.getElementById(\"usuario\").value;
+                        var clave =document.getElementById(\"clave\").value;
+                        var nivel =number.getElementById(\"nivel\").value;
                 
 
-                        if(isNaN(codigo)){
+                        if(isNaN(usuario)){
                           alert('Formato Invalido');
                           return false;
                          }
       
                      
-                         if(!isNaN(nombre)){
-                          alert('Formato de Nombre Invalido');
+                         if(!isNaN(clave)){
+                          alert('Clave Invalida');
                           return false;
                          }
  
-                         /*if(isNaN(persona)){
-                          alert('Formato de Tipo de persona Invalido');
-                          return false;
-                         }*/
-      
-                         if(isNaN(telefono)){
-                          alert('Formato de Telefono Invalido');
+                         if(isNaN(nivel)){
+                          alert('Formato de nivel invalido');
                           return false;
                          }
-      
-                        
-                         if(isNaN(credito)){
-                          alert('Formato de Credito Invalido');
-                          return false;
-                         }
-
-                        /* if((arrayInactivo[0]<arrayRegistro[0]) || (arrayInactivo[2]<arrayRegistro[2])){
-                          alert('Fecha de Inactividad Invalida: Debe ser superior o igual a la Fecha de Registro');
-                          return false;
-                         }*/
                       
                    
                 }
@@ -228,7 +166,7 @@
             <span class=\"navbar-toggler-icon\"></span>
           </button>
           <div class=\"collapse navbar-collapse\" id=\"navbarToggler\">
-            <a class=\"navbar-brand\" href=\"#\">Administración de Clientes</a>
+            <a class=\"navbar-brand\" href=\"#\">Administración de Usuarios</a>
             <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">
             <li class=\"nav-item dropdown\">
       
@@ -269,7 +207,7 @@
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
               <a class=\"dropdown-item\" href=\"Proveedor.php\">Proveedor</a>
-              <a class=\"dropdown-item\" href=\"ConsultarProveedor.php\">Consultar Producto</a>
+              <a class=\"dropdown-item\" href=\"ConsultarProveedor.php\">Consultar Proveedor</a>
 
           
             </li>
@@ -280,8 +218,8 @@
               Usuarios
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-			  <a class=\"dropdown-item\" href=\"Usuarios.php\">Producto</a>
-              <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Producto</a>
+			  <a class=\"dropdown-item\" href=\"Usuarios.php\">Usuario</a>
+              <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
 
           
             </li>
@@ -300,91 +238,56 @@
               <form method=\"POST\" enctype=\"multipart/form-data\" onsubmit=\"return validarCampos();\"> <br><br>
 
       <div class=\"alert alert-success\" role=\"alert\" id=\"txtActualizado\" style=\"$statusActualizarM\">
-      <strong>Bien Hecho!</strong> El cliente ha sido actualizado con exito.
+      <strong>Bien Hecho!</strong> El Usuario ha sido actualizado con exito.
       </div>
       <div class=\"alert alert-success\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusRegistrarM\">
-      <strong>Bien Hecho!</strong> El cliente ha sido registrado con exito.
+      <strong>Bien Hecho!</strong> El Usuario ha sido registrado con exito.
       </div>
       <div class=\"alert alert-success\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusInactivarM\">
-      <strong>Bien Hecho!</strong> El cliente ha sido inactivado con exito.
+      <strong>Bien Hecho!</strong> El Usuario ha sido inactivado con exito.
       </div>
       <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusConfInactivar\">
-      <strong>Ups!</strong> El cliente se encuentra en estado inactivado.
+      <strong>Ups!</strong> El Usuario se encuentra en estado inactivado.
       </div>
       <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusExistencia\">
-      <strong>Ups!</strong> El cliente con numero de identificacion $cod ya existe en la base de datos xxxxx
+      <strong>Ups!</strong> El Usuario .$usu. ya existe en la base de datos xxxxx
       </div>
 
       <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusActivado\">
-      <strong>Ups!</strong> Al actualizar el cliente esta activando su acceso en caso que este inactivado
+      <strong>Ups!</strong> Al actualizar el Usuario esta activando su acceso en caso que este inactivado
       </div>
 
-      <?php>
-      <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtArchivo\" style=\"$statusArchivoImg\">
-      <strong>Ups!</strong>Intente subir un archivo diferente.El archivo $urlImg ya existe
-      </div>
+          
+                <div class=\"form-group\">
+                <label for=\"id\">Id</label>
+                <input type=\"text\" class=\"form-control\"value=\"$ID\"  id=\"id\" name=\"txtId\" placeholder=\"Id de usuario asignada por el sistema\" $statusLectura>
+                </div>
+          
+                <div class=\"form-group\">
+                <label for=\"usuario\">Usuario</label>
+                <input type=\"text\" class=\"form-control\" value=\"$USUARIO\" id=\"usuario\" name=\"txtUsuario\" placeholder=\"Nombre de Usuario\" required>
+                </div>
 
-      <?>
-                
-                <img src=\"$urlImg\" height=\"150\" width=\"120\" style =\"$statusImg\">
-
-                <div class=\"form-group\" id=\"Imagen\">
-                <label for=\"Imagen\">Imagen del Cliente</label>
-                <input type=\"file\" class=\"form-control-file\" name=\"archivo\" style =\"$statusImagen\">
+                <div class=\"form-group\">
+                <label for=\"clave\">Clave</label>
+                <input type=\"text\" class=\"form-control\" value=\"$CLAVE\" id=\"clave\" name=\"txtClave\" placeholder=\"Clave de usuario\" required>
+                </div>
+          
+                <div class=\"form-group\">
+                <label for=\"nivel\">Nivel de acceso</label>
+                <input type=\"number\" class=\"form-control\"  value=\"$NIVEL\" id=\"nivel\"name=\"txtNivel\" placeholder=\"Nivel de acceso del usuario\" required>
+                </div>
+          
                 <br>
-                </div>
-          
-                <div class=\"form-group\">
-                <label for=\"codigo\">Codigo</label>
-                <input type=\"text\" class=\"form-control\"value=\"$CODIGO\"  id=\"codigo\" name=\"txtCodigo\" placeholder=\"Codigo de Cliente\" $statusLectura>
-                </div>
-          
-                <div class=\"form-group\">
-                <label for=\"nombre\">Nombre</label>
-                <input type=\"text\" class=\"form-control\" value=\"$NOMBRE\" id=\"nombre\" name=\"txtNombre\" placeholder=\"Nombre de cliente\" required>
-                </div>
-
-                <div class=\"form-group\">
-                <label for=\"persona\">Tipo Persona</label>
-                <input type=\"text\" class=\"form-control\" value=\"$PERSONA\" id=\"persona\" name=\"txtTipo_Persona\" placeholder=\"Persona natural o juridica\">
-                </div>
-          
-                <div class=\"form-group\">
-                <label for=\"fRegistro\">Fecha de Registro</label>
-                <input type=\"date\" class=\"form-control\"  value=\"$REGISTRO\" id=\"registro\"name=\"txtRegistro\" placeholder=\"Fecha de Registro a la empresa\" >
-                </div>
-          
-                <div class=\"form-group\">
-                <label for=\"fInactivo\">Fecha de Inactividad</label>
-              <input type=\"date\" class=\"form-control\"value=\"$INACTIVO\" id=\"inactivo\" name=\"txtInactivo\" placeholder=\"Fecha de Inactividad en la empresa\">
-                </div>
-                  
-          
-                <div class=\"form-group\">
-                <label for=\"email\">Correo Electronico </label>
-                <input type=\"email\" class=\"form-control\"value=\"$EMAIL\" name=\"txtEmail\" aria-describedby=\"emailHelp\" placeholder=\"Correo Electronico Personal\">
-                <small id=\"emailHelp\" class=\"form-text text-muted\">We'll never share your email with anyone else.</small>
-                </div>
-          
-          
-                <div class=\"form-group\">
-                <label for=\"telefono\">Telefono</label>
-                <input type=\"text\" class=\"form-control\" value=\"$TELEFONO\" id=\"telefono\" name=\"txtTelefono\" placeholder=\"Telefono\">
-                </div>
-          
-                <div class=\"form-group\">
-                <label for=\"credito\">Tope de credito</label>
-                <input type=\"text\" class=\"form-control\"value=\"$TCREDITO\" id=\"credito\" name=\"txtTope_Credito\" placeholder=\"Tope de credito del cliente\">
-                </div><br>
                 <table class=\"table table-hover  tableFixHead\" >
         
                 <tbody>
                   <tr>
-                  <td><button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"$statusRegistrar\" >Registrar cliente</button>
+                  <td><button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"$statusRegistrar\" >Registrar Usuario</button>
                   <br></td>
-                  <td>  <button type=\"submit\" class=\"btn btn-primary\" value=\"actualizar\" id=\"actualizar\"  name=\"button\" style=\"$statusActualizar\">Actualizar cliente</button>
+                  <td>  <button type=\"submit\" class=\"btn btn-primary\" value=\"actualizar\" id=\"actualizar\"  name=\"button\" style=\"$statusActualizar\">Actualizar Usuario</button>
                   <br> <td>
-                  <button type=\"submit\" class=\"btn btn-primary\" value=\"inactivar\"  id=\"inactivar\"  name=\"button\" style=\"$statusInactivar\">Inactivar cliente</button>
+                  <button type=\"submit\" class=\"btn btn-primary\" value=\"inactivar\"  id=\"inactivar\"  name=\"button\" style=\"$statusInactivar\">Inactivar Usuario</button>
                   <br> <td>
                   </tr> 
                 </tbody>

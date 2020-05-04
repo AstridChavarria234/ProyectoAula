@@ -77,8 +77,8 @@
                 Usuarios
                 </a>
                 <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-          <a class=\"dropdown-item\" href=\"Usuarios.php\">Producto</a>
-                <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Producto</a>
+          <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
+                <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
 
             
               </li>

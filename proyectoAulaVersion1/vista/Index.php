@@ -15,9 +15,9 @@
 
 	if(isset($usuario) && isset($clave)){
 		
-		$objUsuario= new Usuario($usuario,$clave,"");
+		$objUsuario= new Usuario("",$usuario,$clave,"");
 		$objControlUsuario= new ControlUsuario($objUsuario);
-		$nivel=$objControlUsuario->consultar();
+		$nivel=$objControlUsuario->consultarExistencia();
 
 		$_SESSION['usuario']=$usuario;
 		$_SESSION['clave']= $clave;
