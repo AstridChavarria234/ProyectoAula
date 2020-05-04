@@ -51,11 +51,10 @@
 
               $objUsuario= new Usuario("",$usu,"","");
               $objControlUsuario= new ControlUsuario($objUsuario);
-              print("case registrar " .$usu);
-              $objUsuario=$objControlUsuario->consultar();
-
+              $objUsuario1=$objControlUsuario->consultar();
+              
              
-              if(empty($objUsuario->getId())){
+              if(empty($objUsuario1->getId())){
 
                 $objUsuario= new Usuario("",$usu,$clave,$nivel);
                 $objControlUsuario= new ControlUsuario($objUsuario);
@@ -218,7 +217,7 @@
               Usuarios
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-			  <a class=\"dropdown-item\" href=\"Usuarios.php\">Usuario</a>
+			  <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
               <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
 
           
@@ -270,7 +269,7 @@
 
                 <div class=\"form-group\">
                 <label for=\"clave\">Clave</label>
-                <input type=\"text\" class=\"form-control\" value=\"$CLAVE\" id=\"clave\" name=\"txtClave\" placeholder=\"Clave de usuario\" required>
+                <input type=\"password\" class=\"form-control\" value=\"$CLAVE\" id=\"clave\" name=\"txtClave\" placeholder=\"Clave de usuario\" required>
                 </div>
           
                 <div class=\"form-group\">

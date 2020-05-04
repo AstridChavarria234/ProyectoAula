@@ -71,20 +71,15 @@ class ControlUsuario{
         
 
         $usu=$this->objUsuario->getUsuario();
-        print("consultar de control ".$usu);
         $objConexion = new ControlConexion();
         $objConexion->abrirBd($sv,$us,$ps,$bd);
         $comandoSql="SELECT * FROM USUARIO  WHERE usuario='".$usu."'";
         $recordSet=$objConexion->ejecutarSelect($comandoSql);
         $registro = $recordSet->fetch_array(MYSQLI_BOTH);
         $objUsuario1 = new Usuario($registro["id"],$registro["usuario"],$registro["clave"],$registro["nivel"]);
-       /* $this->objUsuario->setId($registro["id"]);
-        $this->objUsuario->setUsuario($registro["usuario"]);
-        $this->objUsuario->setClave($registro["clave"]);
-        $this->objUsuario->setNivel($registro["nivel"]);*/
         $objConexion->cerrarBd();
     
-        return $this->objUsuario1;
+        return $objUsuario1;
     }
 
 
