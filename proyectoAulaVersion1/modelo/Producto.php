@@ -6,12 +6,14 @@ class Producto{
     var $codigo;
     var $nombre;
     var $urlImagen;
+    var $ddeshabilitado;
 
-    function __construct($codigo,$nombre,$urlImagen)
+    function __construct($codigo,$nombre,$urlImagen,$deshabilitado)
     {
         $this->codigo=$codigo;
         $this->nombre=$nombre;
         $this->urlImagen=$urlImagen;
+        $this->deshabilitado=$deshabilitado;
       
     }
 
@@ -23,6 +25,9 @@ class Producto{
 
     function setUrlImagen($urlImagen) { $this->setUrlImagen = $urlImagen; }
     function getUrlImagen() { return $this->urlImagen; }
+
+    function setDeshabilitado($deshabilitado) { $this->setDeshabilitado = $deshabilitado; }
+    function getDeshabilitado() { return $this->deshabilitado; }
 
 
 }

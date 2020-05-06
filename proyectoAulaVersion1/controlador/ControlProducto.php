@@ -22,26 +22,22 @@ class ControlProducto {
 	$urlImg=$this->objProducto->getUrlImagen();
 	$objConexion = new ControlConexion();
 	$objConexion->abrirBd($sv,$us,$ps,$bd);
-	$comandoSql="INSERT INTO PRODUCTO(codigo,nombre,url_imagen) VALUES('".$cod."','".$nom."','".$urlImg."')";
+	$comandoSql="INSERT INTO PRODUCTO(codigo,nombre,url_imagen,deshabilitado) VALUES('".$cod."','".$nom."','".$urlImg."',0)";
 	$objConexion->ejecutarComandoSql($comandoSql);
 	$objConexion->cerrarBd();
 }
 
 	function modificar(){
 
-		$sv="localhost";
+		$sv="localhost"; 
 		$us="root";
 		$ps="";
 		$bd="bdproyectoaulav1";
-		
-	
-	
 		$cod=$this->objProducto->getCodigo();
 		$nom=$this->objProducto->getNombre();
 		$urlImg=$this->objProducto->getUrlImagen();
 		$objConexion = new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
-		
 
         $comandoSql="UPDATE PRODUCTO SET nombre='".$nom."',url_imagen ='".$urlImg."' WHERE codigo='".$cod."'";
 	    $objConexion->ejecutarComandoSql($comandoSql);
@@ -59,7 +55,7 @@ class ControlProducto {
 		$cod=$this->objProducto->getCodigo();
 		$objConexion = new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
-		$comandoSql="UPDATE PRODUCTO SET inactivo=1 WHERE codigo='".$cod."'";
+		$comandoSql="UPDATE PRODUCTO SET deshabilitado=1 WHERE codigo='".$cod."'";
 		$objConexion->ejecutarComandoSql($comandoSql);
 		$objConexion->cerrarBd();
 	}
@@ -77,12 +73,20 @@ class ControlProducto {
 	    $comandoSql="SELECT * FROM Producto  WHERE CODIGO='".$cod."'";
 		$recordSet=$objConexion->ejecutarSelect($comandoSql);
 		$registro = $recordSet->fetch_array(MYSQLI_BOTH);
-		$objProducto1 = new Producto($registro["codigo"],$registro["nombre"],$registro["url_imagen"]);
+		$objProducto1 = new Producto($registro["codigo"],$registro["nombre"],$registro["url_imagen"],$registro["deshabilitado"]);
 		$objConexion->cerrarBd();
 	
 		return $objProducto1;
 
 	}
+
+
+	
+
+
+
+
+	
 
 	
 	

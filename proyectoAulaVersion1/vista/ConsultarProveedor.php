@@ -10,7 +10,6 @@
           include("../controlador/ControlProveedor.php");
           include("../controlador/ControlConexion.php");
 
-        
           $button =$_POST['Consultar']; 
           $statusConsultarFallido="display:none";
           $statusConsultarExito="display:none";

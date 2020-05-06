@@ -120,7 +120,6 @@
                   if($objEmpleado->getInactivo()==1){
                   $statusConfInactivar="display:block";
                   }else{
-                    $statusActivado="display:block";
                     $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,0);
                     $objControlEmpleado= new ControlEmpleado($objEmpleado);
                     $objControlEmpleado->modificar();
