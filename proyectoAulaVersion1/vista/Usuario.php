@@ -257,10 +257,6 @@
       </div>
 
           
-                <div class=\"form-group\">
-                <label for=\"id\">Id</label>
-                <input type=\"text\" class=\"form-control\"value=\"$ID\"  id=\"id\" name=\"txtId\" placeholder=\"Id de usuario asignada por el sistema\" $statusLectura>
-                </div>
           
                 <div class=\"form-group\">
                 <label for=\"usuario\">Usuario</label>
@@ -272,9 +268,16 @@
                 <input type=\"password\" class=\"form-control\" value=\"$CLAVE\" id=\"clave\" name=\"txtClave\" placeholder=\"Clave de usuario\" required>
                 </div>
           
+               
                 <div class=\"form-group\">
                 <label for=\"nivel\">Nivel de acceso</label>
-                <input type=\"number\" class=\"form-control\"  value=\"$NIVEL\" id=\"nivel\"name=\"txtNivel\" placeholder=\"Nivel de acceso del usuario\" required>
+                  <select class=\"form-control\" id=\"nivel\" value=\"$NIVEL\" name=\"txtNivel\">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  </select>
                 </div>
           
                 <br>

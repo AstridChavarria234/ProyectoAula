@@ -113,27 +113,14 @@ function validar(){
           
             </li>
         
-
-            <li class=\"nav-item dropdown\">
-      
-              <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownMenuLink\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
-              Proveedor
-              </a>
-              <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-              <a class=\"dropdown-item\" href=\"Proveedor.php\">Proveedor</a>
-              <a class=\"dropdown-item\" href=\"ConsultarProveedor.php\">Consultar Producto</a>
-
-          
-            </li>
-      
               <li class=\"nav-item dropdown\">
       
               <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownMenuLink\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
               Usuarios
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-        <a class=\"dropdown-item\" href=\"Usuarios.php\">Producto</a>
-              <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Producto</a>
+        <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
+              <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
 
           
             </li>
