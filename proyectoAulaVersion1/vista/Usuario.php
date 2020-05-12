@@ -175,6 +175,7 @@
             <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
             <a class=\"dropdown-item\" href=\"Empleado.php\">Empleado</a>
             <a class=\"dropdown-item\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
+            <a class=\"dropdown-item\" href=\"TablaEmpleadophp\">Listar Empleado</a>
             
           </li>
               <li class=\"nav-item dropdown\">
@@ -185,6 +186,7 @@
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
               <a class=\"dropdown-item\" href=\"Cliente.php\">Cliente</a>
               <a class=\"dropdown-item\" href=\"ConsultarCliente.php\">Consultar Cliente</a>
+              <a class=\"dropdown-item\" href=\"TablaCliente.php\">Listar Clientes</a>
           
             </li>
               <li class=\"nav-item dropdown\">
@@ -195,6 +197,7 @@
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
               <a class=\"dropdown-item\" href=\"Producto.php\">Producto</a>
               <a class=\"dropdown-item\" href=\"ConsultarProducto.php\">Consultar Producto</a>
+              <a class=\"dropdown-item\" href=\"TablaProducto.php\">Listar Productos</a>
 
           
             </li>
@@ -207,6 +210,7 @@
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
               <a class=\"dropdown-item\" href=\"Proveedor.php\">Proveedor</a>
               <a class=\"dropdown-item\" href=\"ConsultarProveedor.php\">Consultar Proveedor</a>
+              <a class=\"dropdown-item\" href=\"TablaProveedor.php\">Listar Proveedores</a>
 
           
             </li>
@@ -217,8 +221,9 @@
               Usuarios
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-			  <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
+        <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
               <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
+              <a class=\"dropdown-item\" href=\"TablaUsuario.php\">Listar Usuarios</a>
 
           
             </li>
