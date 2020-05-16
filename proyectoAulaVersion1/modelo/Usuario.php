@@ -7,12 +7,14 @@ class Usuario{
     var $nombre;
     var $clave;
     var $nivel;
-    function __construct($id,$usuario,$clave,$nivel)
+    var $estado;
+    function __construct($id,$usuario,$clave,$nivel,$estado)
     {
         $this->id=$id;
         $this->usuario=$usuario;
         $this->clave=$clave;
         $this->nivel=$nivel;
+        $this->estado=$estado;
 
     }
 
@@ -27,6 +29,9 @@ class Usuario{
 
     function setNivel($nivel) { $this->setNivel = $nivel; }
     function getNivel() { return $this->nivel; }
+    
+    function setEstado($estado) { $this->setEstado = $estado; }
+    function getEstado() { return $this->estado; }
 
 }
 

@@ -1,5 +1,8 @@
 <?php
 
+
+error_reporting(E_ALL ^ E_NOTICE);
+
             include("../controlador/configBd.php");
             include("../controlador/ControlConexion.php");
 
@@ -107,38 +110,38 @@ echo "
 
         $objConexion = new ControlConexion();
         $objConexion->abrirBd($sv,$us,$ps,$bd);
-        $comandoSql="SELECT * FROM USUARIO";
+        $comandoSql="SELECT * FROM PRODUCTO";
         $recordSet=$objConexion->ejecutarSelect($comandoSql);
-
-
         $objConexion->cerrarBd();
 
 
             echo"
-        <br><br>
-                 <table class =\"table table-sm table-secondary\">
+            <br><br>
 
-                  <tr class=\"bg-success\">
-                  <th>id</th>
-                  <th>Nombre de Usuario</th>
-                  <th>Clave</th>
-                  <th>Nivel de Acceso</th>
+            <table class =\"table table-sm table-secondary\">
 
+            <tr class=\"bg-success\">
+                  <th>Imagen</th>
+                  <th>Codigo</th>
+                  <th>Nombre</th>
+                  <th>Estado <br> 1: Deshabilitado 0: Habilitado</th>
                 </tr>
 
             ";
 
             while ($registro = $recordSet->fetch_array(MYSQLI_BOTH)) {
+          
 
+                $url_foto = $registro["url_imagen"];
+               
               echo"
               <tr>
-
-                <td>".$registro["id"]."</td>
-                <td id='usuario' data-id_usuario='".$registro["id"]."'>".$registro["usuario"]."</td>
-                <td id='clave' data-id_clave='".$registro["id"]."'>".$registro["clave"]."</td>
-                <td id='nivel' data-id_nivel='".$registro["id"]."'>".$registro["nivel"]."</td>
+                 <td id='foto' data-id_foto='".$registro["url_imagen"]."'><img src=\"$urlFoto\" height=\"80\" width=\"100\"></td>
+                <td id='codigo' data-id_codigo='".$registro["codigo"]."'>".$registro["codigo"]."</td>
+                <td id='nombre' data-id_nombre='".$registro["nombre"]."'>".$registro["nombre"]."</td>
+                <td id='estado' data-id_estado='".$registro["codigo"]."'>".$registro["deshabilitado"]."</td>
                 
-
+                
               </tr>
               ";
            }

@@ -9,6 +9,8 @@
               include("../modelo/Empleado.php");
               include("../controlador/ControlEmpleado.php");
               include("../controlador/ControlConexion.php");
+              include("../modelo/Usuario.php");
+              include("../controlador/ControlUsuario.php");
 
               $doc=$_POST['txtDocumento']; 
               $nom=$_POST['txtNombre']; 
@@ -36,7 +38,11 @@
               $urlFoto;
               $CV;
               $objetoSesion = $_SESSION["empleado"];
+              $objetoSesionDefault = $_SESSION["empleadoDefault"];
+             
               $objetoSesion = unserialize($objetoSesion); 
+              $objetoSesionDefault = unserialize($objetoSesionDefault); 
+
               $button=$_POST['button'];
 
             
@@ -56,10 +62,34 @@
                 $statusInactivar="display:block";
                 $statusRegistrar="display:none";
                 $statusImgCV ="display:block";
-                $statusImgFoto ="dispplay:block";
+                $statusImgFoto ="display:block";
                 $statusLectura="readonly='true'";
-
               }
+
+              if(!empty($objetoSesionDefault)){
+
+                $NOMBRE=$objetoSesionDefault->getNombre();
+                $DOCUMENTO=$objetoSesionDefault->getDocumento();
+                $RETIRO=$objetoSesionDefault->getFRetiro();
+                $INGRESO=$objetoSesionDefault->getFIngreso();
+                $SALARIO=$objetoSesionDefault->getSalario();
+                $DEDUCCION=$objetoSesionDefault->getDeduccion();
+                $EMAIL=$objetoSesionDefault->getEmail();
+                $FIJO=$objetoSesionDefault->getTelFijo();
+                $CEL=$objetoSesionDefault->getTelCel();
+                $CV= $objetoSesionDefault->getCV();
+                $urlFoto= $objetoSesionDefault->getUrlFoto();
+                $statusActualizar="display:block";
+                $statusInactivar="display:none";
+                $statusRegistrar="display:none";
+                $statusImgCV ="display:block";
+                $statusImgFoto ="display:block";
+                $statusLectura="readonly='true'";
+                $statusNavBar = "display:none";
+              }
+
+
+             
 
 
       $num_archivos=count($_FILES['archivo']['name']);
@@ -101,23 +131,33 @@
 
                 if(empty($objEmpleado->getNombre())){
 
-                  $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,0);
+                  $objUsuario = new Usuario("",$nom,$doc,2,0);
+                  $objControlUsuario = new ControlUsuario($objUsuario);
+                  $objControlUsuario->guardar();
+                  $objUsuario1=$objControlUsuario->consultar();
+                  $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$objUsuario1->getId());
                   $objControlEmpleado= new ControlEmpleado($objEmpleado);
                   $objControlEmpleado->guardar();
                   $statusRegistrarM="display:block";
                   actualizarValor();
+                 
                 }else
                 $statusExistencia="display:block";
                 
               break; 
 
-                case "actualizar":  
-                
-                  $objEmpleado= new Empleado($doc,"","","","","","","","","","","");
+                case "actualizar": 
+                  
+                  
+                  $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,0);
                   $objControlEmpleado= new ControlEmpleado($objEmpleado);
                   $objEmpleado=$objControlEmpleado->consultar();
+                
+                  $objUsuario = new Usuario($objEmpleado->getId(),"","","","");
+                  $objControlUsuario = new ControlUsuario($objUsuario);
+                  $objUsuario=$objControlUsuario->consultar();
 
-                  if($objEmpleado->getInactivo()==1){
+                  if($objUsuario->getEstado()==1){
                   $statusConfInactivar="display:block";
                   }else{
                     $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,0);
@@ -131,15 +171,21 @@
                 
                 case "inactivar":
 
-                  $objEmpleado= new Empleado($doc,"","","","","","","","","","","");
+
+                  $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,0);
                   $objControlEmpleado= new ControlEmpleado($objEmpleado);
                   $objEmpleado=$objControlEmpleado->consultar();
 
-                  if($objEmpleado->getInactivo()==1){
+                  $objUsuario = new Usuario($objEmpleado->getId(),"","","","");
+                  $objControlUsuario = new ControlUsuario($objUsuario);
+                  $objUsuario=$objControlUsuario->consultar();
+
+                  if($objUsuario->getEstado()==1){
                     $statusConfInactivar="display:block";
                   }else{
-                    $objControlEmpleado= new ControlEmpleado($objEmpleado);
-                    $objControlEmpleado->inactivar();
+
+                    $objControlUsuario= new ControlUsuario($objUsuario);
+                    $objControlUsuario->inactivar();
                     $statusInactivarM="display:block";
                     actualizarValor();
                   }
@@ -150,6 +196,7 @@
 
               function actualizarValor(){
                 unset($_SESSION["empleado"]);
+                unset($_SESSION["empleadoDefault"]);
                 header('Refresh:4; URL=HomeAula.php');
               }
 
@@ -180,7 +227,7 @@
                           var arrayRetiro=retiro.split(\"-\"); 
                           var arrayIngreso=ingreso.split(\"-\"); 
 
-                  
+             
 
                           if(isNaN(documento)){
                             alert('Formato Invalido');
@@ -214,12 +261,20 @@
                             return false;
                           }
 
-                          if((arrayRetiro[0]<arrayIngreso[0]) || (arrayRetiro[2]<arrayIngreso[2])){
-                            alert('Fecha de Retiro Invalida: Debe ser superior o igual a la Fecha de Ingreso');
-                            return false;
+
+                           if(arrayRetiro[0]!=''){
+
+                            if(arrayRetiro[1]<arrayIngreso[1]){
+                              alert('Fecha de Retiro debe ser mayor a la Fecha de Ingreso');
+                              return false;
+                            }
+                            if(arrayRetiro[2]<arrayIngreso[2]){
+                              alert('Fecha de Retiro debe ser mayor a la Fecha de Ingreso');
+                              return false;
+                            }
                           }
-                        
-                    
+
+                         
                   }
                   </script>
                   </head>
@@ -231,7 +286,7 @@
               <span class=\"navbar-toggler-icon\"></span>
             </button>
             <div class=\"collapse navbar-collapse\" id=\"navbarToggler\">
-              <a class=\"navbar-brand\" href=\"#\">Administracion de Empleados</a>
+              <a class=\"navbar-brand\" href=\"#\">Empleados</a>
               <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">
             <li class=\"nav-item dropdown\">
       
@@ -240,8 +295,8 @@
             </a>
             <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
             <a class=\"dropdown-item\" href=\"Empleado.php\">Empleado</a>
-            <a class=\"dropdown-item\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
-            <a class=\"dropdown-item\" href=\"TablaEmpleadophp\">Listar Empleado</a>
+            <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
+            <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaEmpleado.php\">Listar Empleado</a>
             
           </li>
               <li class=\"nav-item dropdown\">
@@ -250,9 +305,9 @@
               Clientes
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-              <a class=\"dropdown-item\" href=\"Cliente.php\">Cliente</a>
-              <a class=\"dropdown-item\" href=\"ConsultarCliente.php\">Consultar Cliente</a>
-              <a class=\"dropdown-item\" href=\"TablaCliente.php\">Listar Clientes</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"Cliente.php\">Cliente</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"ConsultarCliente.php\">Consultar Cliente</a>
+              <a class=\"dropdown-item\"  style=\"$statusNavBar\" href=\"TablaCliente.php\">Listar Clientes</a>
           
             </li>
               <li class=\"nav-item dropdown\">
@@ -261,9 +316,9 @@
               Producto
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-              <a class=\"dropdown-item\" href=\"Producto.php\">Producto</a>
-              <a class=\"dropdown-item\" href=\"ConsultarProducto.php\">Consultar Producto</a>
-              <a class=\"dropdown-item\" href=\"TablaProducto.php\">Listar Productos</a>
+              <a class=\"dropdown-item\"  style=\"$statusNavBar\" href=\"Producto.php\">Producto</a>
+              <a class=\"dropdown-item\"  style=\"$statusNavBar\" href=\"ConsultarProducto.php\">Consultar Producto</a>
+              <a class=\"dropdown-item\"  style=\"$statusNavBar\" href=\"TablaProducto.php\">Listar Productos</a>
 
           
             </li>
@@ -274,9 +329,9 @@
               Proveedor
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-              <a class=\"dropdown-item\" href=\"Proveedor.php\">Proveedor</a>
-              <a class=\"dropdown-item\" href=\"ConsultarProveedor.php\">Consultar Proveedor</a>
-              <a class=\"dropdown-item\" href=\"TablaProveedor.php\">Listar Proveedores</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"Proveedor.php\">Proveedor</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"ConsultarProveedor.php\">Consultar Proveedor</a>
+              <a class=\"dropdown-item\"  style=\"$statusNavBar\" href=\"TablaProveedor.php\">Listar Proveedores</a>
 
           
             </li>
@@ -287,9 +342,9 @@
               Usuarios
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-        <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
-              <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
-              <a class=\"dropdown-item\" href=\"TablaUsuario.php\">Listar Usuarios</a>
+        <a class=\"dropdown-item\"  style=\"$statusNavBar\" href=\"Usuario.php\">Usuario</a>
+              <a class=\"dropdown-item\"style=\"$statusNavBar\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
+              <a class=\"dropdown-item\"  style=\"$statusNavBar\" href=\"TablaUsuario.php\">Listar Usuarios</a>
 
           
             </li>
@@ -342,7 +397,7 @@
                   <input type=\"file\" class=\"form-control-file\" name=\"archivo[]\"  style =\"$statusFoto\">
                   <br>
                   </div>
-                  <a href=\"$CV\" download=\"CV_$nom\" style =\"$statusImgCV\">Descargar 
+                  <a href=\"$CV\" download=\"CV_$nom\" style =\"$statusImgCV\">Descargar $CV
                   </a>
                   
                   <div class=\"form-group\" id=\"Hoja de Vida\">

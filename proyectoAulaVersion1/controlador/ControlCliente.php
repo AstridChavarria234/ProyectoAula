@@ -28,9 +28,11 @@ class ControlCliente {
 	$email=$this->objCliente->getEmail();
 	$tel=$this->objCliente->getTelefono();
 	$topCred=$this->objCliente->getTopeCred();
+	$id = $this->objCliente->getId();
 	$objConexion = new ControlConexion();
+
 	$objConexion->abrirBd($sv,$us,$ps,$bd);
-	$comandoSql="INSERT INTO CLIENTE(codigo,nombre,tipo_persona,fecha_registro,fecha_inactivo,url_imagen,email,telefono,tope_credito,inactivo) VALUES('".$cod."','".$nom."','".$tPersona."','".$fReg."','".$fInact."','".$urlImg."','".$email."',".$tel.",".$topCred.",0)";
+	$comandoSql="INSERT INTO CLIENTE(codigo,nombre,tipo_persona,fecha_registro,fecha_inactivo,url_imagen,email,telefono,tope_credito,inactivo,id_usuario) VALUES('".$cod."','".$nom."','".$tPersona."','".$fReg."','".$fInact."','".$urlImg."','".$email."',".$tel.",".$topCred.",".$id.")";
 	$objConexion->ejecutarComandoSql($comandoSql);
 	$objConexion->cerrarBd();
 }
@@ -57,13 +59,13 @@ class ControlCliente {
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
 		
 
-        $comandoSql="UPDATE CLIENTE SET nombre='".$nom."',tipo_persona ='".$tPersona."',fecha_registro ='".$fReg."',fecha_inactivo='".$fInact."',url_imagen ='".$urlImg."',email ='".$email."',telefono =".$tel.",tope_credito =".$topCred.",inactivo=0 WHERE codigo='".$cod."'";
+        $comandoSql="UPDATE CLIENTE SET nombre='".$nom."',tipo_persona ='".$tPersona."',fecha_registro ='".$fReg."',fecha_inactivo='".$fInact."',url_imagen ='".$urlImg."',email ='".$email."',telefono =".$tel.",tope_credito =".$topCred."WHERE codigo='".$cod."'";
 	    $objConexion->ejecutarComandoSql($comandoSql);
 	    $objConexion->cerrarBd();
 
 	}
 
-	function inactivar(){
+	/*function inactivar(){
 
 		$sv="localhost";
 		$us="root";
@@ -79,7 +81,7 @@ class ControlCliente {
 		$objConexion->cerrarBd();
 	}
 
-	
+	*/
 	function consultar(){
 
 		$sv="localhost";
@@ -89,7 +91,6 @@ class ControlCliente {
 		
 
 		$cod=$this->objCliente->getCodigo();
-
         
 		$objConexion = new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
@@ -97,7 +98,7 @@ class ControlCliente {
 		$recordSet=$objConexion->ejecutarSelect($comandoSql);
 		$registro = $recordSet->fetch_array(MYSQLI_BOTH);
 		$objCliente1 = new Cliente ($registro["codigo"],$registro["nombre"],$registro["tipo_persona"],$registro["fecha_registro"],$registro["fecha_inactivo"],$registro["url_imagen"],$registro["email"],
-		$registro["telefono"],$registro["tope_credito"],$registro["inactivo"]);
+		$registro["telefono"],$registro["tope_credito"],$registro["id_usuario"]);
 		
 		$objConexion->cerrarBd();
 
@@ -105,7 +106,32 @@ class ControlCliente {
 	}
 
 
+	function consultarPorId(){
 
+		$sv="localhost";
+		$us="root";
+		$ps="";
+		$bd="bdproyectoaulav1";
+		
+
+		$id_usuario=$this->objCliente->getId();
+
+		
+		$objConexion = new ControlConexion();
+		$objConexion->abrirBd($sv,$us,$ps,$bd);
+	    $comandoSql="SELECT * FROM Cliente  WHERE id_usuario=".$id_usuario."";
+		$recordSet=$objConexion->ejecutarSelect($comandoSql);
+		$registro = $recordSet->fetch_array(MYSQLI_BOTH);
+
+		$objCliente1 = new Cliente ($registro["codigo"],$registro["nombre"],$registro["tipo_persona"],$registro["fecha_registro"],$registro["fecha_inactivo"],$registro["url_imagen"],$registro["email"],
+		$registro["telefono"],$registro["tope_credito"],$registro["id_usuario"]);
+
+
+		
+		$objConexion->cerrarBd();	
+		print("corr". $objCliente1->getEmail());
+		return $objCliente1;
+	}
   	
   }
 

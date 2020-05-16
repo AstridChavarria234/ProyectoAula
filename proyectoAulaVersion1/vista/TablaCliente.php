@@ -1,5 +1,5 @@
 <?php
-
+   error_reporting(E_ALL ^ E_NOTICE);
             include("../controlador/configBd.php");
             include("../controlador/ControlConexion.php");
 
@@ -13,7 +13,7 @@ echo "
                 <meta charset='UTF-8'>
           
                 <link rel=\"StyleSheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" type=\"text/css\">
-                <link rel=\"StyleSheet\" href=\"estilosTablas.css\">
+                <link rel=\"StyleSheet\" href=\"../estilosTabla.css\">
                 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
                 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
                 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
@@ -118,10 +118,10 @@ echo "
 
             echo"
         
+            <br><br>
+            <table class =\"table table-sm table-secondary\">
 
-            <table border='2px' align='center'>
-
-                <tr>
+            <tr class=\"bg-success\">
                   <th>Codigo</th>
                   <th>Nombre</th>
                   <th>Tipo Persona</th>
@@ -131,7 +131,7 @@ echo "
                   <th>Email</th>
                   <th>Telefono</th>
                   <th>Tope de credito</th>
-                  <th>Inactividad</th>
+                 
                 </tr>
 
             ";
@@ -150,7 +150,7 @@ echo "
                 <td id='email' data-id_email='".$registro["codigo"]."'>".$registro["email"]."</td>
                 <td id='telefono' data-id_telefono='".$registro["codigo"]."'>".$registro["telefono"]."</td>
                 <td id='tCred' data-id_tCred='".$registro["codigo"]."'>".$registro["tope_credito"]."</td>
-                <td id='inactividad' data-id_inactividad='".$registro["codigo"]."'>".$registro["inactivo"]."</td>
+
                 
 
               </tr>

@@ -6,34 +6,93 @@
 	include("../modelo/Usuario.php");
 	include("../controlador/ControlUsuario.php");
 	include("../controlador/ControlConexion.php");
+	include("../modelo/Empleado.php");
+	include("../controlador/ControlEmpleado.php");
+	include("../modelo/Cliente.php");
+	include("../controlador/ControlCliente.php");
+	include("../modelo/Proveedor.php");
+	include("../controlador/ControlProveedor.php");
 
 	$usuario= $_POST['txtUsuario'];
-	$clave= $_POST['txtClave']; 
+	$clave= $_POST['txtClave'];
+	$statusAcceso = "display:none";
+	$statusIngreso = "display:none";
 	$button =$_POST['btn']; 
 
 	if($button="Login"){
 
 	if(isset($usuario) && isset($clave)){
 		
-		$objUsuario= new Usuario("",$usuario,$clave,"");
+		$objUsuario= new Usuario("",$usuario,$clave,"","");
 		$objControlUsuario= new ControlUsuario($objUsuario);
-		$nivel=$objControlUsuario->consultarExistencia();
+		$objUsuario=$objControlUsuario->consultarExistencia();
 
-		$_SESSION['usuario']=$usuario;
-		$_SESSION['clave']= $clave;
-		$_SESSION['nivel']=  $nivel;
+		$_SESSION['usuario']=$objUsuario->getUsuario();
+		$_SESSION['clave']= $objUsuario->getClave();
+
 	
-		switch($nivel){
+		switch($objUsuario->getNivel()){
 
 				case 1:
+
+					if($objUsuario->getEstado==0)
 					header('Location:HomeAula.php');
+					else
+					$statusAcceso="display:block";
+					
 				break; 
 
-				case 2: header('Location:HomeAula.php');
+				case 2: 
+					if($objUsuario->getEstado()==0){
+						$objEmpleado= new Empleado("","","","","","","","","","","",$objUsuario->getId());
+						$objControlEmpleado= new ControlEmpleado($objEmpleado);
+						$objEmpleado=$objControlEmpleado->consultarPorId();
+                        print($objEmpleado->getFRetiro());
+						$_SESSION["empleadoDefault"] = serialize($objEmpleado);
+						header('Location:Empleado.php');
+					}else{
+						$statusAcceso="display:block";
+					}
+					
+				break;
+
+				case 3:
+					if($objUsuario->getEstado()==0){
+
+						print("if".$objUsuario->getId());
+						$objProveedor= new Proveedor("","","","","","","","","","","","");
+						$objControlProveedor= new ControlProveedor($objProveedor);
+						$objProveedor=$objControlProveedor->consultarPorId($objUsuario->getId());  
+
+						$_SESSION["proveedorDefault"] = serialize($objProveedor);
+						header('Location:Proveedor.php');
+					}else{
+						$statusAcceso="display:block";
+					}
+
+					
+
+				break;
+
+				case 4:					
+					if($objUsuario->getEstado()==0){
+
+						print("ingreso 4". $objUsuario->getEstado());
+
+						$objCliente= new Cliente("","","","","","","","","",$objUsuario->getId());
+						$objControlCliente= new ControlCliente($objCliente);
+						$objCliente1=$objControlCliente->consultarPorId();
+                        $_SESSION["clienteDefault"] = serialize($objCliente1);
+						header('Location:Cliente.php');
+					}else{
+						$statusAcceso="display:block";
+					}
+
+
+
 				break;
 					default: 
-					echo "<script>alert('Credenciales de acceso incorrectas')</script>";
-					header('Location: HomeAula.php');
+					$statusIngreso = "display:block";
 				break;
 		}
 	}
@@ -181,6 +240,17 @@
 	<title>Inicio Sesion</title>
 	</head>
 		<body>
+
+
+		<div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusAcceso\">
+        <strong>Ups!</strong> El usuario se encuentra inactivo
+		</div>
+
+		<div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusIngreso\">
+        <strong>Ups!</strong> El usuario no se encuentra registrado en la base de datos
+		</div>
+		
+
 		<div class=\"container\">
 		<div class=\"d-flex justify-content-center h-100\">
 			<div class=\"card\">

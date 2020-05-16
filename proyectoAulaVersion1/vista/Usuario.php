@@ -11,7 +11,6 @@
             include("../controlador/ControlUsuario.php");
             include("../controlador/ControlConexion.php");
 
-            
 
             $id=$_POST['txtId']; 
             $usu=$_POST['txtUsuario'];
@@ -67,43 +66,46 @@
             break; 
 
               case "actualizar":  
-              
-                $objUsuario= new Usuario("",$usu,"","");
-                $objControlUsuario= new ControlUsuario($objUsuario);
-                $objUsuario=$objControlUsuario->consultar();
 
-            
-                  $statusActivado="display:block";
-                  $objUsuario= new Usuario("",$usu,$clave,$nivel);
+                $objUsuario = new Usuario($ID,"","","","");
+                $objControlUsuario = new ControlUsuario($objUsuario);
+                $objUsuario=$objControlUsuario->consultar();
+                if($objUsuario->getEstado()==1){
+                $statusConfInactivar="display:block";
+                }else{
+                  $objUsuario= new Usuario($objUsuario->getId(),$usu,$clave,$nivel,"");
                   $objControlUsuario= new ControlUsuario($objUsuario);
                   $objControlUsuario->modificar();
                   $statusActualizarM="display:block";
                
-                   actualizarValor();
+                  // actualizarValor();
+                }
+              
+           
+
+            
+                
           
               break; 
             
               
               case "inactivar":
 
-                $objUsuario= new Usuario($cod,"","","","","","","","","");
-                $objControlUsuario= new ControlUsuario($objUsuario);
+                $objUsuario = new Usuario($ID);
+                $objControlUsuario = new ControlUsuario($objUsuario);
                 $objUsuario=$objControlUsuario->consultar();
 
-                if($objUsuario->getInactivo()==1){
-                  
+                if($objUsuario->getEstado()==1){
                   $statusConfInactivar="display:block";
                 }else{
-                 
+
                   $objControlUsuario= new ControlUsuario($objUsuario);
                   $objControlUsuario->inactivar();
                   $statusInactivarM="display:block";
+                  actualizarValor();
                 }
 
-                actualizarValor();
-              
-              break; 
-
+              break;
             }
 
 

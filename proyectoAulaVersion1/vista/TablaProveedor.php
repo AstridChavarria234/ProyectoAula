@@ -107,38 +107,47 @@ echo "
 
         $objConexion = new ControlConexion();
         $objConexion->abrirBd($sv,$us,$ps,$bd);
-        $comandoSql="SELECT * FROM USUARIO";
+        $comandoSql="SELECT * FROM PROVEEDOR";
         $recordSet=$objConexion->ejecutarSelect($comandoSql);
-
-
         $objConexion->cerrarBd();
 
 
             echo"
-        <br><br>
-                 <table class =\"table table-sm table-secondary\">
+            <br><br>
 
-                  <tr class=\"bg-success\">
-                  <th>id</th>
-                  <th>Nombre de Usuario</th>
-                  <th>Clave</th>
-                  <th>Nivel de Acceso</th>
+            <table class =\"table table-sm table-secondary\">
 
+            <tr class=\"bg-success\">
+                  <th>Codigo</th>
+                  <th>Nombre</th>
+                  <th>Tipo</th>
+                  <th>Fecha Retiro</th>
+                  <th>Fecha Inactivo</th>
+                  <th>Imagen</th>
+                  <th>Email</th>
+                  <th>Telefono</th>
                 </tr>
 
             ";
 
             while ($registro = $recordSet->fetch_array(MYSQLI_BOTH)) {
 
+                $urlFoto=$registro["urlImagen"]; 
+               
+                
+               
               echo"
               <tr>
-
-                <td>".$registro["id"]."</td>
-                <td id='usuario' data-id_usuario='".$registro["id"]."'>".$registro["usuario"]."</td>
-                <td id='clave' data-id_clave='".$registro["id"]."'>".$registro["clave"]."</td>
-                <td id='nivel' data-id_nivel='".$registro["id"]."'>".$registro["nivel"]."</td>
+                <td id='codigo' data-id_codigo='".$registro["codigo"]."'>".$registro["codigo"]."</td>
+                <td id='nombre' data-id_nombre='".$registro["nombre"]."'>".$registro["nombre"]."</td>
+                <td id='tipo' data-id_tipo='".$registro["tipo"]."'>".$registro["tipo"]."</td>
+                <td id='fechaRegistro' data-id_registro='".$registro["fechaRegistro"]."'>".$registro["fechaRegistro"]."</td>
+                <td id='inactivo' data-id_inactivo='".$registro["fechaInactivo"]."'>".$registro["fechaInactivo"]."</td>
+                <td id='foto' data-id_foto='".$registro["urlImagen"]."'><img src=\"$urlFoto\" height=\"80\" width=\"100\"></td>
+                <td id='email' data-id_email='".$registro["email"]."'>".$registro["email"]."</td>
+                <td id='telefono' data-id_telefono='".$registro["telefono"]."'>".$registro["telefono"]."</td>
                 
-
+                
               </tr>
               ";
            }

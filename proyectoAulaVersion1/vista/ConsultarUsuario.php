@@ -18,9 +18,11 @@
      
       if(isset($button)){
         $usu=$_POST['txtUsuario']; 
-        $objUsuario= new Usuario("",$usu,"","");
+
+        $objUsuario= new Usuario("",$usu,"","","");
         $objControlUsuario= new ControlUsuario($objUsuario);
-        $objUsuario=$objControlUsuario->consultar();
+        $objUsuario=$objControlUsuario->consultarPorUsuario();
+        
         if(!empty($objUsuario->getUsuario())){
           $_SESSION["usuario"] = serialize($objUsuario);
           $statusConsultarExito="display:block";

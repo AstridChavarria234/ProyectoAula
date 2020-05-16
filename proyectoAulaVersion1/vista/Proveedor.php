@@ -9,8 +9,9 @@
                       include("../modelo/Proveedor.php");
                       include("../controlador/ControlProveedor.php");
                       include("../controlador/ControlConexion.php");
+                      include("../modelo/Usuario.php");
+                      include("../controlador/ControlUsuario.php");
               
-
 
                       $cod=$_POST['txtCodigo']; 
                       $nom=$_POST['txtNombre']; 
@@ -21,7 +22,6 @@
                       $telefono=$_POST['txtTelefono'];
                       $button=$_POST['button'];
                       $tipo = $_POST['txtTipo'];
-
 
                       $statusActualizar="display:none";
                       $statusInactivar="display:none";
@@ -37,8 +37,14 @@
                       $statusArchivoFoto="display:none";
                       $statusRegistro="display:none";
                       $statusFoto ="display:block";
+                      $statusTabla ="display:none";
+
                       $objetoSesion = $_SESSION["proveedor"];
                       $objetoSesion = unserialize($objetoSesion); 
+
+                      $objetoSesionDefault = $_SESSION["proveedorDefault"];
+                      $objetoSesionDefault = unserialize($objetoSesionDefault); 
+
                       $button=$_POST['button'];
 
                       if($objetoSesion!=null){
@@ -63,8 +69,34 @@
                         $statusRegistro="display:block";
                         $statusFoto ="dispplay:block";
                         $statusLectura="readonly='true'";
-                        
+                      }
 
+
+
+                      if($objetoSesionDefault!=null){
+
+                        $NOMBRE=$objetoSesionDefault->getNombre();
+                        $CODIGO=$objetoSesionDefault->getCodigo();
+                        $FRET=$objetoSesionDefault->getFRegistro();
+                        $FINAC=$objetoSesionDefault->getFInactivo();
+                      
+                        if($objetoSesionDefault->getTipo()=="Natural"){
+                          $TIPO="Natural";
+                        }else
+                          $TIPO="Juridica";
+                    
+                        $TELEFONO=$objetoSesionDefault->getTelefono();
+                        $EMAIL=$objetoSesionDefault->getEmail();
+                        $urlFoto= $objetoSesionDefault->getUrlImagen();
+                        $statusActualizar="display:block";
+                        $statusInactivar="display:none";
+                        $statusRegistrar="display:none";
+                        $statusImgFoto ="dispplay:block";
+                        $statusRegistro="display:block";
+                        $statusFoto ="dispplay:block";
+                        $statusLectura="readonly='true'";
+                        $statusTabla= "display:block";
+                         $statusNavBar = "dispplay:none";
                       }
 
           if(!empty($_FILES['archivo']['name']))
@@ -87,8 +119,13 @@
                           $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
                           $objControlProveedor= new ControlProveedor($objProveedor);
                           $objProveedor1=$objControlProveedor->consultar();
-                          
+                        
                           if(empty($objProveedor1->getCodigo()) || $objProveedor1==null){
+
+                            $objUsuario = new Usuario("",$nom,$cod,3,0);
+                            $objControlUsuario = new ControlUsuario($objUsuario);
+                            $objControlUsuario->guardar();
+                            $objUsuario1=$objControlUsuario->consultar();
 
                               $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
                               $objControlProveedor= new ControlProveedor($objProveedor);
@@ -105,11 +142,15 @@
 
                       case "actualizar": 
 
-                        $objProveedor= new Proveedor($cod,"","","","","","","","");
-                        $objControlProveedor= new ControlProveedor($objProveedor);
-                        $objProveedor=$objControlProveedor->consultar();
 
-                        if($objProveedor->getInactivo()==1){
+                        $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
+                        $objControlProveedor= new ControlProveedor($objProveedor);
+                        $objProveedor1=$objControlProveedor->consultar();
+                        $objUsuario = new Usuario($objProveedor1->getId(),"","","","");
+                        $objControlUsuario = new ControlUsuario($objUsuario);
+                        $objUsuario=$objControlUsuario->consultar();
+      
+                        if($objUsuario->getEstado()==1){
                         $statusConfInactivar="display:block";
                         }else{
                           $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
@@ -125,27 +166,34 @@
                       
                       case "inactivar":
 
-                        $objProveedor= new Proveedor($cod,"","","","","","","","");
-                        $objControlProveedor= new ControlProveedor($objProveedor);
-                        $objProveedor=$objControlProveedor->consultar();
 
-                          if($objProveedor->getInactivo()==1){
-                            $statusConfInactivar="display:block";
-                          }else{
-                            $objControlProveedor= new ControlProveedor($objProveedor);
-                            $objControlProveedor->inactivar();
-                            $statusInactivarM="display:block";
-                            actualizarValor();
-                          }
-                        
-                        break; 
+                        $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
+                        $objControlProveedor= new ControlProveedor($objProveedor);
+                        $objProveedor1=$objControlProveedor->consultar();
+
+                        $objUsuario = new Usuario($objProveedor1->getId(),"","","","");
+                        $objControlUsuario = new ControlUsuario($objUsuario);
+                        $objUsuario=$objControlUsuario->consultar();
+                      
+                        if($objUsuario->getEstado()==1){
+                          $statusConfInactivar="display:block";
+                        }else{
+
+                          $objControlUsuario= new ControlUsuario($objUsuario);
+                          $objControlUsuario->inactivar();
+                          $statusInactivarM="display:block";
+                          actualizarValor();
+                        }
+                      
+                      break; 
             
                       }
 
 
                     
                       function actualizarValor(){
-                          unset($_SESSION["Producto"]);
+                          unset($_SESSION["proveedor"]);
+                          unset($_SESSION["proveedorDefault"]);
                           header('Refresh:4; URL=HomeAula.php');
                         }
             
@@ -221,9 +269,9 @@
             Empleados
             </a>
             <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-            <a class=\"dropdown-item\" href=\"Empleado.php\">Empleado</a>
-            <a class=\"dropdown-item\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
-            <a class=\"dropdown-item\" href=\"TablaEmpleadophp\">Listar Empleado</a>
+            <a class=\"dropdown-item\"  style=\"$statusNavBar\"href=\"Empleado.php\">Empleado</a>
+            <a class=\"dropdown-item\"  style=\"$statusNavBar\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
+            <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaEmpleado.php\">Listar Empleado</a>
             
           </li>
               <li class=\"nav-item dropdown\">
@@ -232,9 +280,9 @@
               Clientes
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-              <a class=\"dropdown-item\" href=\"Cliente.php\">Cliente</a>
-              <a class=\"dropdown-item\" href=\"ConsultarCliente.php\">Consultar Cliente</a>
-              <a class=\"dropdown-item\" href=\"TablaCliente.php\">Listar Clientes</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"Cliente.php\">Cliente</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"ConsultarCliente.php\">Consultar Cliente</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaCliente.php\">Listar Clientes</a>
           
             </li>
               <li class=\"nav-item dropdown\">
@@ -243,9 +291,9 @@
               Producto
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-              <a class=\"dropdown-item\" href=\"Producto.php\">Producto</a>
-              <a class=\"dropdown-item\" href=\"ConsultarProducto.php\">Consultar Producto</a>
-              <a class=\"dropdown-item\" href=\"TablaProducto.php\">Listar Productos</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"Producto.php\">Producto</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"ConsultarProducto.php\">Consultar Producto</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaProducto.php\">Listar Productos</a>
 
           
             </li>
@@ -257,8 +305,8 @@
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
               <a class=\"dropdown-item\" href=\"Proveedor.php\">Proveedor</a>
-              <a class=\"dropdown-item\" href=\"ConsultarProveedor.php\">Consultar Proveedor</a>
-              <a class=\"dropdown-item\" href=\"TablaProveedor.php\">Listar Proveedores</a>
+              <a class=\"dropdown-item\"style=\"$statusNavBar\"  href=\"ConsultarProveedor.php\">Consultar Proveedor</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaProveedor.php\">Listar Proveedores</a>
 
           
             </li>
@@ -269,9 +317,9 @@
               Usuarios
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-        <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
-              <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
-              <a class=\"dropdown-item\" href=\"TablaUsuario.php\">Listar Usuarios</a>
+        <a class=\"dropdown-item\"style=\"$statusNavBar\"  href=\"Usuario.php\">Usuario</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\"  href=\"ConsultarUsuario.php\">Consultar Usuario</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaUsuario.php\">Listar Usuarios</a>
 
           
             </li>
@@ -305,7 +353,9 @@
             <strong>Ups!</strong> El proveedor con codigo $cod ya existe en la base de datos xxxxx
             </div>
 
-            <?php>
+            
+
+
             <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtArchivo\" style=\"$statusArchivoFoto\">
             <strong>Ups!</strong>Intente subir un archivo diferente.El archivo $urlFoto ya existe
             </div>
@@ -356,7 +406,10 @@
                           <input type=\"text\" class=\"form-control\" value=\"$TELEFONO\" id=\"telefono\" name=\"txtTelefono\" placeholder=\"Telefono\">
                           </div>
         
-              <br>
+              <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusTabla\">
+            <strong>  <a style=\"color:black\" href=\"TablaRelacion.php\">MOSTRAR PRODUCTOS DEL PROVEEDOR : $NOMBRE  </a> </strong> 
+            </div>
+            <br>
               <table class=\"table table-hover  tableFixHead\" >
 
               <tbody>

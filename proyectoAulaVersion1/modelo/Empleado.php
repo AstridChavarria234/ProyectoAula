@@ -11,8 +11,8 @@ class Empleado{
     var $email;
     var $telFijo;
     var $telCel;
-    var $inactivo;
-    function __construct($documento,$nombre,$fIngreso,$fRetiro,$salario,$deduccion,$urlFoto,$CV,$email,$telFijo,$telCel,$inactivo)
+    var $id_usuario;
+    function __construct($documento,$nombre,$fIngreso,$fRetiro,$salario,$deduccion,$urlFoto,$CV,$email,$telFijo,$telCel,$id_usuario)
     {
         $this->documento=$documento;
         $this->nombre=$nombre;
@@ -25,7 +25,7 @@ class Empleado{
         $this->email=$email;
         $this->telFijo=$telFijo;
         $this->telCel=$telCel;
-        $this->inactivo=$inactivo;
+        $this->id_usuario=$id_usuario;
     }
     function setDocumento($documento) { $this->documento = $documento; }
     function getDocumento() { return $this->documento; }
@@ -60,8 +60,8 @@ class Empleado{
      function setTelCel($telCel) { $this->telCel = $telCel; }
     function getTelCel() { return $this->telCel; }
 
-    function setInactivo($inactivo) { $this->inactivo = $inactivo; }
-    function getInactivo() { return $this->inactivo; }
+    function setId($id_usuario) { $this->id_usuario = $id_usuario; }
+    function getId() { return $this->id_usuario; }
 
 }
 ?>

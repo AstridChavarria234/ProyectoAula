@@ -13,6 +13,9 @@
               include("../controlador/ControlConexion.php");
               include("../modelo/Relacion.php");
               include("../controlador/ControlRelacion.php");
+              include("../modelo/Usuario.php");
+              include("../controlador/ControlUsuario.php");
+              
               
           
 
@@ -36,6 +39,11 @@
               $objetoSesion = unserialize($objetoSesion); 
               $button=$_POST['button'];
 
+
+
+              
+          
+  
             
               if(!empty($objetoSesion)){
                 $CODIGO=$objetoSesion->getCodigo();
@@ -106,7 +114,6 @@
                     $objControlProducto= new ControlProducto($objProducto);
                     $objControlProducto->modificar();
                     $statusActualizarM="display:block";
-                
                     actualizarValor();
                   }
                   
@@ -119,18 +126,16 @@
                   $objProducto= new Producto($cod,"","","");
                   $objControlProducto= new ControlProducto($objProducto);
                   $objProducto=$objControlProducto->consultar();
-
                   if($objProducto->getDeshabilitado()==1){
-                    
                     $statusConfInactivar="display:block";
                   }else{
-
                     $objControlProducto= new ControlProducto($objProducto);
                     $objControlProducto->inactivar();
                     $statusInactivarM="display:block";
+                    actualizarValor();
                   }
 
-                  actualizarValor();
+                
                 
                 break; 
 
@@ -186,7 +191,7 @@
             <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
             <a class=\"dropdown-item\" href=\"Empleado.php\">Empleado</a>
             <a class=\"dropdown-item\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
-            <a class=\"dropdown-item\" href=\"TablaEmpleadophp\">Listar Empleado</a>
+            <a class=\"dropdown-item\" href=\"TablaEmpleado.php\">Listar Empleado</a>
             
           </li>
               <li class=\"nav-item dropdown\">
@@ -306,16 +311,19 @@
               
             "; 
 
-            $objProveedor= new Proveedor("","","","","","","","",0);
+            $objUsuario = new Usuario ("", "", "", "", 0);
+            $objControlUsuario = new ControlUsuario($objUsuario); 
+            $datosUsuario =$objControlUsuario->arrayUsuarioProveedor();
+            
+            $objProveedor= new Proveedor("","","","","","","","","");
             $objControlProveedor = new ControlProveedor($objProveedor);
-            $datos=$objControlProveedor->arrayProveedor($objProveedor->getInactivo());
-
-              for($i=0;$i<count($datos);$i++)
+            $datos=$objControlProveedor->arrayProveedor($datosUsuario);
+         
+             for($i=0;$i<count($datos);$i++)
               {
                 echo '<option value='.$datos[$i][0].'>'.$datos[$i][1].'</option >';
               }
         
-  
                 echo "
                 </select>
                 </div>

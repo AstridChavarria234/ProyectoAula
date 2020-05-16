@@ -1,7 +1,12 @@
 <?php
 
+error_reporting(E_ALL ^ E_NOTICE);
+session_start();
+
             include("../controlador/configBd.php");
             include("../controlador/ControlConexion.php");
+            include("../modelo/Proveedor.php");
+            include("../controlador/ControlProveedor.php");
 
 echo "
 <!DOCTYPE html>
@@ -27,7 +32,7 @@ echo "
             <span class=\"navbar-toggler-icon\"></span>
           </button>
           <div class=\"collapse navbar-collapse\" id=\"navbarToggler\">
-            <a class=\"navbar-brand\" href=\"#\">Administración de Usuarios</a>
+            <a class=\"navbar-brand\" href=\"#\">Producto-Proveedor</a>
             <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">
             <li class=\"nav-item dropdown\">
       
@@ -37,7 +42,7 @@ echo "
             <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
             <a class=\"dropdown-item\" href=\"Empleado.php\">Empleado</a>
             <a class=\"dropdown-item\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
-            <a class=\"dropdown-item\" href=\"TablaEmpleado.php\">Listar Empleado</a>
+            <a class=\"dropdown-item\" href=\"TablaEmpleadophp\">Listar Empleado</a>
             
           </li>
               <li class=\"nav-item dropdown\">
@@ -103,26 +108,33 @@ echo "
         $us="root";
         $ps="";
         $bd="bdproyectoaulav1";
-        
 
+        $objetoSesionDefault = $_SESSION["proveedorDefault"];
+        $objetoSesionDefault = unserialize($objetoSesionDefault); 
+
+        $codigo= $objetoSesionDefault->getCodigo();
         $objConexion = new ControlConexion();
         $objConexion->abrirBd($sv,$us,$ps,$bd);
-        $comandoSql="SELECT * FROM USUARIO";
+
+        
+        $comandoSql="SELECT prod.codigo,prod.nombre,prod.url_imagen,prod.deshabilitado
+        from proveedor pro INNER JOIN productoproveedor prodpro ON (pro.codigo=prodpro.idProveedor)
+                           INNER JOIN producto prod ON (prod.codigo=prodpro.idProducto)
+        WHERE pro.codigo=$codigo";
         $recordSet=$objConexion->ejecutarSelect($comandoSql);
-
-
         $objConexion->cerrarBd();
 
 
             echo"
-        <br><br>
-                 <table class =\"table table-sm table-secondary\">
+<br><br>
+            <table class =\"table table-sm table-secondary\">
 
-                  <tr class=\"bg-success\">
-                  <th>id</th>
-                  <th>Nombre de Usuario</th>
-                  <th>Clave</th>
-                  <th>Nivel de Acceso</th>
+            <tr class=\"bg-success\">
+                <th>Imagen</th>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Estado 1: Deshabilitado 0: Habilitado</th>
+              </tr>
 
                 </tr>
 
@@ -130,16 +142,18 @@ echo "
 
             while ($registro = $recordSet->fetch_array(MYSQLI_BOTH)) {
 
+                $url_foto = $registro["url_imagen"];
+                
               echo"
               <tr>
-
-                <td>".$registro["id"]."</td>
-                <td id='usuario' data-id_usuario='".$registro["id"]."'>".$registro["usuario"]."</td>
-                <td id='clave' data-id_clave='".$registro["id"]."'>".$registro["clave"]."</td>
-                <td id='nivel' data-id_nivel='".$registro["id"]."'>".$registro["nivel"]."</td>
-                
-
-              </tr>
+              <td id='foto' data-id_foto='".$registro["url_imagen"]."'><img src=\"$urlFoto\" height=\"80\" width=\"100\"></td>
+             <td id='codigo' data-id_codigo='".$registro["codigo"]."'>".$registro["codigo"]."</td>
+             <td id='nombre' data-id_nombre='".$registro["nombre"]."'>".$registro["nombre"]."</td>
+             <td id='estado' data-id_estado='".$registro["codigo"]."'>".$registro["deshabilitado"]."</td>
+             
+             
+           </tr>
+             
               ";
            }
 

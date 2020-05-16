@@ -12,9 +12,9 @@ class Cliente{
     var $email;
     var $telefono;
     var $topeCred;
-    var $inactivo;
+    var $id_usuario;
 
-    function __construct($codigo,$nombre,$tipoPersona,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$topeCred,$inactivo)
+    function __construct($codigo,$nombre,$tipoPersona,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$topeCred,$id_usuario)
     {
         $this->codigo=$codigo;
         $this->nombre=$nombre;
@@ -25,7 +25,7 @@ class Cliente{
         $this->email=$email;
         $this->telefono=$telefono;
         $this->topeCred=$topeCred;
-        $this->inactivo=$inactivo;
+        $this->id_usuario=$id_usuario;
       
     }
 
@@ -56,8 +56,8 @@ class Cliente{
     function setTopeCred($topeCred) { $this->setTopeCred = $topeCred; }
     function getTopeCred() { return $this->topeCred; }
 
-    function setInactivo($inactivo) { $this->inactivo = $inactivo; }
-    function getInactivo() { return $this->inactivo; }
+    function setId($id_usuario) { $this->id_usuario= $id_usuario; }
+    function getId() { return $this->id_usuario; }
 
 }
 

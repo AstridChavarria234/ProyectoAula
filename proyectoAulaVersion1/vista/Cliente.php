@@ -10,7 +10,8 @@
             include("../modelo/Cliente.php");
             include("../controlador/ControlCliente.php");
             include("../controlador/ControlConexion.php");
-
+            include("../modelo/Usuario.php");
+            include("../controlador/ControlUsuario.php");
             
 
             $cod=$_POST['txtCodigo']; 
@@ -36,6 +37,10 @@
             $urlImg;
             $objetoSesion = $_SESSION["cliente"];
             $objetoSesion = unserialize($objetoSesion); 
+
+            $objetoSesionDefault = $_SESSION["clienteDefault"];
+            $objetoSesionDefault = unserialize($objetoSesionDefault); 
+
             $button=$_POST['button'];
 
            
@@ -54,6 +59,24 @@
               $statusInactivar="display:block";
               $statusRegistrar="display:none";
               $statusLectura="readonly='true'";
+            }
+
+            if(!empty($objetoSesionDefault)){
+              $CODIGO=$objetoSesionDefault->getCodigo();
+              $NOMBRE=$objetoSesionDefault->getNombre();
+              $PERSONA=$objetoSesionDefault->getTipoPersona();
+              $REGISTRO=$objetoSesionDefault->getFRegistro();
+              $INACTIVO=$objetoSesionDefault->getFInactivo();
+              $EMAIL=$objetoSesionDefault->getEmail();
+              $TELEFONO=$objetoSesionDefault->getTelefono();
+              $TCREDITO=$objetoSesionDefault->getTopeCred();
+              $urlImg=$objetoSesionDefault->getUrlImagen();
+              $statusImg="display:block";
+              $statusActualizar="display:block";
+              $statusInactivar="display:none";
+              $statusRegistrar="display:none";
+              $statusLectura="readonly='true'";
+              $statusNavBar = "display:none";
             }
 
 
@@ -97,7 +120,12 @@
              
               if(empty($objCliente->getNombre())){
 
-                $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,0);
+                $objUsuario = new Usuario("",$nom,$cod,4,0);
+                $objControlUsuario = new ControlUsuario($objUsuario);
+                $objControlUsuario->guardar();
+                $objUsuario1=$objControlUsuario->consultar();
+
+                $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$objUsuario1->getId());
                 $objControlCliente= new ControlCliente($objCliente);
                 $objControlCliente->guardar();
                 $statusRegistrarM="display:block";
@@ -108,49 +136,59 @@
             break; 
 
               case "actualizar":  
-              
+
                 $objCliente= new Cliente($cod,"","","","","","","","","");
                 $objControlCliente= new ControlCliente($objCliente);
                 $objCliente=$objControlCliente->consultar();
+  
 
-            
-                  $statusActivado="display:block";
+                $objUsuario = new Usuario($objCliente->getId(),"","","","");
+                $objControlUsuario = new ControlUsuario($objUsuario);
+                $objUsuario=$objControlUsuario->consultar();
+
+                if($objUsuario->getEstado()==0){
                   $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,0);
                   $objControlCliente= new ControlCliente($objCliente);
                   $objControlCliente->modificar();
                   $statusActualizarM="display:block";
-               
+      
                    actualizarValor();
           
-              break; 
+                }else{
+                  $statusConfInactivar= "display:block";
+                }
             
               
+              break; 
+            
               case "inactivar":
-
+                
                 $objCliente= new Cliente($cod,"","","","","","","","","");
                 $objControlCliente= new ControlCliente($objCliente);
                 $objCliente=$objControlCliente->consultar();
 
-                if($objCliente->getInactivo()==1){
-                  
+                $objUsuario = new Usuario($objCliente->getId(),"","","","");
+                $objControlUsuario = new ControlUsuario($objUsuario);
+                $objUsuario=$objControlUsuario->consultar();
+
+                if($objUsuario->getEstado()==1){
                   $statusConfInactivar="display:block";
                 }else{
-                 
-                  $objControlCliente= new ControlCliente($objCliente);
-                  $objControlCliente->inactivar();
-                  $statusInactivarM="display:block";
-                }
 
-                actualizarValor();
+                  $objControlUsuario= new ControlUsuario($objUsuario);
+                  $objControlUsuario->inactivar();
+                  $statusInactivarM="display:block";
+                  actualizarValor();
+                }
               
               break; 
-
             }
 
 
 
             function actualizarValor(){
               unset($_SESSION["cliente"]);
+              unset($_SESSION["clienteDefault"]);
               header('Refresh:4; URL=HomeAula.php');
             }
 
@@ -238,7 +276,7 @@
             <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
             <a class=\"dropdown-item\" href=\"Empleado.php\">Empleado</a>
             <a class=\"dropdown-item\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
-            <a class=\"dropdown-item\" href=\"TablaEmpleadophp\">Listar Empleado</a>
+            <a class=\"dropdown-item\" href=\"TablaEmpleado.php\">Listar Empleado</a>
             
           </li>
               <li class=\"nav-item dropdown\">
@@ -248,8 +286,8 @@
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
               <a class=\"dropdown-item\" href=\"Cliente.php\">Cliente</a>
-              <a class=\"dropdown-item\" href=\"ConsultarCliente.php\">Consultar Cliente</a>
-              <a class=\"dropdown-item\" href=\"TablaCliente.php\">Listar Clientes</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\"  href=\"ConsultarCliente.php\">Consultar Cliente</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaCliente.php\">Listar Clientes</a>
           
             </li>
               <li class=\"nav-item dropdown\">
@@ -258,9 +296,9 @@
               Producto
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-              <a class=\"dropdown-item\" href=\"Producto.php\">Producto</a>
-              <a class=\"dropdown-item\" href=\"ConsultarProducto.php\">Consultar Producto</a>
-              <a class=\"dropdown-item\" href=\"TablaProducto.php\">Listar Productos</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"Producto.php\">Producto</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"ConsultarProducto.php\">Consultar Producto</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaProducto.php\">Listar Productos</a>
 
           
             </li>
@@ -271,9 +309,9 @@
               Proveedor
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-              <a class=\"dropdown-item\" href=\"Proveedor.php\">Proveedor</a>
-              <a class=\"dropdown-item\" href=\"ConsultarProveedor.php\">Consultar Proveedor</a>
-              <a class=\"dropdown-item\" href=\"TablaProveedor.php\">Listar Proveedores</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\"  href=\"Proveedor.php\">Proveedor</a>
+              <a class=\"dropdown-item\"style=\"$statusNavBar\"  href=\"ConsultarProveedor.php\">Consultar Proveedor</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaProveedor.php\">Listar Proveedores</a>
 
           
             </li>
@@ -284,9 +322,9 @@
               Usuarios
               </a>
               <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
-        <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
-              <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
-              <a class=\"dropdown-item\" href=\"TablaUsuario.php\">Listar Usuarios</a>
+        <a class=\"dropdown-item\"style=\"$statusNavBar\" href=\"Usuario.php\">Usuario</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaUsuario.php\">Listar Usuarios</a>
 
           
             </li>
