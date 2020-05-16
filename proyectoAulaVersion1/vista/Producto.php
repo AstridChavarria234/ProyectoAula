@@ -43,15 +43,17 @@
             
               if(!empty($objetoSesion)){
 
-             
                 $objRelacion= new Relacion("","");
                 $objControlRelacion= new ControlRelacion($objRelacion);
                 $dato=$objControlRelacion->consultar($objetoSesion->getCodigo());
-            
 
+                $objProveedor= new Proveedor($dato,"","","","","","","",0);
+                $objControlProveedor= new ControlProveedor($objProveedor);
+                $objProveedor1=$objControlProveedor->consultar($dato);
+      
                 $CODIGO=$objetoSesion->getCodigo();
                 $NOMBRE=$objetoSesion->getNombre();
-                $VALOR= $dato;
+                $VALOR= $objProveedor1->getNombre();
                 $urlImg=$objetoSesion->getUrlImagen();
                 $statusImg="display:block";
                 $statusActualizar="display:block";
@@ -185,7 +187,7 @@
               <span class=\"navbar-toggler-icon\"></span>
             </button>
             <div class=\"collapse navbar-collapse\" id=\"navbarToggler\">
-              <a class=\"navbar-brand\" href=\"#\">Administración de Productos</a>
+              <a class=\"navbar-brand\" href=\"#\">Productos</a>
               <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">
             <li class=\"nav-item dropdown\">
       

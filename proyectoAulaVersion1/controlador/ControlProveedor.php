@@ -1,148 +1,150 @@
-<?php 
+	<?php 
 
-class ControlProveedor {
-    var $objProveedor;
+	class ControlProveedor {
+		var $objProveedor;
 
-	function __construct($objProveedor){
-	$this->objProveedor=$objProveedor;
+		function __construct($objProveedor){
+		$this->objProveedor=$objProveedor;
 
-	}
+		}
 
 
-	function guardar(){
+		function guardar(){
 
-		$sv="localhost";
-		$us="root";
-		$ps="";
-		$bd="bdproyectoaulav1";
-		
-	$codigo=$this->objProveedor->getCodigo();
-	$nombre=$this->objProveedor->getNombre();
-	$tipo=$this->objProveedor->getTipo();
-	$fRet=$this->objProveedor->getFRegistro(); 
-	$fInac=$this->objProveedor->getFInactivo();
-	$urlImagen=$this->objProveedor->getUrlImagen();
-	$email=$this->objProveedor->getEmail();
-	$telefono=$this->objProveedor->getTelefono();
-	$id=$this->objProveedor->getId();
-	
-	$objConexion = new ControlConexion();
-	$objConexion->abrirBd($sv,$us,$ps,$bd);
-	$comandoSql="INSERT INTO PROVEEDOR(codigo,nombre,tipo,fechaRegistro,fechaInactivo,urlImagen,email,telefono,id_usuario) VALUES('".$codigo."','".$nombre."','".$tipo."','".$fRet."','".$fInac."','".$urlImagen."', '".$email."', '".$telefono."',".$id.")";
-	$objConexion->ejecutarComandoSql($comandoSql);
-	$objConexion->cerrarBd();
-}
-
-	function modificar(){
-
-		$sv="localhost";
-		$us="root";
-		$ps="";
-		$bd="bdproyectoaulav1";
-
-        $codigo=$this->objProveedor->getCodigo();
-        $nombre=$this->objProveedor->getNombre();
-		$tipo=$this->objProveedor->getTipo();
-        $fRet=$this->objProveedor->getFRegistro(); 
-        $fInac=$this->objProveedor->getFInactivo();
-        $urlImagen=$this->objProveedor->getUrlImagen();
-        $email=$this->objProveedor->getEmail();
-        $telefono=$this->objProveedor->getTelefono();
-		$objConexion = new ControlConexion();
-		$objConexion->abrirBd($sv,$us,$ps,$bd);
-        $comandoSql="UPDATE PROVEEDOR SET nombre='".$nombre."' ,tipo='".$tipo."',fechaInactivo='".$fInac."',urlImagen='".$urlImagen."',email ='".$email."',telefono ='".$telefono."' WHERE codigo='".$codigo."'";
-	    $objConexion->ejecutarComandoSql($comandoSql);
-	    $objConexion->cerrarBd();
-
-	}
-
-	/*function inactivar(){
-
-		$sv="localhost";
-		$us="root";
-		$ps="";
-		$bd="bdproyectoaulav1";
-
+			$sv="localhost";
+			$us="root";
+			$ps="";
+			$bd="bdproyectoaulav1";
+			
 		$codigo=$this->objProveedor->getCodigo();
+		$nombre=$this->objProveedor->getNombre();
+		$tipo=$this->objProveedor->getTipo();
+		$fRet=$this->objProveedor->getFRegistro(); 
+		$fInac=$this->objProveedor->getFInactivo();
+		$urlImagen=$this->objProveedor->getUrlImagen();
+		$email=$this->objProveedor->getEmail();
+		$telefono=$this->objProveedor->getTelefono();
+		$id=$this->objProveedor->getId();
+		
 		$objConexion = new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
-		$comandoSql="UPDATE Proveedor SET inactivo=1 WHERE codigo='".$codigo."'";
+		$comandoSql="INSERT INTO PROVEEDOR(codigo,nombre,tipo,fechaRegistro,fechaInactivo,urlImagen,email,telefono,id_usuario) VALUES('".$codigo."','".$nombre."','".$tipo."','".$fRet."','".$fInac."','".$urlImagen."', '".$email."', '".$telefono."',".$id.")";
 		$objConexion->ejecutarComandoSql($comandoSql);
 		$objConexion->cerrarBd();
 	}
 
-	*/
+		function modificar(){
 
-	function consultar(){
+			$sv="localhost";
+			$us="root";
+			$ps="";
+			$bd="bdproyectoaulav1";
 
-		$sv="localhost";
-		$us="root";
-		$ps="";
-		$bd="bdproyectoaulav1";
-		$codigo=$this->objProveedor->getCodigo();
-		$objConexion = new ControlConexion();
+			$codigo=$this->objProveedor->getCodigo();
+			$nombre=$this->objProveedor->getNombre();
+			$tipo=$this->objProveedor->getTipo();
+			$fRet=$this->objProveedor->getFRegistro(); 
+			$fInac=$this->objProveedor->getFInactivo();
+			$urlImagen=$this->objProveedor->getUrlImagen();
+			$email=$this->objProveedor->getEmail();
+			$telefono=$this->objProveedor->getTelefono();
+			$objConexion = new ControlConexion();
+			$objConexion->abrirBd($sv,$us,$ps,$bd);
+			$comandoSql="UPDATE PROVEEDOR SET nombre='".$nombre."' ,tipo='".$tipo."',fechaInactivo='".$fInac."',urlImagen='".$urlImagen."',email ='".$email."',telefono ='".$telefono."' WHERE codigo='".$codigo."'";
+			$objConexion->ejecutarComandoSql($comandoSql);
+			$objConexion->cerrarBd();
+
+		}
+
+		/*function inactivar(){
+
+			$sv="localhost";
+			$us="root";
+			$ps="";
+			$bd="bdproyectoaulav1";
+
+			$codigo=$this->objProveedor->getCodigo();
+			$objConexion = new ControlConexion();
+			$objConexion->abrirBd($sv,$us,$ps,$bd);
+			$comandoSql="UPDATE Proveedor SET inactivo=1 WHERE codigo='".$codigo."'";
+			$objConexion->ejecutarComandoSql($comandoSql);
+			$objConexion->cerrarBd();
+		}
+
+		*/
+
+		function consultar(){
+
+			$sv="localhost";
+			$us="root";
+			$ps="";
+			$bd="bdproyectoaulav1";
+			$codigo=$this->objProveedor->getCodigo();
+			$objConexion = new ControlConexion();
+			$objConexion->abrirBd($sv,$us,$ps,$bd);
+			$comandoSql="SELECT * FROM Proveedor  WHERE CODIGO='".$codigo."'";
+			$recordSet=$objConexion->ejecutarSelect($comandoSql);
+			$registro = $recordSet->fetch_array(MYSQLI_BOTH);
+			
+			$objProveedor1 = new Proveedor($registro["codigo"], $registro["nombre"],$registro["tipo"],$registro["fechaRegistro"],
+			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["id_usuario"]);
+			$objConexion->cerrarBd();
+			return $objProveedor1;
+		}
+
+		function arrayProveedor($datosUsuario){
+
+
+
+			$sv="localhost";
+			$us="root";
+			$ps="";
+			$bd="bdproyectoaulav1";
+
+		$objConexion=new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
-	    $comandoSql="SELECT * FROM Proveedor  WHERE CODIGO='".$codigo."'";
-		$recordSet=$objConexion->ejecutarSelect($comandoSql);
-		$registro = $recordSet->fetch_array(MYSQLI_BOTH);
-       
-		$objProveedor1 = new Proveedor($registro["codigo"], $registro["nombre"],$registro["tipo"],$registro["fechaRegistro"],
-		$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["id_usuario"]);
-		$objConexion->cerrarBd();
-		return $objProveedor1;
-	}
-
-	function arrayProveedor($datosUsuario){
-
-
-
-		$sv="localhost";
-		$us="root";
-		$ps="";
-		$bd="bdproyectoaulav1";
-
-	  $objConexion=new ControlConexion();
-	  $objConexion->abrirBd($sv,$us,$ps,$bd);
-		
-	  for($i=0;$i<count($datosUsuario);$i++)
-	  {
-	    $id= $datosUsuario[$i][0];
-	    $comandoSql="SELECT * FROM Proveedor  WHERE id_usuario=".$id."";
-		$recordSet=$objConexion->ejecutarSelect($comandoSql);
-		$registro = $recordSet->fetch_array(MYSQLI_BOTH);
-		$datos[] = $registro;	
-	  }
-	
-	  $objConexion->cerrarBd();
-
-	  return $datos;
-	
-	
-   
-	}
-	
-
-
-	function consultarPorId($id){
-
-		$sv="localhost";
-		$us="root";
-		$ps="";
-		$bd="bdproyectoaulav1";
-	
-		print("ingreso consultar>".$id);
-		$objConexion = new ControlConexion();
-		$objConexion->abrirBd($sv,$us,$ps,$bd);
-	    $comandoSql="SELECT * FROM Proveedor  WHERE ID_USUARIO=".$id."";
-		$recordSet=$objConexion->ejecutarSelect($comandoSql);
-		$registro = $recordSet->fetch_array(MYSQLI_BOTH);
-		$objProveedor1 = new Proveedor($registro["codigo"], $registro["nombre"],$registro["tipo"],$registro["fechaRegistro"],
-		$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["id_usuario"]);
+			
+		for($i=0;$i<count($datosUsuario);$i++)
+		{
+			$id= $datosUsuario[$i][0];
+			$comandoSql="SELECT * FROM Proveedor  WHERE id_usuario=".$id."";
+			$recordSet=$objConexion->ejecutarSelect($comandoSql);
+			$registro = $recordSet->fetch_array(MYSQLI_BOTH);
+			$datos[] = $registro;	
+		}
 		
 		$objConexion->cerrarBd();
+
+		return $datos;
 		
-		print($registro["nombre"]);
-		return $objProveedor1;
+		
+	
+		}
+		
+
+
+		function consultarPorId($id){
+
+			$sv="localhost";
+			$us="root";
+			$ps="";
+			$bd="bdproyectoaulav1";
+		
+			print("ingreso consultar>".$id);
+			$objConexion = new ControlConexion();
+			$objConexion->abrirBd($sv,$us,$ps,$bd);
+			$comandoSql="SELECT * FROM Proveedor  WHERE ID_USUARIO=".$id."";
+			$recordSet=$objConexion->ejecutarSelect($comandoSql);
+			$registro = $recordSet->fetch_array(MYSQLI_BOTH);
+			$objProveedor1 = new Proveedor($registro["codigo"], $registro["nombre"],$registro["tipo"],$registro["fechaRegistro"],
+			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["id_usuario"]);
+			
+			$objConexion->cerrarBd();
+			
+			print($registro["nombre"]);
+			return $objProveedor1;
+		}
+
+
 	}
-}
-?>
+	?>

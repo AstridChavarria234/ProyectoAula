@@ -1,5 +1,5 @@
   <?php 
-                error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+              error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
               session_start();
 
               if(!isset($_SESSION['usuario']) && !isset($_SESSION['clave']))
@@ -265,7 +265,7 @@
               <span class=\"navbar-toggler-icon\"></span>
             </button>
             <div class=\"collapse navbar-collapse\" id=\"navbarToggler\">
-              <a class=\"navbar-brand\" href=\"#\">Administración de Clientes</a>
+              <a class=\"navbar-brand\" href=\"#\">Clientes</a>
               <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">
               <li class=\"nav-item dropdown\">
         
