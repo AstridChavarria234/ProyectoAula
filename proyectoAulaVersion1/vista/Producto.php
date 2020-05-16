@@ -20,7 +20,8 @@
           
 
               $cod=$_POST['txtCodigo']; 
-              $nom=$_POST['txtNombre'];   
+              $nom=$_POST['txtNombre'];  
+              $VALOR = "000 Default"; 
               $proveedor=$_POST["proveedor"];     
               $statusActualizar="display:none";
               $statusInactivar="display:none";
@@ -38,16 +39,19 @@
               $objetoSesion = $_SESSION["producto"];
               $objetoSesion = unserialize($objetoSesion); 
               $button=$_POST['button'];
-
-
-
-              
-          
   
             
               if(!empty($objetoSesion)){
+
+             
+                $objRelacion= new Relacion("","");
+                $objControlRelacion= new ControlRelacion($objRelacion);
+                $dato=$objControlRelacion->consultar($objetoSesion->getCodigo());
+            
+
                 $CODIGO=$objetoSesion->getCodigo();
                 $NOMBRE=$objetoSesion->getNombre();
+                $VALOR= $dato;
                 $urlImg=$objetoSesion->getUrlImagen();
                 $statusImg="display:block";
                 $statusActualizar="display:block";
@@ -307,7 +311,7 @@
                   <br>
 
                   <select class=\"custom-select\"  name=\"proveedor\">
-                  <option disabled selected>0000 Default</option>
+                  <option disabled selected>$VALOR</option>
               
             "; 
 
