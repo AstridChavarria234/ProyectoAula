@@ -18,7 +18,7 @@
      
       if(isset($button)){
         $codigo=$_POST['txtCodigo']; 
-        $objCliente= new Cliente($codigo,"","","","","","","","","");
+        $objCliente= new Cliente($codigo,"","","","","","","","","","","");
         $objControlCliente= new ControlCliente($objCliente);
         $objCliente=$objControlCliente->consultar();
         if(!empty($objCliente->getCodigo())){

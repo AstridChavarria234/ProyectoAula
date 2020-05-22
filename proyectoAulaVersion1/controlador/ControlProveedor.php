@@ -24,11 +24,13 @@
 		$urlImagen=$this->objProveedor->getUrlImagen();
 		$email=$this->objProveedor->getEmail();
 		$telefono=$this->objProveedor->getTelefono();
+		$comuna=$this->objProveedor->getComuna();
+		$barrio=$this->objProveedor->getBarrio();
 		$id=$this->objProveedor->getId();
 		
 		$objConexion = new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
-		$comandoSql="INSERT INTO PROVEEDOR(codigo,nombre,tipo,fechaRegistro,fechaInactivo,urlImagen,email,telefono,id_usuario) VALUES('".$codigo."','".$nombre."','".$tipo."','".$fRet."','".$fInac."','".$urlImagen."', '".$email."', '".$telefono."',".$id.")";
+		$comandoSql="INSERT INTO PROVEEDOR(codigo,nombre,tipo,fechaRegistro,fechaInactivo,urlImagen,email,telefono,comuna,barrio,id_usuario) VALUES('".$codigo."','".$nombre."','".$tipo."','".$fRet."','".$fInac."','".$urlImagen."', '".$email."', '".$telefono."','".$comuna."','".$barrio."',".$id.")";
 		$objConexion->ejecutarComandoSql($comandoSql);
 		$objConexion->cerrarBd();
 	}
@@ -48,9 +50,11 @@
 			$urlImagen=$this->objProveedor->getUrlImagen();
 			$email=$this->objProveedor->getEmail();
 			$telefono=$this->objProveedor->getTelefono();
+			$comuna=$this->objProveedor->getComuna();
+		    $barrio=$this->objProveedor->getBarrio();
 			$objConexion = new ControlConexion();
 			$objConexion->abrirBd($sv,$us,$ps,$bd);
-			$comandoSql="UPDATE PROVEEDOR SET nombre='".$nombre."' ,tipo='".$tipo."',fechaInactivo='".$fInac."',urlImagen='".$urlImagen."',email ='".$email."',telefono ='".$telefono."' WHERE codigo='".$codigo."'";
+			$comandoSql="UPDATE PROVEEDOR SET nombre='".$nombre."' ,tipo='".$tipo."',fechaInactivo='".$fInac."',urlImagen='".$urlImagen."',email ='".$email."',telefono ='".$telefono."',comuna ='".$comuna."',barrio ='".$barrio."' WHERE codigo='".$codigo."'";
 			$objConexion->ejecutarComandoSql($comandoSql);
 			$objConexion->cerrarBd();
 
@@ -87,7 +91,7 @@
 			$registro = $recordSet->fetch_array(MYSQLI_BOTH);
 			
 			$objProveedor1 = new Proveedor($registro["codigo"], $registro["nombre"],$registro["tipo"],$registro["fechaRegistro"],
-			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["id_usuario"]);
+			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["comuna"],$registro["barrio"],$registro["id_usuario"]);
 			$objConexion->cerrarBd();
 			return $objProveedor1;
 		}
@@ -129,19 +133,18 @@
 			$us="root";
 			$ps="";
 			$bd="bdproyectoaulav1";
-		
-			print("ingreso consultar>".$id);
+
 			$objConexion = new ControlConexion();
 			$objConexion->abrirBd($sv,$us,$ps,$bd);
 			$comandoSql="SELECT * FROM Proveedor  WHERE ID_USUARIO=".$id."";
 			$recordSet=$objConexion->ejecutarSelect($comandoSql);
 			$registro = $recordSet->fetch_array(MYSQLI_BOTH);
 			$objProveedor1 = new Proveedor($registro["codigo"], $registro["nombre"],$registro["tipo"],$registro["fechaRegistro"],
-			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["id_usuario"]);
+			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["comuna"],$registro["barrio"],$registro["id_usuario"]);
 			
 			$objConexion->cerrarBd();
 			
-			print($registro["nombre"]);
+			
 			return $objProveedor1;
 		}
 

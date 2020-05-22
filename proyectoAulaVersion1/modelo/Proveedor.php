@@ -11,8 +11,10 @@ class Proveedor{
     var $urlImagen;
     var $email;
     var $telefono;
+    var $comuna;
+    var $barrio;
     var $id_usuario;
-    function __construct($codigo,$nombre,$tipo,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$id_usuario)
+    function __construct($codigo,$nombre,$tipo,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$comuna,$barrio,$id_usuario)
     {
         $this->codigo=$codigo;
         $this->nombre=$nombre;
@@ -22,6 +24,8 @@ class Proveedor{
         $this->urlImagen=$urlImagen;
         $this->email=$email;
         $this->telefono=$telefono;
+        $this->comuna=$comuna;
+        $this->barrio=$barrio;
         $this->id_usuario=$id_usuario;
         
       
@@ -51,6 +55,11 @@ class Proveedor{
     function setTelefono($telefono) { $this->setTelefono = $telefono; }
     function getTelefono() { return $this->telefono; }
 
+    function setComuna($comuna) { $this->setComuna = $comuna; }
+    function getComuna() { return $this->comuna; }
+
+    function setBarrio($barrio) { $this->setBarrio = $barrio; }
+    function getBarrio() { return $this->barrio; }
 
     function setId($id_usuario) { $this->setId = $id_usuario; }
     function getId() { return $this->id_usuario; }

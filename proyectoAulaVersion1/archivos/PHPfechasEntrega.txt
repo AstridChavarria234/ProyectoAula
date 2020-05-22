@@ -1,0 +1,20 @@
+Sabado 2 de Mayo:
+CRUD (Empleados,Clientes, Usuarios, Productos, Proveedores)
+
+Sabado 9 de Mayo:
+Usuario
+Contraseña
+
+
+Sabado 16 de Mayo:
+Control de acceso, que el administrador tenga todo el acceso, pero el cliente, empleado, proveedor solo acceso a su registro para modificarlo (perfilación) 
+
+Sabado 23 de Mayo:
+Enviar Notificación al administrador sobre la modificación del algun registro
+
+
+Sabado 30 de Mayo
+ENTREGA FINAL
+
+Sabado 6 de Junio:
+Tiempo de complementar, solo los compañeros no hayan terminado.

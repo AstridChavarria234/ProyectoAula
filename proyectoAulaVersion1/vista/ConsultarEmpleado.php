@@ -18,7 +18,7 @@
      
       if(isset($button)){
         $documento=$_POST['txtDocumento']; 
-        $objEmpleado= new Empleado($documento,"","","","","","","","","","","");
+        $objEmpleado= new Empleado($documento,"","","","","","","","","","","","","");
         $objControlEmpleado= new ControlEmpleado($objEmpleado);
         $objEmpleado=$objControlEmpleado->consultar();
 

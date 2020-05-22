@@ -27,12 +27,14 @@ class ControlEmpleado {
 	$email=$this->objEmpleado->getEmail();
 	$telFijo=$this->objEmpleado->getTelFijo();
 	$telCel=$this->objEmpleado->getTelCel();
+	$comuna=$this->objEmpleado->getComuna();
+	$barrio=$this->objEmpleado->getBarrio();
 	$urlFoto=$this->objEmpleado->getUrlFoto();
 	$CV=$this->objEmpleado->getCV();
 	$ID = $this->objEmpleado->getId();
 	$objConexion = new ControlConexion();
 	$objConexion->abrirBd($sv,$us,$ps,$bd);
-	$comandoSql="INSERT INTO EMPLEADO(nombre,documento,fecha_ingreso,fecha_retiro,salario_basico,deduccion,foto,hoja_vida,email,telefono,celular,id_usuario) VALUES('".$nom."','".$doc."','".$fIng."','".$fRet."','".$salario."','".$dedu."', '".$urlFoto."', '".$CV."', '".$email."',".$telFijo.",".$telCel.",".$ID.")";
+	$comandoSql="INSERT INTO EMPLEADO(nombre,documento,fecha_ingreso,fecha_retiro,salario_basico,deduccion,foto,hoja_vida,email,telefono,celular,comuna,barrio,id_usuario) VALUES('".$nom."','".$doc."','".$fIng."','".$fRet."','".$salario."','".$dedu."', '".$urlFoto."', '".$CV."', '".$email."',".$telFijo.",".$telCel.",'".$comuna."','".$barrio."',".$ID.")";
 	$objConexion->ejecutarComandoSql($comandoSql);
 	$objConexion->cerrarBd();
 }
@@ -55,12 +57,14 @@ class ControlEmpleado {
 		$email=$this->objEmpleado->getEmail();
 		$telFijo=$this->objEmpleado->getTelFijo();
 		$telCel=$this->objEmpleado->getTelCel();
+		$comuna=$this->objEmpleado->getComuna();
+		$barrio=$this->objEmpleado->getBarrio();
 		$urlFoto=$this->objEmpleado->getUrlFoto();
 		$CV=$this->objEmpleado->getCV();
 		$objConexion = new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
 	
-        $comandoSql="UPDATE Empleado SET nombre='".$nom."',fecha_ingreso ='".$fIng."',fecha_retiro='".$fRet."',salario_basico ='".$salario."',deduccion=".$dedu.",foto ='".$urlFoto."',hoja_vida ='".$CV."',email ='".$email."',telefono =".$telFijo.",celular =".$telCel." WHERE documento='".$doc."'";
+        $comandoSql="UPDATE Empleado SET nombre='".$nom."',fecha_ingreso ='".$fIng."',fecha_retiro='".$fRet."',salario_basico ='".$salario."',deduccion=".$dedu.",foto ='".$urlFoto."',hoja_vida ='".$CV."',email ='".$email."',telefono =".$telFijo.",celular =".$telCel.",comuna='".$comuna."',barrio='".$barrio."' WHERE documento='".$doc."'";
 	    $objConexion->ejecutarComandoSql($comandoSql);
 	    $objConexion->cerrarBd();
 
@@ -91,6 +95,10 @@ class ControlEmpleado {
 		$this->objEmpleado->setTelFijo($registro["telefono"]);
 		$this->objEmpleado->setId($registro["id_usuario"]);
 		$this->objEmpleado->setTelCel($registro["celular"]);
+		$this->objEmpleado->setComuna($registro["comuna"]);
+		$this->objEmpleado->setBarrio($registro["barrio"]);
+
+
 
 		$objConexion->cerrarBd();
 	
@@ -126,6 +134,8 @@ class ControlEmpleado {
 		$this->objEmpleado->setTelFijo($registro["telefono"]);
 		$this->objEmpleado->setId($registro["id_usuario"]);
 		$this->objEmpleado->setTelCel($registro["celular"]);
+		$this->objEmpleado->setComuna($registro["comuna"]);
+		$this->objEmpleado->setBarrio($registro["barrio"]);
 
 		$objConexion->cerrarBd();
 	

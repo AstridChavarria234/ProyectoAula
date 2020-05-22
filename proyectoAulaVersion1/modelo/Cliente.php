@@ -12,9 +12,11 @@ class Cliente{
     var $email;
     var $telefono;
     var $topeCred;
+    var $comuna;
+    var $barrio;
     var $id_usuario;
 
-    function __construct($codigo,$nombre,$tipoPersona,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$topeCred,$id_usuario)
+    function __construct($codigo,$nombre,$tipoPersona,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$topeCred,$comuna,$barrio,$id_usuario)
     {
         $this->codigo=$codigo;
         $this->nombre=$nombre;
@@ -25,6 +27,8 @@ class Cliente{
         $this->email=$email;
         $this->telefono=$telefono;
         $this->topeCred=$topeCred;
+        $this->comuna=$comuna;
+        $this->barrio=$barrio;
         $this->id_usuario=$id_usuario;
       
     }
@@ -55,6 +59,12 @@ class Cliente{
 
     function setTopeCred($topeCred) { $this->setTopeCred = $topeCred; }
     function getTopeCred() { return $this->topeCred; }
+
+    function setComuna($comuna) { $this->setComuna = $comuna; }
+    function getComuna() { return $this->comuna; }
+
+    function setBarrio($barrio) { $this->setBarrio = $barrio; }
+    function getBarrio() { return $this->barrio; }
 
     function setId($id_usuario) { $this->id_usuario= $id_usuario; }
     function getId() { return $this->id_usuario; }

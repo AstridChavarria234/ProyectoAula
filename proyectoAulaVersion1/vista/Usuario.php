@@ -267,12 +267,12 @@
           
                 <div class=\"form-group\">
                 <label for=\"usuario\">Usuario</label>
-                <input type=\"text\" class=\"form-control\" value=\"$USUARIO\" id=\"usuario\" name=\"txtUsuario\" placeholder=\"Nombre de Usuario\" required>
+                <input type=\"text\" class=\"form-control\" value=\"$USUARIO\" id=\"usuario\" name=\"txtUsuario\" placeholder=\"Nombre de Usuario\" required >
                 </div>
 
                 <div class=\"form-group\">
                 <label for=\"clave\">Clave</label>
-                <input type=\"password\" class=\"form-control\" value=\"$CLAVE\" id=\"clave\" name=\"txtClave\" placeholder=\"Clave de usuario\" required>
+                <input type=\"password\" class=\"form-control\" value=\"$CLAVE\" id=\"clave\" name=\"txtClave\" placeholder=\"Clave de usuario\" required >
                 </div>
           
                

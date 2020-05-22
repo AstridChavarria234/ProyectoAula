@@ -20,6 +20,8 @@
                         $urlFoto;
                         $email=$_POST['txtEmail'];
                         $telefono=$_POST['txtTelefono'];
+                        $comuna=$_POST['txtComuna'];
+                        $barrio=$_POST['txtBarrio'];
                         $button=$_POST['button'];
                         $tipo = $_POST['txtTipo'];
 
@@ -61,6 +63,8 @@
                       
                           $TELEFONO=$objetoSesion->getTelefono();
                           $EMAIL=$objetoSesion->getEmail();
+                          $COMUNA=$objetoSesion->getComuna();
+                          $BARRIO=$objetoSesion->getBarrio();
                           $urlFoto= $objetoSesion->getUrlImagen();
                           $statusActualizar="display:block";
                           $statusInactivar="display:block";
@@ -86,6 +90,8 @@
                             $TIPO="Juridica";
                       
                           $TELEFONO=$objetoSesionDefault->getTelefono();
+                          $COMUNA=$objetoSesionDefault->getComuna();
+                          $BARRIO=$objetoSesionDefault->getBarrio();
                           $EMAIL=$objetoSesionDefault->getEmail();
                           $urlFoto= $objetoSesionDefault->getUrlImagen();
                           $statusActualizar="display:block";
@@ -116,7 +122,7 @@
 
                           case "registrar":
                           
-                            $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
+                            $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
                             $objControlProveedor= new ControlProveedor($objProveedor);
                             $objProveedor1=$objControlProveedor->consultar();
                           
@@ -126,7 +132,7 @@
                               $objControlUsuario = new ControlUsuario($objUsuario);
                               $objControlUsuario->guardar();
                               $objUsuario1=$objControlUsuario->consultarExistencia();
-                                $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
+                                $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
                                 $objControlProveedor= new ControlProveedor($objProveedor);
                                 $objControlProveedor->guardar();
                                 $statusRegistrarM="display:block";
@@ -142,7 +148,7 @@
                         case "actualizar": 
 
 
-                          $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
+                          $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
                           $objControlProveedor= new ControlProveedor($objProveedor);
                           $objProveedor1=$objControlProveedor->consultar();
                           $objUsuario = new Usuario($objProveedor1->getId(),"","","","");
@@ -152,7 +158,7 @@
                           if($objUsuario->getEstado()==1){
                           $statusConfInactivar="display:block";
                           }else{
-                            $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
+                            $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
                             $objControlProveedor= new ControlProveedor($objProveedor);
                             $objControlProveedor->modificar();
                             $statusActualizarM="display:block";
@@ -166,7 +172,7 @@
                         case "inactivar":
 
 
-                          $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,0);
+                          $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
                           $objControlProveedor= new ControlProveedor($objProveedor);
                           $objProveedor1=$objControlProveedor->consultar();
 
@@ -389,12 +395,12 @@
                             </div>
 
                             <div class=\"form-group\" style =\"$statusRegistro\">
-                            <label for=\"fRetiro\">Fecha de Registro</label>
-                          <input type=\"text\" class=\"form-control\"value=\"$FRET\" id=\"registro\" name=\"txtRegistro\" $statusLectura>
+                            <label for=\"fRegistro\">Fecha de Registro</label>
+                          <input type=\"date\" class=\"form-control\"value=\"$FRET\" id=\"registro\" name=\"txtRegistro\" $statusLectura>
                             </div>
 
           
-              <div class=\"form-group\">
+                          <div class=\"form-group\">
                             <label for=\"email\">Correo Electronico </label>
                             <input type=\"email\" class=\"form-control\"value=\"$EMAIL\" name=\"txtEmail\" aria-describedby=\"emailHelp\" placeholder=\"Correo Electronico Personal\">
                             <small id=\"emailHelp\" class=\"form-text text-muted\">We'll never share your email with anyone else.</small>
@@ -403,6 +409,16 @@
                             <div class=\"form-group\">
                             <label for=\"telefonoFijo\">Telefono Fijo</label>
                             <input type=\"text\" class=\"form-control\" value=\"$TELEFONO\" id=\"telefono\" name=\"txtTelefono\" placeholder=\"Telefono\">
+                            </div>
+
+                            <div class=\"form-group\">
+                            <label for=\"comuna\">Comuna en la que se ubica</label>
+                            <input type=\"text\" class=\"form-control\"value=\"$COMUNA\"  id=\"comuna\" name=\"txtComuna\" placeholder=\"Nombre de la Comuna\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                            </div>
+
+                            <div class=\"form-group\">
+                            <label for=\"barrio\">Barrio en la que se ubica</label>
+                            <input type=\"text\" class=\"form-control\"value=\"$BARRIO\"  id=\"barrio\" name=\"txtBarrio\" placeholder=\"Nombre del Barrio\" onkeyup=\"this.value = this.value.toUpperCase();\">
                             </div>
           
                 <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusTabla\">

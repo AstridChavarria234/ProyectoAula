@@ -22,6 +22,8 @@
                 $email=$_POST['txtEmail'];
                 $telFijo=$_POST['txtFijo'];
                 $telCel=$_POST['txtMovil'];
+                $comuna=$_POST['txtComuna'];
+                $barrio=$_POST['txtBarrio'];
                 $statusActualizar="display:none";
                 $statusInactivar="display:none";
                 $statusRegistrar="display:block";
@@ -57,6 +59,8 @@
                   $EMAIL=$objetoSesion->getEmail();
                   $FIJO=$objetoSesion->getTelFijo();
                   $CEL=$objetoSesion->getTelCel();
+                  $COMUNA=$objetoSesion->getComuna();
+                  $BARRIO=$objetoSesion->getBarrio();
                   $CV= $objetoSesion->getCV();
                   $urlFoto= $objetoSesion->getUrlFoto();
                   $statusActualizar="display:block";
@@ -78,6 +82,8 @@
                   $EMAIL=$objetoSesionDefault->getEmail();
                   $FIJO=$objetoSesionDefault->getTelFijo();
                   $CEL=$objetoSesionDefault->getTelCel();
+                  $COMUNA=$objetoSesionDefault->getComuna();
+                  $BARRIO=$objetoSesionDefault->getBarrio();
                   $CV= $objetoSesionDefault->getCV();
                   $urlFoto= $objetoSesionDefault->getUrlFoto();
                   $statusActualizar="display:block";
@@ -126,7 +132,7 @@
             switch($button){
 
                   case "registrar":
-                  $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,0);
+                  $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0);
                   $objControlEmpleado= new ControlEmpleado($objEmpleado);
                   $objEmpleado=$objControlEmpleado->consultar();
 
@@ -136,7 +142,7 @@
                     $objControlUsuario = new ControlUsuario($objUsuario);
                     $objControlUsuario->guardar();
                     $objUsuario1=$objControlUsuario->consultarExistencia();
-                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$objUsuario1->getId());
+                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,$objUsuario1->getId());
                     $objControlEmpleado= new ControlEmpleado($objEmpleado);
                     $objControlEmpleado->guardar();
                     $statusRegistrarM="display:block";
@@ -150,7 +156,7 @@
                   case "actualizar": 
                     
                     
-                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,0);
+                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0);
                     $objControlEmpleado= new ControlEmpleado($objEmpleado);
                     $objEmpleado=$objControlEmpleado->consultar();
                   
@@ -161,7 +167,7 @@
                     if($objUsuario->getEstado()==1){
                     $statusConfInactivar="display:block";
                     }else{
-                      $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,0);
+                      $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0);
                       $objControlEmpleado= new ControlEmpleado($objEmpleado);
                       $objControlEmpleado->modificar();
                       $statusActualizarM="display:block";
@@ -173,7 +179,7 @@
                   case "inactivar":
 
 
-                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,0);
+                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0);
                     $objControlEmpleado= new ControlEmpleado($objEmpleado);
                     $objEmpleado=$objControlEmpleado->consultar();
 
@@ -451,9 +457,21 @@
                     </div>
               
                     <div class=\"form-group\">
-                    <label for=\"telefonoMoil\">Telefono Movil</label>
+                    <label for=\"telefonoMovil\">Telefono Movil</label>
                     <input type=\"text\" class=\"form-control\"value=\"$CEL\" id=\"cel\" name=\"txtMovil\" placeholder=\"Telefono Movil\">
-                    </div><br>
+                    </div>
+
+                    <div class=\"form-group\">
+                  <label for=\"comuna\">Comuna en la que se ubica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$COMUNA\" id=\"comuna\" name=\"txtComuna\" placeholder=\"Comuna de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+                  <div class=\"form-group\">
+                  <label for=\"barrio\">Barrio en el que se ubica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$BARRIO\" id=\"barrio\" name=\"txtBarrio\" placeholder=\"Barrio de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+                  <br>
                     <table class=\"table table-hover  tableFixHead\" >
             
                     <tbody>

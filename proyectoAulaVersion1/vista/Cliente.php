@@ -22,6 +22,8 @@
               $email=$_POST['txtEmail'];
               $tel=$_POST['txtTelefono'];
               $topCred=$_POST['txtTope_Credito'];
+              $comuna=$_POST['txtComuna'];
+              $barrio=$_POST['txtBarrio'];
               $statusActualizar="display:none";
               $statusInactivar="display:none";
               $statusRegistrar="display:block";
@@ -53,6 +55,8 @@
                 $EMAIL=$objetoSesion->getEmail();
                 $TELEFONO=$objetoSesion->getTelefono();
                 $TCREDITO=$objetoSesion->getTopeCred();
+                $COMUNA=$objetoSesion->getComuna();
+                $BARRIO=$objetoSesion->getBarrio();
                 $urlImg=$objetoSesion->getUrlImagen();
                 $statusImg="display:block";
                 $statusActualizar="display:block";
@@ -70,6 +74,8 @@
                 $EMAIL=$objetoSesionDefault->getEmail();
                 $TELEFONO=$objetoSesionDefault->getTelefono();
                 $TCREDITO=$objetoSesionDefault->getTopeCred();
+                $COMUNA=$objetoSesionDefault->getComuna();
+                $BARRIO=$objetoSesionDefault->getBarrio();
                 $urlImg=$objetoSesionDefault->getUrlImagen();
                 $statusImg="display:block";
                 $statusActualizar="display:block";
@@ -113,7 +119,7 @@
 
                 case "registrar":
 
-                $objCliente= new Cliente($cod,"","","","","","","","","");
+                $objCliente= new Cliente($cod,"","","","","","","","","","","");
                 $objControlCliente= new ControlCliente($objCliente);
                 $objCliente=$objControlCliente->consultar();
 
@@ -124,7 +130,7 @@
                   $objControlUsuario = new ControlUsuario($objUsuario);
                   $objControlUsuario->guardar();
                   $objUsuario1=$objControlUsuario->consultarExistencia();
-                  $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$objUsuario1->getId());
+                  $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$comuna,$barrio,$objUsuario1->getId());
                   $objControlCliente= new ControlCliente($objCliente);
                   $objControlCliente->guardar();
                   $statusRegistrarM="display:block";
@@ -136,7 +142,7 @@
 
                 case "actualizar":  
 
-                  $objCliente= new Cliente($cod,"","","","","","","","","");
+                  $objCliente= new Cliente($cod,"","","","","","","","","","","");
                   $objControlCliente= new ControlCliente($objCliente);
                   $objCliente=$objControlCliente->consultar();
     
@@ -146,7 +152,7 @@
                   $objUsuario=$objControlUsuario->consultar();
 
                   if($objUsuario->getEstado()==0){
-                    $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,0);
+                    $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$comuna,$barrio,0);
                     $objControlCliente= new ControlCliente($objCliente);
                     $objControlCliente->modificar();
                     $statusActualizarM="display:block";
@@ -417,7 +423,20 @@
                   <div class=\"form-group\">
                   <label for=\"credito\">Tope de credito</label>
                   <input type=\"text\" class=\"form-control\"value=\"$TCREDITO\" id=\"credito\" name=\"txtTope_Credito\" placeholder=\"Tope de credito del cliente\">
-                  </div><br>
+                  </div>
+
+                  <div class=\"form-group\">
+                  <label for=\"comuna\">Comuna en la que se ubica</label>
+                  <input type=\"text\" class=\"form-control\"value=\"$COMUNA\" id=\"comuna\" name=\"txtComuna\" placeholder=\"Comuna de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+                  <div class=\"form-group\">
+                  <label for=\"barrio\">Barrio en el que se ubica</label>
+                  <input type=\"text\" class=\"form-control\"value=\"$BARRIO\" id=\"barrio\" name=\"txtBarrio\" placeholder=\"Barrio de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+                  <br>
+
                   <table class=\"table table-hover  tableFixHead\" >
           
                   <tbody>
