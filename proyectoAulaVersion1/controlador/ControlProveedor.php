@@ -148,6 +148,50 @@
 			return $objProveedor1;
 		}
 
+		  function consultarAll(){
+
+    
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT * FROM PROVEEDOR";
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+    
+            $proveedor=(array)$registro;
+    
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $proveedor;
+    
+    }
+
+    function cantidad($empezar_desde,$proveedoresxPagina){
+
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT *  FROM PROVEEDOR LIMIT ".$empezar_desde." , ".$proveedoresxPagina."";
+        
+        
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+    
+            $proveedorPage=(array)$registro;
+            
+    
+            
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $proveedorPage;
+    }
+
 
 	}
 	?>

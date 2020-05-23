@@ -1,10 +1,11 @@
 <?php
-   error_reporting(E_ALL ^ E_NOTICE);
+
+          error_reporting(0);
+
             include("../controlador/configBd.php");
             include("../controlador/ControlConexion.php");
-
-
-
+            include("../modelo/Cliente.php");
+            include("../controlador/ControlCliente.php");
 
 echo "
 <!DOCTYPE html>
@@ -13,13 +14,15 @@ echo "
                 <meta charset='UTF-8'>
           
                 <link rel=\"StyleSheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" type=\"text/css\">
-                <link rel=\"StyleSheet\" href=\"../estilosTabla.css\">
+                <link rel=\"StyleSheet\" href=\"../estilosTablas.css\">
+
                 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
                 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
                 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
                 <script src=\"jquery-3.0.0.min.js\"></script>
 
                 <title>Cliente</title>
+
                 </head>
                 <body>
                     
@@ -29,7 +32,7 @@ echo "
             <span class=\"navbar-toggler-icon\"></span>
           </button>
           <div class=\"collapse navbar-collapse\" id=\"navbarToggler\">
-            <a class=\"navbar-brand\" href=\"#\">Administración de Usuarios</a>
+            <a class=\"navbar-brand\" href=\"#\">Administración de Clientes</a>
             <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">
             <li class=\"nav-item dropdown\">
       
@@ -39,7 +42,7 @@ echo "
             <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
             <a class=\"dropdown-item\" href=\"Empleado.php\">Empleado</a>
             <a class=\"dropdown-item\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
-            <a class=\"dropdown-item\" href=\"TablaEmpleadophp\">Listar Empleado</a>
+            <a class=\"dropdown-item\" href=\"TablaEmpleado.php\">Listar Empleado</a>
             
           </li>
               <li class=\"nav-item dropdown\">
@@ -101,76 +104,179 @@ echo "
 
         ";
 
-        $sv="localhost";
-        $us="root";
-        $ps="";
-        $bd="bdproyectoaulav1";
+        try{
+
+          ////------- OBTENER EL NUMERO DE FILAS-------////
+
+      $objCliente= new Cliente("","","","","","","","","","","","");
+      $objControlCliente= new ControlCliente($objCliente);
+      $objCliente=$objControlCliente->consultarAll();
+      $datos= (array)$objCliente;
+      $num_filas = count($datos);
+      
+       
+
+       $tam_paginas=5;
+
+       $total_paginas= ceil($num_filas/$tam_paginas);
+
+       if (isset($_GET["pagina"])) {
+       
+
+            if($_GET["pagina"]==1){
+                 
+                 header('location:TablaCliente.php');
+
+
+                 $pagina=1;
+                 $ant=1;
+                 $sig=$pagina+1;
+
+            }else{
+
+              $pagina=$_GET["pagina"];
+              $ant=$pagina-1;
+              if($pagina>=$total_paginas)
+                {
+
+                    $sig=$total_paginas;
+                }else{
+              $sig=$pagina+1;
+            }
+
+            }
+
+        }else{
+
+          $pagina=1;
+
+        }
+
+
+
+        $empezar_desde=($pagina-1)*$tam_paginas;
+
+   
         
-
-        $objConexion = new ControlConexion();
-        $objConexion->abrirBd($sv,$us,$ps,$bd);
-        $comandoSql="SELECT * FROM CLIENTE";
-        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        ////------- OBTENER EL NUMERO DE FILAS-------////
 
 
-        $objConexion->cerrarBd();
+
+        //////-------GENERAR LOS LIMITES Y LA CONSULTA QUE TRAE LOS REGISTROS-------/////
 
 
-            echo"
         
-            <br><br>
-            <table class =\"table table-sm table-secondary\">
+     //   print("numero de filas ".$num_filas. "<br>");
+     //   print("numero de paginas " .$total_paginas."<br>");
+     //  print("mostrando la pagina ".$pagina." de ".$total_paginas. "<br>");
 
-            <tr class=\"bg-success\">
+
+        $objCliente= new Cliente("","","","","","","","","","","","");
+        $objControlCliente= new ControlCliente($objCliente);
+        $objCliente=$objControlCliente->cantidad($empezar_desde,$tam_paginas);
+        $datos= (array)$objCliente;
+        $longitud = count($datos);
+
+
+        ////------COMIENZA LA TABLA---------////
+
+
+       echo"
+        <br><br>
+                 <table>
+
+                  <tr>
                   <th>Codigo</th>
-                  <th>Nombre</th>
-                  <th>Tipo Persona</th>
+                  <th>Nombre del Cliente</th>
+                  <th>Persona</th>
                   <th>Fecha de Registro</th>
-                  <th>Fecha de Inactividad</th>
+                  <th>Fecha de Inactivacion</th>
                   <th>Imagen</th>
                   <th>Email</th>
                   <th>Telefono</th>
-                  <th>Tope de credito</th>
-                 
+                  <th>Tope de Credito</th>
+                  <th>Comuna</th>
+                  <th>Barrio</th>
+
                 </tr>
 
             ";
 
-            while ($registro = $recordSet->fetch_array(MYSQLI_BOTH)) {
+    /* ////----SE MUESTRAN Y ASIGNAN LOS REGISTROS A LAS LINEAS EN LA TABLA
 
-              echo"
+               DEBE HACERSE CON UN FOR CONTROLADO POR LA CANTIDAD DE REGISTROS 
+
+               O AL PARECER NO LOS RECONOCE-------/////// */
+
+
+
+        for ($i=0;$i<$longitud; $i++) {
+
+          echo"
               <tr>
 
-                <td>".$registro["codigo"]."</td>
-                <td id='nombre' data-id_nombre='".$registro["codigo"]."'>".$registro["nombre"]."</td>
-                <td id='tipo_persona' data-id_tipo_persona='".$registro["codigo"]."'>".$registro["tipo_persona"]."</td>
-                <td id='fRegistro' data-id_fRegistro='".$registro["codigo"]."'>".$registro["fecha_registro"]."</td>
-                <td id='fInactivo' data-id_fInactivo='".$registro["codigo"]."'>".$registro["fecha_inactivo"]."</td>
-                <td id='urlImagen' data-id_urlImagen='".$registro["codigo"]."'>".$registro["url_imagen"]."</td>
-                <td id='email' data-id_email='".$registro["codigo"]."'>".$registro["email"]."</td>
-                <td id='telefono' data-id_telefono='".$registro["codigo"]."'>".$registro["telefono"]."</td>
-                <td id='tCred' data-id_tCred='".$registro["codigo"]."'>".$registro["tope_credito"]."</td>
-
+                <td>".$datos[$i]["codigo"]."</td>
+                <td>".$datos[$i]["nombre"]."</td>
+                <td>".$datos[$i]["tipo_persona"]."</td>
+                <td>".$datos[$i]["fecha_registro"]."</td>
+                <td>".$datos[$i]["fecha_inactivo"]."</td>
+                <td><img src=".$datos[$i]['url_imagen']." height='80' width='100'></td>
+                <td>".$datos[$i]["email"]."</td>
+                <td>".$datos[$i]["telefono"]."</td>
+                <td>".$datos[$i]["tope_credito"]."</td>
+                <td>".$datos[$i]["comuna"]."</td>
+                <td>".$datos[$i]["barrio"]."</td>
+                
                 
 
               </tr>
+
+
+
+        
               ";
-           }
+          
+        }
 
-            echo"</table>";
+        echo"</table>";
 
 
+        }catch(Exception $e){
 
+            echo "linea de error: " .$e->getLine();
+
+        }
+
+
+        ////---------------PAGINACION-------------////
+
+
+   echo"      
+    <nav aria-label='Page navigation example'>
+    <ul class='pagination list'>
+
+    <li class='page-item'><a class='page-link key' href='TablaCliente.php?pagina=".$ant."'>Anterior</a></li>"; 
+      for($i=1; $i<=$total_paginas; $i++){
+
+        if($pagina==$i){
+        echo"
+          <li class='page-item active ' ><a class='page-link key' href='#'>".$pagina."</a></li>";
+        }
+        else{
+          echo"
+          <li  class='page-item'><a class='page-link key' href='TablaCliente.php?pagina=".$i."'>".$i."</a></li>";
+        }
+      }
+       echo"
+    
+        <li class='page-item'><a class='page-link key' href='TablaCliente.php?pagina=".$sig."'>Siguiente</a></li>
+    </ul>
+    </nav>
+    ";
 
 
         echo"
-      
-        </form>
                     
-                <div id=\"container\">
-                  <div id=\"result\"></div>
-                </div>
-          
                 </div>
                 </div>
                 </div>

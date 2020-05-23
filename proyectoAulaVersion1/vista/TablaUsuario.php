@@ -1,7 +1,11 @@
 <?php
 
+          error_reporting(0);
+
             include("../controlador/configBd.php");
             include("../controlador/ControlConexion.php");
+            include("../modelo/Usuario.php");
+            include("../controlador/ControlUsuario.php");
 
 echo "
 <!DOCTYPE html>
@@ -10,7 +14,8 @@ echo "
                 <meta charset='UTF-8'>
           
                 <link rel=\"StyleSheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" type=\"text/css\">
-                <link rel=\"StyleSheet\" href=\"../estilosTabla.css\">
+                <link rel=\"StyleSheet\" href=\"../estilosTablas.css\">
+
                 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
                 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
                 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
@@ -99,26 +104,105 @@ echo "
 
         ";
 
-        $sv="localhost";
+        try{
+
+         /* $base=new PDO("mysql:host=localhost; dbname=bdproyectoaulav1", "root","");
+          $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          $base->exec("SET CHARACTER SET utf8");*/
+
+          ////------- OBTENER EL NUMERO DE FILAS-------////
+
+      $objUsuario= new Usuario("","","","","");
+      $objControlUsuario= new ControlUsuario($objUsuario);
+      $objUsuario=$objControlUsuario->consultarAll();
+      $datos= (array)$objUsuario;
+      $num_filas = count($datos);
+      
+
+
+
+
+       /* $sv="localhost";
         $us="root";
         $ps="";
         $bd="bdproyectoaulav1";
         
 
         $objConexion = new ControlConexion();
-        $objConexion->abrirBd($sv,$us,$ps,$bd);
-        $comandoSql="SELECT * FROM USUARIO";
-        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        $objConexion->abrirBd($sv,$us,$ps,$bd);*/
+        
+       
+
+       $tam_paginas=5;
+
+       $total_paginas= ceil($num_filas/$tam_paginas);
+
+       if (isset($_GET["pagina"])) {
+       
+
+            if($_GET["pagina"]==1){
+                 
+                 header('location:TablaUsuario.php');
 
 
-        $objConexion->cerrarBd();
+                 $pagina=1;
+                 $ant=1;
+                 $sig=$pagina+1;
+
+            }else{
+
+              $pagina=$_GET["pagina"];
+              $ant=$pagina-1;
+              if($pagina>=$total_paginas)
+                {
+
+                    $sig=$total_paginas;
+                }else{
+              $sig=$pagina+1;
+            }
+
+            }
+
+        }else{
+
+          $pagina=1;
+
+        }
 
 
-            echo"
+
+        $empezar_desde=($pagina-1)*$tam_paginas;
+
+   
+        
+        ////------- OBTENER EL NUMERO DE FILAS-------////
+
+
+
+        //////-------GENERAR LOS LIMITES Y LA CONSULTA QUE TRAE LOS REGISTROS-------/////
+
+
+        
+     //   print("numero de filas ".$num_filas. "<br>");
+     //   print("numero de paginas " .$total_paginas."<br>");
+     //  print("mostrando la pagina ".$pagina." de ".$total_paginas. "<br>");
+
+
+        $objUsuario= new Usuario("","","","","");
+        $objControlUsuario= new ControlUsuario($objUsuario);
+        $objUsuario=$objControlUsuario->cantidad($empezar_desde,$tam_paginas);
+        $datos= (array)$objUsuario;
+        $longitud = count($datos);
+
+
+        ////------COMIENZA LA TABLA---------////
+
+
+       echo"
         <br><br>
-                 <table class =\"table table-sm table-secondary\">
+                 <table>
 
-                  <tr class=\"bg-success\">
+                  <tr>
                   <th>id</th>
                   <th>Nombre de Usuario</th>
                   <th>Clave</th>
@@ -128,35 +212,74 @@ echo "
 
             ";
 
-            while ($registro = $recordSet->fetch_array(MYSQLI_BOTH)) {
+    /* ////----SE MUESTRAN Y ASIGNAN LOS REGISTROS A LAS LINEAS EN LA TABLA
 
-              echo"
+               DEBE HACERSE CON UN FOR CONTROLADO POR LA CANTIDAD DE REGISTROS 
+
+               O AL PARECER NO LOS RECONOCE-------/////// */
+
+
+
+        for ($i=0;$i<$longitud; $i++) {
+
+          echo"
               <tr>
 
-                <td>".$registro["id"]."</td>
-                <td id='usuario' data-id_usuario='".$registro["id"]."'>".$registro["usuario"]."</td>
-                <td id='clave' data-id_clave='".$registro["id"]."'>".$registro["clave"]."</td>
-                <td id='nivel' data-id_nivel='".$registro["id"]."'>".$registro["nivel"]."</td>
+                <td>".$datos[$i]["id"]."</td>
+                <td>".$datos[$i]["usuario"]."</td>
+                <td>".$datos[$i]["clave"]."</td>
+                <td>".$datos[$i]["nivel"]."</td>
+                
                 
 
               </tr>
+
+
+
+        
               ";
-           }
+          
+        }
 
-            echo"</table>";
+        echo"</table>";
 
 
+        }catch(Exception $e){
 
+            echo "linea de error: " .$e->getLine();
+
+        }
+
+
+        ////---------------PAGINACION-------------////
+
+
+   echo"      
+    <nav aria-label='Page navigation example'>
+    <ul class='pagination list'>
+
+    <li class='page-item'><a class='page-link key' href='TablaUsuario.php?pagina=".$ant."'>Anterior</a></li>"; 
+      for($i=1; $i<=$total_paginas; $i++){
+
+        if($pagina==$i){
+        echo"
+          <li class='page-item active ' ><a class='page-link key' href='#'>".$pagina."</a></li>";
+        }
+        else{
+          echo"
+          <li  class='page-item'><a class='page-link key' href='TablaUsuario.php?pagina=".$i."'>".$i."</a></li>";
+        }
+      }
+       echo"
+    
+        <li class='page-item'><a class='page-link key' href='TablaUsuario.php?pagina=".$sig."'>Siguiente</a></li>
+    </ul>
+    </nav>
+    ";
 
 
         echo"
-      
-        </form>
                     
-                <div id=\"container\">
-                  <div id=\"result\"></div>
-                </div>
-          
                 </div>
                 </div>
                 </div>

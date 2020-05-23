@@ -1,7 +1,12 @@
+
 <?php
-   error_reporting(E_ALL ^ E_NOTICE);
+
+          error_reporting(0);
+
             include("../controlador/configBd.php");
             include("../controlador/ControlConexion.php");
+            include("../modelo/Empleado.php");
+            include("../controlador/ControlEmpleado.php");
 
 echo "
 <!DOCTYPE html>
@@ -10,13 +15,14 @@ echo "
                 <meta charset='UTF-8'>
           
                 <link rel=\"StyleSheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" type=\"text/css\">
-                <link rel=\"StyleSheet\" href=\"../estilosTabla.css\">
+                <link rel=\"StyleSheet\" href=\"../estilosTablas.css\">
+
                 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
                 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
                 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
                 <script src=\"jquery-3.0.0.min.js\"></script>
 
-                <title>Usuario</title>
+                <title>Empleado</title>
 
                 </head>
                 <body>
@@ -37,7 +43,7 @@ echo "
             <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
             <a class=\"dropdown-item\" href=\"Empleado.php\">Empleado</a>
             <a class=\"dropdown-item\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
-            <a class=\"dropdown-item\" href=\"TablaEmpleadophp\">Listar Empleado</a>
+            <a class=\"dropdown-item\" href=\"TablaEmpleado.php\">Listar Empleado</a>
             
           </li>
               <li class=\"nav-item dropdown\">
@@ -99,81 +105,183 @@ echo "
 
         ";
 
-        $sv="localhost";
-        $us="root";
-        $ps="";
-        $bd="bdproyectoaulav1";
+        try{
+
+          ////------- OBTENER EL NUMERO DE FILAS-------////
+
+      $objEmpleado= new Empleado("","","","","","","","","","","","","","");
+      $objControlEmpleado= new ControlEmpleado($objEmpleado);
+      $objEmpleado=$objControlEmpleado->consultarAll();
+      $datos= (array)$objEmpleado;
+      $num_filas = count($datos);
+      
+       
+
+       $tam_paginas=4;
+
+       $total_paginas= ceil($num_filas/$tam_paginas);
+
+       if (isset($_GET["pagina"])) {
+       
+
+            if($_GET["pagina"]==1){
+                 
+                 header('location:TablaEmpleado.php');
+
+
+                 $pagina=1;
+                 $ant=1;
+                 $sig=$pagina+1;
+
+            }else{
+
+              $pagina=$_GET["pagina"];
+              $ant=$pagina-1;
+              if($pagina>=$total_paginas)
+                {
+
+                    $sig=$total_paginas;
+                }else{
+              $sig=$pagina+1;
+            }
+
+            }
+
+        }else{
+
+          $pagina=1;
+
+        }
+
+
+
+        $empezar_desde=($pagina-1)*$tam_paginas;
+
+   
         
-
-        $objConexion = new ControlConexion();
-        $objConexion->abrirBd($sv,$us,$ps,$bd);
-        $comandoSql="SELECT * FROM EMPLEADO";
-        $recordSet=$objConexion->ejecutarSelect($comandoSql);
-        $objConexion->cerrarBd();
+        ////------- OBTENER EL NUMERO DE FILAS-------////
 
 
-            echo"
-<br><br>
 
-<table class =\"table table-sm table-secondary\">
- 
+        //////-------GENERAR LOS LIMITES Y LA CONSULTA QUE TRAE LOS REGISTROS-------/////
 
-                <tr class=\"bg-success\">
-                  <th>Nombre</th>
-                  <th>Documento</th>
-                  <th>Fecha Ingreso</th>
-                  <th>Fecha Retiro</th>
+
+        
+     //   print("numero de filas ".$num_filas. "<br>");
+     //   print("numero de paginas " .$total_paginas."<br>");
+     //  print("mostrando la pagina ".$pagina." de ".$total_paginas. "<br>");
+
+
+        $objEmpleado= new Empleado("","","","","","","","","","","","","","");
+        $objControlEmpleado= new ControlEmpleado($objEmpleado);
+        $objEmpleado=$objControlEmpleado->cantidad($empezar_desde,$tam_paginas);
+        $datos= (array)$objEmpleado;
+        $longitud = count($datos);
+
+
+        ////------COMIENZA LA TABLA---------////
+
+
+       echo"
+        <br><br>
+                 <table>
+
+                  <tr>
+                  <th>Nombre del Empleado</th>
+                  <th>Documento</th>                 
+                  <th>Fecha de Ingreso</th>
+                  <th>Fecha de Retiro</th>
                   <th>Salario Basico</th>
                   <th>Deduccion</th>
                   <th>Foto</th>
-                  <th>Hoja de Vida</th>
+                  <th>Descargar Hoja de vida</th>
                   <th>Email</th>
                   <th>Telefono</th>
                   <th>Celular</th>
-
+                  <th>Comuna</th>
+                  <th>Barrio</th>
+                  
                 </tr>
 
             ";
 
-            while ($registro = $recordSet->fetch_array(MYSQLI_BOTH)) {
+    /* ////----SE MUESTRAN Y ASIGNAN LOS REGISTROS A LAS LINEAS EN LA TABLA
 
-                $urlFoto=$registro["foto"]; 
-                $CV = $registro["hoja_vida"];
-                
-               
-              echo"
+               DEBE HACERSE CON UN FOR CONTROLADO POR LA CANTIDAD DE REGISTROS 
+
+               O AL PARECER NO LOS RECONOCE-------/////// */
+
+
+
+        for ($i=0;$i<$longitud; $i++) {
+
+          echo"
               <tr>
 
-                <td id='nombre' data-id_nombre='".$registro["id"]."'>".$registro["nombre"]."</td>
-                <td id='documento' data-id_documento='".$registro["id"]."'>".$registro["documento"]."</td>
-                <td id='fechaIngreso' data-id_ingreso='".$registro["id"]."'>".$registro["fecha_ingreso"]."</td>
-                <td id='fechaRetiro' data-id_retiro='".$registro["id"]."'>".$registro["fecha_retiro"]."</td>
-                <td id='salario' data-id_salario='".$registro["id"]."'>".$registro["salario_basico"]."</td>
-                <td id='deduccion' data-id_deduccion='".$registro["id"]."'>".$registro["deduccion"]."</td>
-                <td id='foto' data-id_foto='".$registro["id"]."'><img src=\"$urlFoto\" height=\"80\" width=\"100\"></td>
-                <td id='CV' data-id_CV='".$registro["id"]."'><a href=\"$CV\" download=\"$CV\">Descargar</a></td>
-                <td id='email' data-id_email='".$registro["id"]."'>".$registro["email"]."</td>
-                <td id='telefono' data-id_telefono='".$registro["id"]."'>".$registro["telefono"]."</td>
-                <td id='celular' data-id_celular='".$registro["id"]."'>".$registro["celular"]."</td>
+                <td>".$datos[$i]["nombre"]."</td>
+                <td>".$datos[$i]["documento"]."</td>
+                <td>".$datos[$i]["fecha_ingreso"]."</td>
+                <td>".$datos[$i]["fecha_retiro"]."</td>
+                <td>".$datos[$i]["salario_basico"]."</td>
+                <td>".$datos[$i]["deduccion"]."</td>
+                <td><img src=".$datos[$i]['foto']." height='80' width='100'></td>
+                <td><a href=".$datos[$i]['hoja_vida']." download=".$datos[$i]['hoja_vida'].">Descargar</a></td>
+                <td>".$datos[$i]["email"]."</td>
+                <td>".$datos[$i]["telefono"]."</td>
+                <td>".$datos[$i]["celular"]."</td>
+                <td>".$datos[$i]["comuna"]."</td>
+                <td>".$datos[$i]["barrio"]."</td>
                 
+                
+
               </tr>
+
+
+
+        
               ";
-           }
+          
+        }
 
-            echo"</table>";
+        echo"</table>";
 
 
+        }catch(Exception $e){
 
+            echo "linea de error: " .$e->getLine();
+
+        }
+
+
+        ////---------------PAGINACION-------------////
+
+
+   echo"      
+    <nav aria-label='Page navigation example'>
+    <ul class='pagination list'>
+
+    <li class='page-item'><a class='page-link key' href='TablaEmpleado.php?pagina=".$ant."'>Anterior</a></li>"; 
+      for($i=1; $i<=$total_paginas; $i++){
+
+        if($pagina==$i){
+        echo"
+          <li class='page-item active ' ><a class='page-link key' href='#'>".$pagina."</a></li>";
+        }
+        else{
+          echo"
+          <li  class='page-item'><a class='page-link key' href='TablaEmpleado.php?pagina=".$i."'>".$i."</a></li>";
+        }
+      }
+       echo"
+    
+        <li class='page-item'><a class='page-link key' href='TablaEmpleado.php?pagina=".$sig."'>Siguiente</a></li>
+    </ul>
+    </nav>
+    ";
 
 
         echo"
-      
-        </form>
                     
-                <div id=\"container\">
-                  <div id=\"result\"></div>
-                </div>
-          
                 </div>
                 </div>
                 </div>

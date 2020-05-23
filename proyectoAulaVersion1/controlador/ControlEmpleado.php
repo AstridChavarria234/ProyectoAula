@@ -142,6 +142,50 @@ class ControlEmpleado {
 		return $this->objEmpleado;
 	}
 
+	  function consultarAll(){
+
+    
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT * FROM EMPLEADO";
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+    
+            $empleado=(array)$registro;
+    
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $empleado;
+    
+    }
+
+    function cantidad($empezar_desde,$empleadosxPagina){
+
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT *  FROM EMPLEADO LIMIT ".$empezar_desde." , ".$empleadosxPagina."";
+        
+        
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+    
+            $empleadoPage=(array)$registro;
+            
+    
+            
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $empleadoPage;
+    }
+
 
 }
 ?>

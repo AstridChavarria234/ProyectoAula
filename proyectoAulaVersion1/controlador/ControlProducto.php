@@ -80,6 +80,50 @@
 
 		}
 
+		  function consultarAll(){
+
+    
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT * FROM PRODUCTO";
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+    
+            $producto=(array)$registro;
+    
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $producto;
+    
+    }
+
+    function cantidad($empezar_desde,$productosxPagina){
+
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT *  FROM PRODUCTO LIMIT ".$empezar_desde." , ".$productosxPagina."";
+        
+        
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+    
+            $productoPage=(array)$registro;
+            
+    
+            
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $productoPage;
+    }
+
 
 		
 

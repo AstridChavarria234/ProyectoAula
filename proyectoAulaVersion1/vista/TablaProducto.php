@@ -1,10 +1,11 @@
 <?php
 
-
-error_reporting(E_ALL ^ E_NOTICE);
+          error_reporting(0);
 
             include("../controlador/configBd.php");
             include("../controlador/ControlConexion.php");
+            include("../modelo/Producto.php");
+            include("../controlador/ControlProducto.php");
 
 echo "
 <!DOCTYPE html>
@@ -13,13 +14,14 @@ echo "
                 <meta charset='UTF-8'>
           
                 <link rel=\"StyleSheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" type=\"text/css\">
-                <link rel=\"StyleSheet\" href=\"../estilosTabla.css\">
+                <link rel=\"StyleSheet\" href=\"../estilosTablas.css\">
+
                 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
                 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
                 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
                 <script src=\"jquery-3.0.0.min.js\"></script>
 
-                <title>Usuario</title>
+                <title>Producto</title>
 
                 </head>
                 <body>
@@ -30,7 +32,7 @@ echo "
             <span class=\"navbar-toggler-icon\"></span>
           </button>
           <div class=\"collapse navbar-collapse\" id=\"navbarToggler\">
-            <a class=\"navbar-brand\" href=\"#\">Administración de Usuarios</a>
+            <a class=\"navbar-brand\" href=\"#\">Administración de Productos</a>
             <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">
             <li class=\"nav-item dropdown\">
       
@@ -102,64 +104,182 @@ echo "
 
         ";
 
-        $sv="localhost";
+        try{
+
+         /* $base=new PDO("mysql:host=localhost; dbname=bdproyectoaulav1", "root","");
+          $base->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          $base->exec("SET CHARACTER SET utf8");*/
+
+          ////------- OBTENER EL NUMERO DE FILAS-------////
+
+      $objProducto= new Producto("","","","");
+      $objControlProducto= new ControlProducto($objProducto);
+      $objProducto=$objControlProducto->consultarAll();
+      $datos= (array)$objProducto;
+      $num_filas = count($datos);
+      
+
+
+
+
+       /* $sv="localhost";
         $us="root";
         $ps="";
         $bd="bdproyectoaulav1";
         
 
         $objConexion = new ControlConexion();
-        $objConexion->abrirBd($sv,$us,$ps,$bd);
-        $comandoSql="SELECT * FROM PRODUCTO";
-        $recordSet=$objConexion->ejecutarSelect($comandoSql);
-        $objConexion->cerrarBd();
+        $objConexion->abrirBd($sv,$us,$ps,$bd);*/
+        
+       
+
+       $tam_paginas=4;
+
+       $total_paginas= ceil($num_filas/$tam_paginas);
+
+       if (isset($_GET["pagina"])) {
+       
+
+            if($_GET["pagina"]==1){
+                 
+                 header('location:TablaProducto.php');
 
 
-            echo"
-            <br><br>
+                 $pagina=1;
+                 $ant=1;
+                 $sig=$pagina+1;
 
-            <table class =\"table table-sm table-secondary\">
+            }else{
 
-            <tr class=\"bg-success\">
-                  <th>Imagen</th>
+              $pagina=$_GET["pagina"];
+              $ant=$pagina-1;
+              if($pagina>=$total_paginas)
+                {
+
+                    $sig=$total_paginas;
+                }else{
+              $sig=$pagina+1;
+            }
+
+            }
+
+        }else{
+
+          $pagina=1;
+
+        }
+
+
+
+        $empezar_desde=($pagina-1)*$tam_paginas;
+
+   
+        
+        ////------- OBTENER EL NUMERO DE FILAS-------////
+
+
+
+        //////-------GENERAR LOS LIMITES Y LA CONSULTA QUE TRAE LOS REGISTROS-------/////
+
+
+        
+     //   print("numero de filas ".$num_filas. "<br>");
+     //   print("numero de paginas " .$total_paginas."<br>");
+     //  print("mostrando la pagina ".$pagina." de ".$total_paginas. "<br>");
+
+
+        $objProducto= new Producto("","","","");
+        $objControlProducto= new ControlProducto($objProducto);
+        $objProducto=$objControlProducto->cantidad($empezar_desde,$tam_paginas);
+        $datos= (array)$objProducto;
+        $longitud = count($datos);
+
+
+        ////------COMIENZA LA TABLA---------////
+
+
+       echo"
+        <br><br>
+                 <table>
+
+                  <tr>
                   <th>Codigo</th>
-                  <th>Nombre</th>
-                  <th>Estado <br> 1: Deshabilitado 0: Habilitado</th>
+                  <th>Nombre del Producto</th>
+                  <th>Imagen</th>
+                  <th>0: Habilitado / 1: Deshabilitado</th>
+
                 </tr>
 
             ";
 
-            while ($registro = $recordSet->fetch_array(MYSQLI_BOTH)) {
-          
+    /* ////----SE MUESTRAN Y ASIGNAN LOS REGISTROS A LAS LINEAS EN LA TABLA
 
-                $url_foto = $registro["url_imagen"];
-               
-              echo"
+               DEBE HACERSE CON UN FOR CONTROLADO POR LA CANTIDAD DE REGISTROS 
+
+               O AL PARECER NO LOS RECONOCE-------/////// */
+
+
+
+        for ($i=0;$i<$longitud; $i++) {
+
+          echo"
               <tr>
-                 <td id='foto' data-id_foto='".$registro["url_imagen"]."'><img src=\"$urlFoto\" height=\"80\" width=\"100\"></td>
-                <td id='codigo' data-id_codigo='".$registro["codigo"]."'>".$registro["codigo"]."</td>
-                <td id='nombre' data-id_nombre='".$registro["nombre"]."'>".$registro["nombre"]."</td>
-                <td id='estado' data-id_estado='".$registro["codigo"]."'>".$registro["deshabilitado"]."</td>
+
+                <td>".$datos[$i]["codigo"]."</td>
+                <td>".$datos[$i]["nombre"]."</td>
+                <td><img src=".$datos[$i]['url_imagen']." height='80' width='100'></td>
+                <td>".$datos[$i]["deshabilitado"]."</td>
                 
                 
+
               </tr>
+
+
+
+        
               ";
-           }
+          
+        }
 
-            echo"</table>";
+        echo"</table>";
 
 
+        }catch(Exception $e){
 
+            echo "linea de error: " .$e->getLine();
+
+        }
+
+
+        ////---------------PAGINACION-------------////
+
+
+   echo"      
+    <nav aria-label='Page navigation example'>
+    <ul class='pagination list'>
+
+    <li class='page-item'><a class='page-link key' href='TablaProducto.php?pagina=".$ant."'>Anterior</a></li>"; 
+      for($i=1; $i<=$total_paginas; $i++){
+
+        if($pagina==$i){
+        echo"
+          <li class='page-item active ' ><a class='page-link key' href='#'>".$pagina."</a></li>";
+        }
+        else{
+          echo"
+          <li  class='page-item'><a class='page-link key' href='TablaProducto.php?pagina=".$i."'>".$i."</a></li>";
+        }
+      }
+       echo"
+    
+        <li class='page-item'><a class='page-link key' href='TablaProducto.php?pagina=".$sig."'>Siguiente</a></li>
+    </ul>
+    </nav>
+    ";
 
 
         echo"
-      
-        </form>
                     
-                <div id=\"container\">
-                  <div id=\"result\"></div>
-                </div>
-          
                 </div>
                 </div>
                 </div>

@@ -151,6 +151,50 @@ class ControlUsuario{
          
  }
 
+  function consultarAll(){
+
+    
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT * FROM USUARIO";
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+    
+            $usuario=(array)$registro;
+    
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $usuario;
+    
+    }
+
+    function cantidad($empezar_desde,$usuariosxPagina){
+
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT *  FROM USUARIO LIMIT ".$empezar_desde." , ".$usuariosxPagina."";
+        
+        
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+    
+            $usuarioPage=(array)$registro;
+            
+    
+            
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $usuarioPage;
+    }
+
 }
 
 
