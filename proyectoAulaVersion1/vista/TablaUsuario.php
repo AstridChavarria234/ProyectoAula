@@ -13,7 +13,7 @@ echo "
                 <head>
                 <meta charset='UTF-8'>
           
-                <link rel=\"StyleSheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" type=\"text/css\">
+                <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\">
                 <link rel=\"StyleSheet\" href=\"../estilosTablas.css\">
 
                 <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
@@ -166,6 +166,8 @@ echo "
         }else{
 
           $pagina=1;
+          $ant=1;
+          $sig=$pagina+1;
 
         }
 
@@ -200,7 +202,7 @@ echo "
 
        echo"
         <br><br>
-                 <table>
+                 <table class='table table-hover'>
 
                   <tr>
                   <th>id</th>

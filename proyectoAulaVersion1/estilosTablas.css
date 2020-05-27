@@ -1,4 +1,4 @@
-*{
+/*{
 	margin: 0;
 	padding: 0;
 
@@ -38,7 +38,7 @@ table th{
 	border: 1px solid black;
 	border-bottom: solid 5px #0F362D;
 
-}
+}*/
 
 .list{
 	align: center;
@@ -58,7 +58,3 @@ table th{
   background: #239629;
 }
 
-tr:nth-child(even){
-
- background-color: #ddd;
-}

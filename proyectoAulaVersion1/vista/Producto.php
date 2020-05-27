@@ -47,7 +47,7 @@
                 $objControlRelacion= new ControlRelacion($objRelacion);
                 $dato=$objControlRelacion->consultar($objetoSesion->getCodigo());
 
-                $objProveedor= new Proveedor($dato,"","","","","","","",0);
+                $objProveedor= new Proveedor($dato,"","","","","","","","","",0);
                 $objControlProveedor= new ControlProveedor($objProveedor);
                 $objProveedor1=$objControlProveedor->consultar($dato);
       
@@ -170,13 +170,7 @@
 
                   <script type=\"text/javascript\">
 
-                  function validarCampos(){
-                  
-                    
-                          
-                        
-                    
-                  }
+                  function validarCampos(){}
                   </script>
                   </head>
                   <body>
@@ -314,6 +308,8 @@
 
                   <select class=\"custom-select\"  name=\"proveedor\">
                   <option disabled selected>$VALOR</option>
+
+                  <button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"$statusRegistrar\" >Registrar </button>
               
             "; 
 
@@ -321,7 +317,7 @@
             $objControlUsuario = new ControlUsuario($objUsuario); 
             $datosUsuario =$objControlUsuario->arrayUsuarioProveedor();
             
-            $objProveedor= new Proveedor("","","","","","","","","");
+            $objProveedor= new Proveedor("","","","","","","","","","","");
             $objControlProveedor = new ControlProveedor($objProveedor);
             $datos=$objControlProveedor->arrayProveedor($datosUsuario);
          
@@ -334,11 +330,11 @@
                 </select>
                 </div>
                   <br>
-                  <table class=\"table table-hover  tableFixHead\" >
+                  <table class=\"table table-hover tableFixHead\" >
           
                   <tbody>
                     <tr>
-                    <td><button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"$statusRegistrar\" >Registrar </button>
+                    <td><button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\" style=\"$statusRegistrar\" >Registrar </button>
                     <br></td>
                     <td>  <button type=\"submit\" class=\"btn btn-primary\" value=\"actualizar\" id=\"actualizar\"  name=\"button\" style=\"$statusActualizar\">Actualizar Producto</button>
                     <br> <td>

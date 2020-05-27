@@ -15,8 +15,8 @@
 
                         $cod=$_POST['txtCodigo']; 
                         $nom=$_POST['txtNombre']; 
-                        $fInac=$_POST['txtInactividad'];
                         $fRegistro = date("d-m-y");
+                        $fInac=$_POST['txtInactividad'];
                         $urlFoto;
                         $email=$_POST['txtEmail'];
                         $telefono=$_POST['txtTelefono'];
@@ -132,7 +132,8 @@
                               $objControlUsuario = new ControlUsuario($objUsuario);
                               $objControlUsuario->guardar();
                               $objUsuario1=$objControlUsuario->consultarExistencia();
-                                $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
+                                $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,$objUsuario1->getId());
+                                print("registrar en vista" .$barrio);
                                 $objControlProveedor= new ControlProveedor($objProveedor);
                                 $objControlProveedor->guardar();
                                 $statusRegistrarM="display:block";
@@ -209,7 +210,7 @@
                             <head>
                             <meta charset='UTF-8'>
                       
-                            <link rel=\"StyleSheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" type=\"text/css\">
+                            <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css\"
                             <link rel=\"StyleSheet\" href=\"//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css\" type=\"text/css\">
                             <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
                             <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
@@ -428,6 +429,7 @@
                 <table class=\"table table-hover  tableFixHead\" >
 
                 <tbody>
+                
                   <tr>
                   <td><button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"$statusRegistrar\" >Registrar Proveedor</button>
                   <br></td>
