@@ -47,6 +47,57 @@
 			return $registro["idProveedor"];
 		
 		}
+
+
+		  function consultarAll(){
+
+    	$codigo=$this->objRelacion->getProveedor();
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT * FROM PRODUCTOPROVEEDOR WHERE idProveedor='".$codigo."'";
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+    
+            $relacion=(array)$registro;
+    
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $relacion;
+    
+    }
+
+    function cantidad($empezar_desde,$usuariosxPagina,$codigo){
+
+
+
+        $objConexion = new ControlConexion();
+        $objConexion->abrirBd($GLOBALS['serv'],$GLOBALS['usua'],$GLOBALS['pass'],$GLOBALS['bdat']);
+        $comandoSql="SELECT prod.codigo,prod.nombre,prod.url_imagen,prod.deshabilitado
+        from proveedor pro INNER JOIN productoproveedor prodpro ON (pro.codigo=prodpro.idProveedor)
+                           INNER JOIN producto prod ON (prod.codigo=prodpro.idProducto)
+        WHERE pro.codigo='".$codigo."' LIMIT ".$empezar_desde." , ".$usuariosxPagina."";
+        
+        $recordSet=$objConexion->ejecutarSelect($comandoSql);
+        
+        while($registro = $recordSet->fetch_all(MYSQLI_BOTH)){
+
+        	
+    
+            $relacionPage=(array)$registro;
+            
+    
+            
+        }
+        
+             
+        
+        $objConexion->cerrarBd();
+        return $relacionPage;
+    }
 	
 
 	}

@@ -131,7 +131,10 @@ echo "
 
                  $pagina=1;
                  $ant=1;
-                 $sig=$pagina+1;
+                 if($total_paginas==1){
+                  $sig=1;
+                 }else{
+                 $sig=$pagina+1;}
 
             }else{
 
@@ -151,7 +154,10 @@ echo "
 
           $pagina=1;
           $ant=1;
-          $sig=$pagina+1;
+          if($total_paginas==1){
+                  $sig=1;
+                 }else{
+                 $sig=$pagina+1;}
 
         }
 
