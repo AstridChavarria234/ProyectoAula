@@ -11,6 +11,8 @@
                         include("../controlador/ControlConexion.php");
                         include("../modelo/Usuario.php");
                         include("../controlador/ControlUsuario.php");
+                        include("../modelo/Notificacion.php");
+                        include("../controlador/ControlNotificacion.php");
                 
 
                         $cod=$_POST['txtCodigo']; 
@@ -159,9 +161,16 @@
                           if($objUsuario->getEstado()==1){
                           $statusConfInactivar="display:block";
                           }else{
+                            $idUsu=$objUsuario->getId();
                             $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
-                            $objControlProveedor= new ControlProveedor($objProveedor);
-                            $objControlProveedor->modificar();
+                           $prov= (array)$objProveedor;
+
+                            $str=implode('&', $prov);
+                            
+
+                            $objNotificacion= new Notificacion($idUsu,$nom,3,$str);
+                            $objControlNotificacion= new ControlNotificacion($objNotificacion);
+                            $objControlNotificacion->guardar();
                             $statusActualizarM="display:block";
                             actualizarValor();
                             
@@ -326,6 +335,7 @@
           <a class=\"dropdown-item\"style=\"$statusNavBar\"  href=\"Usuario.php\">Usuario</a>
                 <a class=\"dropdown-item\" style=\"$statusNavBar\"  href=\"ConsultarUsuario.php\">Consultar Usuario</a>
                 <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaUsuario.php\">Listar Usuarios</a>
+                <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaNotificacion.php\">Solicitudes de Actualizacion</a>
 
             
               </li>
@@ -344,7 +354,7 @@
               <form method=\"POST\" enctype=\"multipart/form-data\" onsubmit=\"return validarCampos();\"> <br><br>
 
               <div class=\"alert alert-success\" role=\"alert\" id=\"txtActualizado\" style=\"$statusActualizarM\">
-              <strong>Bien Hecho!</strong> El proveedor ha sido actualizado con exito.
+              <strong>Bien Hecho!</strong> Los datos del proveedor han sido enviados para autorizar su actualizacion.
               </div>
               <div class=\"alert alert-success\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusRegistrarM\">
               <strong>Bien Hecho!</strong> El proveedor ha sido registrado con exito.

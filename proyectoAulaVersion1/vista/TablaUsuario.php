@@ -91,6 +91,7 @@ echo "
         <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
               <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
               <a class=\"dropdown-item\" href=\"TablaUsuario.php\">Listar Usuarios</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaNotificacion.php\">Solicitudes de Actualizacion</a>
 
           
             </li>
@@ -215,6 +216,7 @@ echo "
                   <th>Nombre de Usuario</th>
                   <th>Clave</th>
                   <th>Nivel de Acceso</th>
+                  <th>0: Activo // 1: Inactivo</th>
 
                 </tr>
 
@@ -237,6 +239,7 @@ echo "
                 <td>".$datos[$i]["usuario"]."</td>
                 <td>".$datos[$i]["clave"]."</td>
                 <td>".$datos[$i]["nivel"]."</td>
+                <td>".$datos[$i]["estado"]."</td>
                 
                 
 

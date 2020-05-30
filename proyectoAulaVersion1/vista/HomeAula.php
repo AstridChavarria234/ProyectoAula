@@ -85,6 +85,7 @@
         <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
               <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
               <a class=\"dropdown-item\" href=\"TablaUsuario.php\">Listar Usuarios</a>
+              <a class=\"dropdown-item\" href=\"TablaNotificacion.php\">Solicitudes de Actualizacion</a>
 
           
             </li>

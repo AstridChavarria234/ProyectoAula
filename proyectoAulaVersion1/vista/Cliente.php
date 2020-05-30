@@ -12,6 +12,8 @@
               include("../controlador/ControlConexion.php");
               include("../modelo/Usuario.php");
               include("../controlador/ControlUsuario.php");
+              include("../modelo/Notificacion.php");
+              include("../controlador/ControlNotificacion.php");
               
 
               $cod=$_POST['txtCodigo']; 
@@ -152,12 +154,18 @@
                   $objUsuario=$objControlUsuario->consultar();
 
                   if($objUsuario->getEstado()==0){
-                    $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$comuna,$barrio,0);
-                    $objControlCliente= new ControlCliente($objCliente);
-                    $objControlCliente->modificar();
-                    $statusActualizarM="display:block";
-        
-                    actualizarValor();
+                    $idUsu=$objUsuario->getId();
+                            $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$comuna,$barrio,0);
+                           $cli= (array)$objCliente;
+
+                            $str=implode('&', $cli);
+                            
+
+                            $objNotificacion= new Notificacion($idUsu,$nom,4,$str);
+                            $objControlNotificacion= new ControlNotificacion($objNotificacion);
+                            $objControlNotificacion->guardar();
+                            $statusActualizarM="display:block";
+                            actualizarValor();
             
                   }else{
                     $statusConfInactivar= "display:block";
@@ -168,7 +176,7 @@
               
                 case "inactivar":
                   
-                  $objCliente= new Cliente($cod,"","","","","","","","","");
+                  $objCliente= new Cliente($cod,"","","","","","","","","","","");
                   $objControlCliente= new ControlCliente($objCliente);
                   $objCliente=$objControlCliente->consultar();
 
@@ -330,6 +338,7 @@
           <a class=\"dropdown-item\"style=\"$statusNavBar\" href=\"Usuario.php\">Usuario</a>
                 <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
                 <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaUsuario.php\">Listar Usuarios</a>
+                <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaNotificacion.php\">Solicitudes de Actualizacion</a>
 
             
               </li>
@@ -348,7 +357,7 @@
                 <form method=\"POST\" enctype=\"multipart/form-data\" onsubmit=\"return validarCampos();\"> <br><br>
 
         <div class=\"alert alert-success\" role=\"alert\" id=\"txtActualizado\" style=\"$statusActualizarM\">
-        <strong>Bien Hecho!</strong> El cliente ha sido actualizado con exito.
+        <strong>Bien Hecho!</strong> Los datos del cliente han sido enviados para autorizar su actualizacion.
         </div>
         <div class=\"alert alert-success\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusRegistrarM\">
         <strong>Bien Hecho!</strong> El cliente ha sido registrado con exito.

@@ -75,7 +75,7 @@ class ControlUsuario{
         $objConexion->abrirBd($sv,$us,$ps,$bd);
         $comandoSql="SELECT * FROM USUARIO  WHERE id=".$id."";
         $recordSet=$objConexion->ejecutarSelect($comandoSql);
-        $registro = $recordSet->fetch_array(MYSQLI_BOTH);
+        $registro=$recordSet->fetch_array(MYSQLI_BOTH);
         $objUsuario1 = new Usuario($registro["id"],$registro["usuario"],$registro["clave"],$registro["nivel"],$registro["estado"]);
     
         $objConexion->cerrarBd();

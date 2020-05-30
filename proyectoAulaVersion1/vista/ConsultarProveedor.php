@@ -80,7 +80,7 @@
             <div class=\"dropdown-menu\" aria-labelledby=\"navbarDropdownMenuLink\">
             <a class=\"dropdown-item\" href=\"Empleado.php\">Empleado</a>
             <a class=\"dropdown-item\" href=\"ConsultarEmpleado.php\">Consultar Empleado</a>
-            <a class=\"dropdown-item\" href=\"TablaEmpleadophp\">Listar Empleado</a>
+            <a class=\"dropdown-item\" href=\"TablaEmpleado.php\">Listar Empleado</a>
             
           </li>
               <li class=\"nav-item dropdown\">
@@ -129,6 +129,7 @@
         <a class=\"dropdown-item\" href=\"Usuario.php\">Usuario</a>
               <a class=\"dropdown-item\" href=\"ConsultarUsuario.php\">Consultar Usuario</a>
               <a class=\"dropdown-item\" href=\"TablaUsuario.php\">Listar Usuarios</a>
+              <a class=\"dropdown-item\" style=\"$statusNavBar\" href=\"TablaNotificacion.php\">Solicitudes de Actualizacion</a>
 
           
             </li>
