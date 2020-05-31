@@ -75,6 +75,7 @@
                           $statusRegistro="display:block";
                           $statusFoto ="dispplay:block";
                           $statusLectura="readonly='true'";
+                          $statusNavBar = "display:none";
                         }
 
 
@@ -104,7 +105,7 @@
                           $statusFoto ="dispplay:block";
                           $statusLectura="readonly='true'";
                           $statusTabla= "display:block";
-                          $statusNavBar = "dispplay:none";
+                          $statusNavBar = "display:none";
                         }
 
             if(!empty($_FILES['archivo']['name']))

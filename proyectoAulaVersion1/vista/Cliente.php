@@ -65,6 +65,7 @@
                 $statusInactivar="display:block";
                 $statusRegistrar="display:none";
                 $statusLectura="readonly='true'";
+                $statusNavBar = "display:none";
               }
 
               if(!empty($objetoSesionDefault)){

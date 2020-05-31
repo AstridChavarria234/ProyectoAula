@@ -71,6 +71,7 @@
                   $statusImgCV ="display:block";
                   $statusImgFoto ="display:block";
                   $statusLectura="readonly='true'";
+                  $statusNavBar = "display:none";
                 }
 
                 if(!empty($objetoSesionDefault)){
