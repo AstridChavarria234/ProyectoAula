@@ -87,3 +87,9 @@ color: white;
 .links a{
 margin-left: 4px;
 }
+
+#mapid{
+    position: absolute;
+    width:1200px;
+    height: 400px;
+}

@@ -29,6 +29,8 @@
 
   <link rel=\"StyleSheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" type=\"text/css\">
   <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"docs/images/favicon.ico\" />
+
+  <link rel=\"StyleSheet\" href=\"../estilosMapa.css\">
   <link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.6.0/dist/leaflet.css\" integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\" crossorigin=\"\"/>
   <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
   <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
@@ -119,32 +121,134 @@
 
     </form>
     <br><br><br>
+    <div class=\"alert alert-ligth\" role=\"alert\"  id=\"txtInactivado\" style=\"\">
+    <strong>Proveedor
+</div>
 
-    <select class=\"custom-select\"  name=\"proveedor\">
-    <option disabled selected>pruebaProveedor</option>
- 
-    <button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"\" >Proveedor </button>
+
+    <div class=\"row\">
+    <div class=\"col-6 align-self-center\">
+       <div class=\"card card-block\">
+       <select class=\"custom-select\"  name=\"proveedor\">
+       <option disabled selected></option>
+
+       <button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"\" >Registrar </button>
    
-    ";
+       </div>
+    </div>
+  </div></div></div>
+ </div>
 
+    ";
+    $objUsuario = new Usuario ("", "", "", "", 0);
+    $objControlUsuario = new ControlUsuario($objUsuario); 
+    $datosUsuario =$objControlUsuario->arrayUsuarioProveedor();
+    
+    $objProveedor= new Proveedor("","","","","","","","","","","","","");
+    $objControlProveedor = new ControlProveedor($objProveedor);
+    $datos=$objControlProveedor->arrayProveedor($datosUsuario);
+ 
+     for($i=0;$i<count($datos);$i++)
+      {
+        echo '<option value='.$datos[$i][0].'>'.$datos[$i][1].'</option >';
+      }  
+
+echo "
+
+</select>
+
+</div>
+</div>
+</div>
+<br>
+<div class=\"alert alert-ligth\" role=\"alert\"  id=\"txtInactivado\" style=\"\">
+        <strong>Empleado
+		</div>
+
+<div class=\"row\">
+<div class=\"col-6 align-self-center\">
+   <div class=\"card card-block\">
+   <select class=\"custom-select\"  name=\"proveedor\">
+   <option disabled selected></option>
+
+   <button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"\" >Registrar </button>
+
+   </div>
+   </div>
+ </div></div></div>
+</div>
+
+";
+
+$objUsuario = new Usuario ("", "", "", "", 0);
+$objControlUsuario = new ControlUsuario($objUsuario); 
+$datosUsuario =$objControlUsuario->arrayUsuarioProveedor();
+
+$objProveedor= new Proveedor("","","","","","","","","","","","","");
+$objControlProveedor = new ControlProveedor($objProveedor);
+$datos=$objControlProveedor->arrayProveedor($datosUsuario);
+
+ for($i=0;$i<count($datos);$i++)
+  {
+    echo '<option value='.$datos[$i][0].'>'.$datos[$i][1].'</option >';
+  }
+
+echo"
 
     
-   $objUsuario = new Usuario ("", "", "", "", 0);
-   $objControlUsuario = new ControlUsuario($objUsuario); 
-   $datosUsuario =$objControlUsuario->arrayUsuarioProveedor();
-   
-   $objProveedor= new Proveedor("","","","","","","","","","","");
-   $objControlProveedor = new ControlProveedor($objProveedor);
-   $datos=$objControlProveedor->arrayProveedor($datosUsuario);
-   print($datos);
+</select>
 
-    for($i=0;$i<count($datos);$i++)
-     {
-       echo '<option value='.$datos[$i][0].'>'.$datos[$i][1].'</option >';
-     }
-     
+</div>
+</div>
+</div>
+
+<div class=\"alert alert-ligth\" role=\"alert\"  id=\"txtInactivado\" style=\"\">
+        <strong>Cliente
+		</div>
+
+<div class=\"row\">
+<div class=\"col-6 align-self-center\">
+   <div class=\"card card-block\">
+   <select class=\"custom-select\"  name=\"proveedor\">
+   <option disabled selected></option>
+
+   <button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"\" >Registrar </button>
+
+   </div>
+   </div>
+ </div></div></div>
+</div>
+
+";
+
+$objUsuario = new Usuario ("", "", "", "", 0);
+$objControlUsuario = new ControlUsuario($objUsuario); 
+$datosUsuario =$objControlUsuario->arrayUsuarioProveedor();
+
+$objProveedor= new Proveedor("","","","","","","","","","","","","");
+$objControlProveedor = new ControlProveedor($objProveedor);
+$datos=$objControlProveedor->arrayProveedor($datosUsuario);
+
+ for($i=0;$i<count($datos);$i++)
+  {
+    echo '<option value='.$datos[$i][0].'>'.$datos[$i][1].'</option >';
+  }
+
+
 echo"
-    <div id=\"mapid\" style=\"width: 600px; height: 400px;\"></div>
+</select>
+</div>
+</div>
+</div>
+";
+
+echo"
+<br><br>
+<div class = \"container-fluid\">
+    <div id=\"mapid\" class =\"mapa\" style=\"width: 600px; height: 400px;\"></div>
+    <div class=\"row\">
+    <div class=\"col-6 align-self-center\">
+       <div class=\"card card-block\">
 
     <script >
 
@@ -177,7 +281,11 @@ echo"
     
       mymap.on('click', onMapClick);
     </script>
-    
+      </div>
+    </div>
+  
+ </div>
+ </div>
       </body>
   </html>
   ";

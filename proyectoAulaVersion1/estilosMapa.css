@@ -1,0 +1,16 @@
+.lbody{
+    position: absolute;
+    width:1200px;
+    height: 400px;
+}
+
+.custom-select{
+    margin: 0.4%;
+    width: 700px;
+}
+.alert alert-success{
+    width: 700px !important;
+}
+.container-fluid{
+    width: 800px;
+}
