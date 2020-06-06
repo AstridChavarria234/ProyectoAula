@@ -45,7 +45,7 @@
 				case 2: 
 
 					if($objUsuario->getEstado()==0){
-						$objEmpleado= new Empleado("","","","","","","","","","","","","",$objUsuario->getId());
+						$objEmpleado= new Empleado("","","","","","","","","","","","","",$objUsuario->getId(),"","");
 						$objControlEmpleado= new ControlEmpleado($objEmpleado);
 						$objEmpleado=$objControlEmpleado->consultarPorId();
                         print($objEmpleado->getFRetiro());
@@ -60,7 +60,7 @@
 				case 3:
 					if($objUsuario->getEstado()==0){
 						print("if".$objUsuario->getId());
-						$objProveedor= new Proveedor("","","","","","","","","","","");
+						$objProveedor= new Proveedor("","","","","","","","","","","","","");
 						$objControlProveedor= new ControlProveedor($objProveedor);
 						$objProveedor=$objControlProveedor->consultarPorId($objUsuario->getId());  
 
@@ -79,7 +79,7 @@
 
 						print("ingreso 4". $objUsuario->getEstado());
 
-						$objCliente= new Cliente("","","","","","","","","","","",$objUsuario->getId());
+						$objCliente= new Cliente("","","","","","","","","","","",$objUsuario->getId(),"","");
 						$objControlCliente= new ControlCliente($objCliente);
 						$objCliente1=$objControlCliente->consultarPorId();
                         $_SESSION["clienteDefault"] = serialize($objCliente1);

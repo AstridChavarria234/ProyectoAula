@@ -109,7 +109,7 @@ echo "
 
           ////------- OBTENER EL NUMERO DE FILAS-------////
 
-      $objCliente= new Cliente("","","","","","","","","","","","");
+      $objCliente= new Cliente("","","","","","","","","","","","","","");
       $objControlCliente= new ControlCliente($objCliente);
       $objCliente=$objControlCliente->consultarAll();
       $datos= (array)$objCliente;
@@ -179,7 +179,7 @@ echo "
      //  print("mostrando la pagina ".$pagina." de ".$total_paginas. "<br>");
 
 
-        $objCliente= new Cliente("","","","","","","","","","","","");
+        $objCliente= new Cliente("","","","","","","","","","","","","","");
         $objControlCliente= new ControlCliente($objCliente);
         $objCliente=$objControlCliente->cantidad($empezar_desde,$tam_paginas);
         $datos= (array)$objCliente;

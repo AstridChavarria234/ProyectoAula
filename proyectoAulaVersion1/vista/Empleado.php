@@ -26,6 +26,8 @@
                 $telCel=$_POST['txtMovil'];
                 $comuna=$_POST['txtComuna'];
                 $barrio=$_POST['txtBarrio'];
+                $longitud=$_POST['txtLongitud'];
+                $latitud=$_POST['txtLatitud'];
                 $statusActualizar="display:none";
                 $statusInactivar="display:none";
                 $statusRegistrar="display:block";
@@ -50,7 +52,7 @@
 
                 $button=$_POST['button'];
 
-              
+            
                 if(!empty($objetoSesion)){
                   $NOMBRE=$objetoSesion->getNombre();
                   $DOCUMENTO=$objetoSesion->getDocumento();
@@ -65,6 +67,8 @@
                   $BARRIO=$objetoSesion->getBarrio();
                   $CV= $objetoSesion->getCV();
                   $urlFoto= $objetoSesion->getUrlFoto();
+                  $LONGITUD= $objetoSesion->getLatitud();
+                  $LATITUD= $objetoSesion->getLongitud();
                   $statusActualizar="display:block";
                   $statusInactivar="display:block";
                   $statusRegistrar="display:none";
@@ -89,6 +93,8 @@
                   $BARRIO=$objetoSesionDefault->getBarrio();
                   $CV= $objetoSesionDefault->getCV();
                   $urlFoto= $objetoSesionDefault->getUrlFoto();
+                  $LATITUD=$objetoSesionDefault->getLatitud();
+                  $LONGITUD=$objetoSesionDefault->getLongitud();
                   $statusActualizar="display:block";
                   $statusInactivar="display:none";
                   $statusRegistrar="display:none";
@@ -135,7 +141,7 @@
             switch($button){
 
                   case "registrar":
-                  $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0);
+                  $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0,$latitud,$longitud);
                   $objControlEmpleado= new ControlEmpleado($objEmpleado);
                   $objEmpleado=$objControlEmpleado->consultar();
 
@@ -145,7 +151,7 @@
                     $objControlUsuario = new ControlUsuario($objUsuario);
                     $objControlUsuario->guardar();
                     $objUsuario1=$objControlUsuario->consultarExistencia();
-                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,$objUsuario1->getId());
+                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,$objUsuario1->getId(),$latitud,$longitud);
                     $objControlEmpleado= new ControlEmpleado($objEmpleado);
                     $objControlEmpleado->guardar();
                     $statusRegistrarM="display:block";
@@ -159,7 +165,7 @@
                   case "actualizar": 
                     
                     
-                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0);
+                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0,$latitud,$longitud);
                     $objControlEmpleado= new ControlEmpleado($objEmpleado);
                     $objEmpleado=$objControlEmpleado->consultar();
                   
@@ -171,7 +177,7 @@
                     $statusConfInactivar="display:block";
                     }else{
                       $idUsu=$objUsuario->getId();
-                            $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0);
+                            $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0,$latitud,$longitud);
                            $emp= (array)$objEmpleado;
 
                             $str=implode('&', $emp);
@@ -189,7 +195,7 @@
                   case "inactivar":
 
 
-                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0);
+                    $objEmpleado= new Empleado($doc,$nom,$fIng,$fRet,$salario,$dedu,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,0,$latitud,$longitud);
                     $objControlEmpleado= new ControlEmpleado($objEmpleado);
                     $objEmpleado=$objControlEmpleado->consultar();
 
@@ -433,7 +439,7 @@
                     <label for=\"fRetiro\">Nombre</label>
                     <input type=\"text\" class=\"form-control\" value=\"$NOMBRE\" id=\"nombre\" name=\"txtNombre\" placeholder=\"Nombre\" required>
                     </div>
-              
+
                     <div class=\"form-group\">
                     <label for=\"fIngreso\">Fecha de Ingreso</label>
                     <input type=\"date\" class=\"form-control\"  value=\"$INGRESO\" id=\"ingreso\"name=\"txtIngreso\" placeholder=\"Fecha de Ingreso a la empresa\" >
@@ -480,6 +486,17 @@
                   <div class=\"form-group\">
                   <label for=\"barrio\">Barrio en el que se ubica</label>
                   <input type=\"text\" class=\"form-control\" value=\"$BARRIO\" id=\"barrio\" name=\"txtBarrio\" placeholder=\"Barrio de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+
+                  <div class=\"form-group\">
+                  <label for=\"comuna\">Latitud de su ubicacion geografica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$LONGITUD\" id=\"comuna\" name=\"txtLongitud\" placeholder=\"Longitud de  ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+                  <div class=\"form-group\">
+                  <label for=\"barrio\">Longitud de su ubicacion geofrafica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$LATITUD\" id=\"barrio\" name=\"txtLatitud\" placeholder=\"Latitud de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
                   </div>
 
                   <br>

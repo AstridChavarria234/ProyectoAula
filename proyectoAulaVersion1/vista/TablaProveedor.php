@@ -109,7 +109,7 @@ echo "
 
           ////------- OBTENER EL NUMERO DE FILAS-------////
 
-      $objProveedor= new Proveedor("","","","","","","","","","","");
+      $objProveedor= new Proveedor("","","","","","","","","","","","","");
       $objControlProveedor= new ControlProveedor($objProveedor);
       $objProveedor=$objControlProveedor->consultarAll();
       $datos= (array)$objProveedor;
@@ -180,7 +180,7 @@ echo "
      //  print("mostrando la pagina ".$pagina." de ".$total_paginas. "<br>");
 
 
-        $objProveedor= new Proveedor("","","","","","","","","","","");
+        $objProveedor= new Proveedor("","","","","","","","","","","","","");
         $objControlProveedor= new ControlProveedor($objProveedor);
         $objProveedor=$objControlProveedor->cantidad($empezar_desde,$tam_paginas);
         $datos= (array)$objProveedor;

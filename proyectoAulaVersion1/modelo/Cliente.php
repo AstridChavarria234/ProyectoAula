@@ -15,8 +15,10 @@ class Cliente{
     var $comuna;
     var $barrio;
     var $id_usuario;
+    var $latitud;
+    var $longitud;
 
-    function __construct($codigo,$nombre,$tipoPersona,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$topeCred,$comuna,$barrio,$id_usuario)
+    function __construct($codigo,$nombre,$tipoPersona,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$topeCred,$comuna,$barrio,$id_usuario,$latitud,$longitud)
     {
         $this->codigo=$codigo;
         $this->nombre=$nombre;
@@ -30,6 +32,8 @@ class Cliente{
         $this->comuna=$comuna;
         $this->barrio=$barrio;
         $this->id_usuario=$id_usuario;
+        $this->latitud=$latitud;
+        $this->longitud=$longitud;
       
     }
 
@@ -68,6 +72,12 @@ class Cliente{
 
     function setId($id_usuario) { $this->id_usuario= $id_usuario; }
     function getId() { return $this->id_usuario; }
+
+    function setLatitud($latitud) { $this->latitud= $latitud; }
+    function getLatitud() { return $this->latitud; }
+
+    function setLongitud($longitud) { $this->longitud= $longitud; }
+    function getLongitud() { return $this->longitud; }
 
 }
 

@@ -6,6 +6,21 @@
   if(!isset($_SESSION['usuario']) && !isset($_SESSION['clave']))
   header('Location:Index.php');
 
+  include("../controlador/configBd.php");
+                        include("../controlador/ControlConexion.php");
+                        include("../modelo/Proveedor.php");
+                        include("../controlador/ControlProveedor.php");
+                        include("../modelo/Empleado.php");
+                        include("../controlador/ControlEmpleado.php");
+                        include("../modelo/Cliente.php");
+                        include("../controlador/ControlCliente.php");
+                        include("../modelo/Usuario.php");
+                        include("../controlador/ControlUsuario.php");
+
+
+      
+
+
   echo"
   <!DOCTYPE html>
   <html>
@@ -13,9 +28,14 @@
   <meta charset='UTF-8'>
 
   <link rel=\"StyleSheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" type=\"text/css\">
+  <link rel=\"shortcut icon\" type=\"image/x-icon\" href=\"docs/images/favicon.ico\" />
+  <link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.6.0/dist/leaflet.css\" integrity=\"sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==\" crossorigin=\"\"/>
   <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
   <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
   <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
+  <script src=\"https://unpkg.com/leaflet@1.6.0/dist/leaflet.js\" integrity=\"sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==\" crossorigin=\"\"></script>
+
+
   <title>Home</title>
   </head>
       <body>
@@ -75,7 +95,7 @@
 
           
             </li>
-      
+
               <li class=\"nav-item dropdown\">
       
               <a class=\"nav-link dropdown-toggle\" href=\"#\" id=\"navbarDropdownMenuLink\" role=\"button\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">
@@ -98,8 +118,66 @@
     </nav>
 
     </form>
+    <br><br><br>
+
+    <select class=\"custom-select\"  name=\"proveedor\">
+    <option disabled selected>pruebaProveedor</option>
+ 
+    <button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"\" >Proveedor </button>
+   
+    ";
 
 
+    
+   $objUsuario = new Usuario ("", "", "", "", 0);
+   $objControlUsuario = new ControlUsuario($objUsuario); 
+   $datosUsuario =$objControlUsuario->arrayUsuarioProveedor();
+   
+   $objProveedor= new Proveedor("","","","","","","","","","","");
+   $objControlProveedor = new ControlProveedor($objProveedor);
+   $datos=$objControlProveedor->arrayProveedor($datosUsuario);
+   print($datos);
+
+    for($i=0;$i<count($datos);$i++)
+     {
+       echo '<option value='.$datos[$i][0].'>'.$datos[$i][1].'</option >';
+     }
+     
+echo"
+    <div id=\"mapid\" style=\"width: 600px; height: 400px;\"></div>
+
+    <script >
+
+    var mymap = L.map('mapid').setView([6.2441988,-75.6512531,12], 13);
+    
+      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, ' +
+          '<a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, ' +
+          'Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+      }).addTo(mymap);
+
+    
+       /* L.circle([6.2441988,-75.6512531,12], 300, {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5
+      }).addTo(mymap).bindPopup(\"I am a circle.\");
+    */
+      
+      function onMapClick(e) {
+        popup
+          .setLatLng(e.latlng)
+          .setContent(\"You clicked the map at \" + e.latlng.toString())
+          .openOn(mymap);
+      }
+    
+      mymap.on('click', onMapClick);
+    </script>
+    
       </body>
   </html>
   ";

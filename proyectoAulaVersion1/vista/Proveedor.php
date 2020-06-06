@@ -26,6 +26,8 @@
                         $barrio=$_POST['txtBarrio'];
                         $button=$_POST['button'];
                         $tipo = $_POST['txtTipo'];
+                        $longitud=$_POST['txtLongitud'];
+                        $latitud=$_POST['txtLatitud'];
 
                         $statusActualizar="display:none";
                         $statusInactivar="display:none";
@@ -61,13 +63,15 @@
                           if($objetoSesion->getTipo()=="Natural"){
                             $TIPO="Natural";
                           }else
-                            $TIPO="Juridica";
+                           $TIPO="Juridica";
                       
                           $TELEFONO=$objetoSesion->getTelefono();
                           $EMAIL=$objetoSesion->getEmail();
                           $COMUNA=$objetoSesion->getComuna();
                           $BARRIO=$objetoSesion->getBarrio();
                           $urlFoto= $objetoSesion->getUrlImagen();
+                          $LONGITUD= $objetoSesion->getLatitud();
+                          $LATITUD= $objetoSesion->getLongitud();
                           $statusActualizar="display:block";
                           $statusInactivar="display:block";
                           $statusRegistrar="display:none";
@@ -97,6 +101,8 @@
                           $BARRIO=$objetoSesionDefault->getBarrio();
                           $EMAIL=$objetoSesionDefault->getEmail();
                           $urlFoto= $objetoSesionDefault->getUrlImagen();
+                          $LATITUD=$objetoSesionDefault->getLatitud();
+                          $LONGITUD=$objetoSesionDefault->getLongitud();
                           $statusActualizar="display:block";
                           $statusInactivar="display:none";
                           $statusRegistrar="display:none";
@@ -125,7 +131,7 @@
 
                           case "registrar":
                           
-                            $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
+                            $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0,$latitud,$longitud);
                             $objControlProveedor= new ControlProveedor($objProveedor);
                             $objProveedor1=$objControlProveedor->consultar();
                           
@@ -135,7 +141,7 @@
                               $objControlUsuario = new ControlUsuario($objUsuario);
                               $objControlUsuario->guardar();
                               $objUsuario1=$objControlUsuario->consultarExistencia();
-                                $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,$objUsuario1->getId());
+                                $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,$objUsuario1->getId,$latitud,$longitud);
                                 print("registrar en vista" .$barrio);
                                 $objControlProveedor= new ControlProveedor($objProveedor);
                                 $objControlProveedor->guardar();
@@ -152,7 +158,7 @@
                         case "actualizar": 
 
 
-                          $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
+                          $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0,$latitud,$longitud);
                           $objControlProveedor= new ControlProveedor($objProveedor);
                           $objProveedor1=$objControlProveedor->consultar();
                           $objUsuario = new Usuario($objProveedor1->getId(),"","","","");
@@ -163,7 +169,7 @@
                           $statusConfInactivar="display:block";
                           }else{
                             $idUsu=$objUsuario->getId();
-                            $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
+                            $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0,$latitud,$longitud);
                            $prov= (array)$objProveedor;
 
                             $str=implode('&', $prov);
@@ -183,7 +189,7 @@
                         case "inactivar":
 
 
-                          $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0);
+                          $objProveedor= new Proveedor($cod,$nom,$tipo,$fRegistro,$fInac,$urlFoto,$email,$telefono,$comuna,$barrio,0,$latitud,$longitud);
                           $objControlProveedor= new ControlProveedor($objProveedor);
                           $objProveedor1=$objControlProveedor->consultar();
 
@@ -431,6 +437,16 @@
                             <div class=\"form-group\">
                             <label for=\"barrio\">Barrio en la que se ubica</label>
                             <input type=\"text\" class=\"form-control\"value=\"$BARRIO\"  id=\"barrio\" name=\"txtBarrio\" placeholder=\"Nombre del Barrio\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                            </div>
+                            
+                            <div class=\"form-group\">
+                            <label for=\"comuna\">Latitud de su ubicacion geografica</label>
+                            <input type=\"text\" class=\"form-control\" value=\"$LONGITUD\" id=\"comuna\" name=\"txtLongitud\" placeholder=\"Longitud de  ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                            </div>
+          
+                            <div class=\"form-group\">
+                            <label for=\"barrio\">Longitud de su ubicacion geofrafica</label>
+                            <input type=\"text\" class=\"form-control\" value=\"$LATITUD\" id=\"barrio\" name=\"txtLatitud\" placeholder=\"Latitud de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
                             </div>
           
                 <div class=\"alert alert-warning\" role=\"alert\"  id=\"txtInactivado\" style=\"$statusTabla\">

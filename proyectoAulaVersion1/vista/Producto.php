@@ -313,7 +313,7 @@
                   <button type=\"submit\" class=\"btn btn-primary\" value=\"registrar\" id=\"registrar\" name=\"button\"style=\"$statusRegistrar\" >Registrar </button>
               
             "; 
-
+            
             $objUsuario = new Usuario ("", "", "", "", 0);
             $objControlUsuario = new ControlUsuario($objUsuario); 
             $datosUsuario =$objControlUsuario->arrayUsuarioProveedor();

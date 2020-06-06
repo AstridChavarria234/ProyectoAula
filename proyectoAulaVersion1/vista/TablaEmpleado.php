@@ -110,7 +110,7 @@ echo "
 
           ////------- OBTENER EL NUMERO DE FILAS-------////
 
-      $objEmpleado= new Empleado("","","","","","","","","","","","","","");
+      $objEmpleado= new Empleado("","","","","","","","","","","","","","","","");
       $objControlEmpleado= new ControlEmpleado($objEmpleado);
       $objEmpleado=$objControlEmpleado->consultarAll();
       $datos= (array)$objEmpleado;
@@ -181,7 +181,7 @@ echo "
      //  print("mostrando la pagina ".$pagina." de ".$total_paginas. "<br>");
 
 
-        $objEmpleado= new Empleado("","","","","","","","","","","","","","");
+        $objEmpleado= new Empleado("","","","","","","","","","","","","","","","");
         $objControlEmpleado= new ControlEmpleado($objEmpleado);
         $objEmpleado=$objControlEmpleado->cantidad($empezar_desde,$tam_paginas);
         $datos= (array)$objEmpleado;

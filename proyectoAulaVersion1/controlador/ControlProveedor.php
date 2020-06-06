@@ -27,10 +27,12 @@
 		$comuna=$this->objProveedor->getComuna();
 		$barrio=$this->objProveedor->getBarrio();
 		$id=$this->objProveedor->getId();
+		$latitud=$this->objProveedor->getLatitud();
+		$longitud=$this->objProveedor->getLongitud();
 		
 		$objConexion = new ControlConexion();
 		$objConexion->abrirBd($sv,$us,$ps,$bd);
-		$comandoSql="INSERT INTO PROVEEDOR(codigo,nombre,tipo,fechaRegistro,fechaInactivo,urlImagen,email,telefono,comuna,barrio,id_usuario) VALUES('".$codigo."','".$nombre."','".$tipo."','".$fRet."','".$fInac."','".$urlImagen."', '".$email."', '".$telefono."','".$comuna."','".$barrio."',".$id.")";
+		$comandoSql="INSERT INTO PROVEEDOR(codigo,nombre,tipo,fechaRegistro,fechaInactivo,urlImagen,email,telefono,comuna,barrio,id_usuario, latitud,longitud) VALUES('".$codigo."','".$nombre."','".$tipo."','".$fRet."','".$fInac."','".$urlImagen."', '".$email."', '".$telefono."','".$comuna."','".$barrio."',".$id.",'".$latitud."','".$longitud."')";
 		$objConexion->ejecutarComandoSql($comandoSql);
 		$objConexion->cerrarBd();
 	}
@@ -51,31 +53,18 @@
 			$email=$this->objProveedor->getEmail();
 			$telefono=$this->objProveedor->getTelefono();
 			$comuna=$this->objProveedor->getComuna();
-		    $barrio=$this->objProveedor->getBarrio();
+			$barrio=$this->objProveedor->getBarrio();
+			$latitud=$this->objProveedor->getLatitud();
+			$longitud=$this->objProveedor->getLongitud();
+
 			$objConexion = new ControlConexion();
 			$objConexion->abrirBd($sv,$us,$ps,$bd);
-			$comandoSql="UPDATE PROVEEDOR SET nombre='".$nombre."' ,tipo='".$tipo."',fechaInactivo='".$fInac."',urlImagen='".$urlImagen."',email ='".$email."',telefono ='".$telefono."',comuna ='".$comuna."',barrio ='".$barrio."' WHERE codigo='".$codigo."'";
+			$comandoSql="UPDATE PROVEEDOR SET nombre='".$nombre."' ,tipo='".$tipo."',fechaInactivo='".$fInac."',urlImagen='".$urlImagen."',email ='".$email."',telefono ='".$telefono."',comuna ='".$comuna."',barrio ='".$barrio."',latitud ='".$latitud."',longitud ='".$longitud."' WHERE codigo='".$codigo."'";
 			$objConexion->ejecutarComandoSql($comandoSql);
 			$objConexion->cerrarBd();
 
 		}
-
-		/*function inactivar(){
-
-			$sv="localhost";
-			$us="root";
-			$ps="";
-			$bd="bdproyectoaulav1";
-
-			$codigo=$this->objProveedor->getCodigo();
-			$objConexion = new ControlConexion();
-			$objConexion->abrirBd($sv,$us,$ps,$bd);
-			$comandoSql="UPDATE Proveedor SET inactivo=1 WHERE codigo='".$codigo."'";
-			$objConexion->ejecutarComandoSql($comandoSql);
-			$objConexion->cerrarBd();
-		}
-
-		*/
+	
 
 		function consultar(){
 
@@ -91,7 +80,7 @@
 			$registro = $recordSet->fetch_array(MYSQLI_BOTH);
 			
 			$objProveedor1 = new Proveedor($registro["codigo"], $registro["nombre"],$registro["tipo"],$registro["fechaRegistro"],
-			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["comuna"],$registro["barrio"],$registro["id_usuario"]);
+			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["comuna"],$registro["barrio"],$registro["id_usuario"],$registro["latitud"],$registro["longitud"]);
 			$objConexion->cerrarBd();
 			return $objProveedor1;
 		}
@@ -118,13 +107,13 @@
 		}
 		
 		$objConexion->cerrarBd();
-
+		
 		return $datos;
 		
 		
-	
 		}
-		
+
+	
 
 
 		function consultarPorId($id){
@@ -140,7 +129,7 @@
 			$recordSet=$objConexion->ejecutarSelect($comandoSql);
 			$registro = $recordSet->fetch_array(MYSQLI_BOTH);
 			$objProveedor1 = new Proveedor($registro["codigo"], $registro["nombre"],$registro["tipo"],$registro["fechaRegistro"],
-			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["comuna"],$registro["barrio"],$registro["id_usuario"]);
+			$registro["fechaInactivo"],$registro["urlImagen"],$registro["email"],$registro["telefono"],$registro["comuna"],$registro["barrio"],$registro["id_usuario"],$registro["latitud"],$registro["longitud"]);
 			
 			$objConexion->cerrarBd();
 			
@@ -182,11 +171,8 @@
     
             $proveedorPage=(array)$registro;
             
-    
-            
+
         }
-        
-             
         
         $objConexion->cerrarBd();
         return $proveedorPage;

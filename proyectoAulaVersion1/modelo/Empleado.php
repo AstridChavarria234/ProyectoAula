@@ -14,7 +14,10 @@ class Empleado{
     var $comuna;
     var $barrio;
     var $id_usuario;
-    function __construct($documento,$nombre,$fIngreso,$fRetiro,$salario,$deduccion,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,$id_usuario)
+    var $latitud;
+    var $longitud;
+    
+    function __construct($documento,$nombre,$fIngreso,$fRetiro,$salario,$deduccion,$urlFoto,$CV,$email,$telFijo,$telCel,$comuna,$barrio,$id_usuario,$longitud,$latitud)
     {
         $this->documento=$documento;
         $this->nombre=$nombre;
@@ -30,6 +33,8 @@ class Empleado{
         $this->comuna=$comuna;
         $this->barrio=$barrio;
         $this->id_usuario=$id_usuario;
+        $this->latitud=$latitud;
+        $this->longitud=$longitud;
     }
     function setDocumento($documento) { $this->documento = $documento; }
     function getDocumento() { return $this->documento; }
@@ -72,6 +77,12 @@ class Empleado{
 
     function setId($id_usuario) { $this->id_usuario = $id_usuario; }
     function getId() { return $this->id_usuario; }
+
+    function setLatitud($latitud) { $this->latitud= $latitud; }
+    function getLatitud() { return $this->latitud; }
+
+    function setLongitud($longitud) { $this->longitud= $longitud; }
+    function getLongitud() { return $this->longitud; }
 
 }
 ?>

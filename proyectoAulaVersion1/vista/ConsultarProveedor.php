@@ -17,7 +17,7 @@
       
         if(isset($button)){
           $codigo=$_POST['txtCodigo']; 
-          $objProveedor= new Proveedor($codigo,"","","","","","","","","","");
+          $objProveedor= new Proveedor($codigo,"","","","","","","","","","","","");
           $objControlProveedor= new ControlProveedor($objProveedor);
           $objProveedor1=$objControlProveedor->consultar();
 

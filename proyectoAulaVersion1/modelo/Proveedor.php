@@ -14,7 +14,10 @@ class Proveedor{
     var $comuna;
     var $barrio;
     var $id_usuario;
-    function __construct($codigo,$nombre,$tipo,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$comuna,$barrio,$id_usuario)
+    var $longitud; 
+    var $latitud;
+
+    function __construct($codigo,$nombre,$tipo,$fRegistro,$fInactivo,$urlImagen,$email,$telefono,$comuna,$barrio,$id_usuario, $latitud,$longitud)
     {
         $this->codigo=$codigo;
         $this->nombre=$nombre;
@@ -27,6 +30,8 @@ class Proveedor{
         $this->comuna=$comuna;
         $this->barrio=$barrio;
         $this->id_usuario=$id_usuario;
+        $this->latitud=$latitud;
+        $this->longitud=$longitud;
         
       
     }
@@ -63,6 +68,13 @@ class Proveedor{
 
     function setId($id_usuario) { $this->setId = $id_usuario; }
     function getId() { return $this->id_usuario; }
+
+
+    function setLatitud($latitud) { $this->latitud= $latitud; }
+    function getLatitud() { return $this->latitud; }
+
+    function setLongitud($longitud) { $this->longitud= $longitud; }
+    function getLongitud() { return $this->longitud; }
 
 
 }

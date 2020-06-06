@@ -25,6 +25,8 @@
               $tel=$_POST['txtTelefono'];
               $topCred=$_POST['txtTope_Credito'];
               $comuna=$_POST['txtComuna'];
+              $longitud=$_POST['txtLongitud'];
+              $latitud=$_POST['txtLatitud'];
               $barrio=$_POST['txtBarrio'];
               $statusActualizar="display:none";
               $statusInactivar="display:none";
@@ -60,6 +62,8 @@
                 $COMUNA=$objetoSesion->getComuna();
                 $BARRIO=$objetoSesion->getBarrio();
                 $urlImg=$objetoSesion->getUrlImagen();
+                $LONGITUD= $objetoSesion->getLatitud();
+                $LATITUD= $objetoSesion->getLongitud();
                 $statusImg="display:block";
                 $statusActualizar="display:block";
                 $statusInactivar="display:block";
@@ -80,6 +84,8 @@
                 $COMUNA=$objetoSesionDefault->getComuna();
                 $BARRIO=$objetoSesionDefault->getBarrio();
                 $urlImg=$objetoSesionDefault->getUrlImagen();
+                $LATITUD=$objetoSesionDefault->getLatitud();
+                $LONGITUD=$objetoSesionDefault->getLongitud();
                 $statusImg="display:block";
                 $statusActualizar="display:block";
                 $statusInactivar="display:none";
@@ -122,7 +128,7 @@
 
                 case "registrar":
 
-                $objCliente= new Cliente($cod,"","","","","","","","","","","");
+                $objCliente= new Cliente($cod,"","","","","","","","","","","","","");
                 $objControlCliente= new ControlCliente($objCliente);
                 $objCliente=$objControlCliente->consultar();
 
@@ -133,7 +139,7 @@
                   $objControlUsuario = new ControlUsuario($objUsuario);
                   $objControlUsuario->guardar();
                   $objUsuario1=$objControlUsuario->consultarExistencia();
-                  $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$comuna,$barrio,$objUsuario1->getId());
+                  $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$comuna,$barrio,$objUsuario1->getId(),$latitud,$longitud);
                   $objControlCliente= new ControlCliente($objCliente);
                   $objControlCliente->guardar();
                   $statusRegistrarM="display:block";
@@ -145,7 +151,7 @@
 
                 case "actualizar":  
 
-                  $objCliente= new Cliente($cod,"","","","","","","","","","","");
+                  $objCliente= new Cliente($cod,"","","","","","","","","","","","","");
                   $objControlCliente= new ControlCliente($objCliente);
                   $objCliente=$objControlCliente->consultar();
     
@@ -156,11 +162,11 @@
 
                   if($objUsuario->getEstado()==0){
                     $idUsu=$objUsuario->getId();
-                            $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$comuna,$barrio,0);
+                            $objCliente= new Cliente($cod,$nom,$tPersona,$fReg,$fInact,$urlImg,$email,$tel,$topCred,$comuna,$barrio,0,$latitud,$longitud);
                            $cli= (array)$objCliente;
 
                             $str=implode('&', $cli);
-                            
+                          
 
                             $objNotificacion= new Notificacion($idUsu,$nom,4,$str);
                             $objControlNotificacion= new ControlNotificacion($objNotificacion);
@@ -177,7 +183,7 @@
               
                 case "inactivar":
                   
-                  $objCliente= new Cliente($cod,"","","","","","","","","","","");
+                  $objCliente= new Cliente($cod,"","","","","","","","","","","","","");
                   $objControlCliente= new ControlCliente($objCliente);
                   $objCliente=$objControlCliente->consultar();
 
@@ -443,6 +449,26 @@
                   <div class=\"form-group\">
                   <label for=\"barrio\">Barrio en el que se ubica</label>
                   <input type=\"text\" class=\"form-control\"value=\"$BARRIO\" id=\"barrio\" name=\"txtBarrio\" placeholder=\"Barrio de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+                  <div class=\"form-group\">
+                  <label for=\"comuna\">Latitud de su ubicacion geografica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$LONGITUD\" id=\"comuna\" name=\"txtLongitud\" placeholder=\"Comuna de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+                  <div class=\"form-group\">
+                  <label for=\"barrio\">Longitud de su ubicacion geofrafica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$LATITUD\" id=\"barrio\" name=\"txtLatitud\" placeholder=\"Barrio de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+                  <div class=\"form-group\">
+                  <label for=\"comuna\">Latitud de su ubicacion geografica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$LONGITUD\" id=\"comuna\" name=\"txtLongitud\" placeholder=\"Longitud de  ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  </div>
+
+                  <div class=\"form-group\">
+                  <label for=\"barrio\">Longitud de su ubicacion geofrafica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$LATITUD\" id=\"barrio\" name=\"txtLatitud\" placeholder=\"Latitud de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
                   </div>
 
                   <br>
