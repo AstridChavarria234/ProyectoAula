@@ -215,6 +215,7 @@ class ControlEmpleado {
 	}
 	
 	$objConexion->cerrarBd();
+	print($datos[0][0]);
 	return $datos;
 	
 	

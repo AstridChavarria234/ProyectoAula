@@ -151,6 +151,49 @@ class ControlUsuario{
          
  }
 
+ function arrayUsuarioEmpleado(){
+
+    $sv="localhost";
+    $us="root";
+    $ps="";
+    $bd="bdproyectoaulav1";
+  $objConexion=new ControlConexion();
+  $objConexion->abrirBd($sv,$us,$ps,$bd);
+  $comandoSql="SELECT * FROM usuario WHERE nivel = 2 AND estado =0";
+  $recordSet=$objConexion->ejecutarSelect($comandoSql);
+    
+        while ($registro = $recordSet->fetch_array(MYSQLI_BOTH))
+        {
+            $datos[] = $registro;	
+        }
+
+     $objConexion->cerrarBd();
+    return $datos;
+    
+}
+
+
+function arrayUsuarioCliente(){
+
+    $sv="localhost";
+    $us="root";
+    $ps="";
+    $bd="bdproyectoaulav1";
+  $objConexion=new ControlConexion();
+  $objConexion->abrirBd($sv,$us,$ps,$bd);
+  $comandoSql="SELECT * FROM usuario WHERE nivel = 4 AND estado =0";
+  $recordSet=$objConexion->ejecutarSelect($comandoSql);
+    
+        while ($registro = $recordSet->fetch_array(MYSQLI_BOTH))
+        {
+            $datos[] = $registro;	
+        }
+
+     $objConexion->cerrarBd();
+    return $datos;
+    
+}
+
   function consultarAll(){
 
     

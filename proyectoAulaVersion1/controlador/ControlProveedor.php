@@ -87,6 +87,31 @@
 
 		function arrayProveedor($datosUsuario){
 
+			$sv="localhost";
+			$us="root";
+			$ps="";
+			$bd="bdproyectoaulav1";
+
+		$objConexion=new ControlConexion();
+		$objConexion->abrirBd($sv,$us,$ps,$bd);
+			
+		for($i=0;$i<count($datosUsuario);$i++)
+		{
+			$id= $datosUsuario[$i][0];
+			$comandoSql="SELECT * FROM Proveedor  WHERE id_usuario=".$id."";
+			$recordSet=$objConexion->ejecutarSelect($comandoSql);
+			$registro = $recordSet->fetch_array(MYSQLI_BOTH);
+			$datos[] = $registro;	
+		}
+		
+		$objConexion->cerrarBd();	
+		json_encode($datos);
+		return $datos;
+		
+		}
+
+		function arrayProveedor1($datosUsuario){
+
 
 
 			$sv="localhost";
@@ -108,7 +133,8 @@
 		
 		$objConexion->cerrarBd();
 		
-		return $datos;
+		return json_encode($datos);
+		
 		
 		
 		}

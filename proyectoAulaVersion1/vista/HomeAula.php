@@ -18,7 +18,8 @@
                         include("../controlador/ControlUsuario.php");
 
 
-      
+                    
+                      
 
 
   echo"
@@ -122,10 +123,8 @@
     </form>
     <br><br><br>
     <div class=\"alert alert-ligth\" role=\"alert\"  id=\"txtInactivado\" style=\"\">
-    <strong>Proveedor
+    <strong>Proveedor</strong>
 </div>
-
-
     <div class=\"row\">
     <div class=\"col-6 align-self-center\">
        <div class=\"card card-block\">
@@ -147,10 +146,11 @@
     $objProveedor= new Proveedor("","","","","","","","","","","","","");
     $objControlProveedor = new ControlProveedor($objProveedor);
     $datos=$objControlProveedor->arrayProveedor($datosUsuario);
- 
+  
+    
      for($i=0;$i<count($datos);$i++)
       {
-        echo '<option value='.$datos[$i][0].'>'.$datos[$i][1].'</option >';
+        echo '<option value='.$datos[$i][0].'>'.$datos[$i][0].'</option >';
       }  
 
 echo "
@@ -160,9 +160,9 @@ echo "
 </div>
 </div>
 </div>
-<br>
+
 <div class=\"alert alert-ligth\" role=\"alert\"  id=\"txtInactivado\" style=\"\">
-        <strong>Empleado
+        <strong>Empleado</strong>
 		</div>
 
 <div class=\"row\">
@@ -182,28 +182,27 @@ echo "
 
 $objUsuario = new Usuario ("", "", "", "", 0);
 $objControlUsuario = new ControlUsuario($objUsuario); 
-$datosUsuario =$objControlUsuario->arrayUsuarioProveedor();
+$datosUsuario =$objControlUsuario->arrayUsuarioEmpleado();
 
-$objProveedor= new Proveedor("","","","","","","","","","","","","");
-$objControlProveedor = new ControlProveedor($objProveedor);
-$datos=$objControlProveedor->arrayProveedor($datosUsuario);
+$objEmpleado= new Empleado("","","","","","","","","","","","","","","","");
+$objControlEmpleado = new ControlEmpleado($objEmpleado);
+$datosEmpleado=$objControlEmpleado->arrayEmpleado($datosUsuario);
 
- for($i=0;$i<count($datos);$i++)
+
+ for($i=0;$i<count($datosEmpleado);$i++)
   {
-    echo '<option value='.$datos[$i][0].'>'.$datos[$i][1].'</option >';
+    echo '<option value='.$datosEmpleado[$i][0].'>'.$datosEmpleado[$i][1].'</option >';
   }
 
 echo"
 
-    
 </select>
-
 </div>
 </div>
 </div>
 
 <div class=\"alert alert-ligth\" role=\"alert\"  id=\"txtInactivado\" style=\"\">
-        <strong>Cliente
+        <strong>Cliente</strong>
 		</div>
 
 <div class=\"row\">
@@ -223,15 +222,15 @@ echo"
 
 $objUsuario = new Usuario ("", "", "", "", 0);
 $objControlUsuario = new ControlUsuario($objUsuario); 
-$datosUsuario =$objControlUsuario->arrayUsuarioProveedor();
+$datosUsuario =$objControlUsuario->arrayUsuarioCliente();
 
-$objProveedor= new Proveedor("","","","","","","","","","","","","");
-$objControlProveedor = new ControlProveedor($objProveedor);
-$datos=$objControlProveedor->arrayProveedor($datosUsuario);
+$objCliente= new Cliente("","","","","","","","","","","","","","");
+$objControlCliente= new ControlCliente($objCliente);
+$datos=$objControlCliente->arrayCliente($datosUsuario);
 
  for($i=0;$i<count($datos);$i++)
   {
-    echo '<option value='.$datos[$i][0].'>'.$datos[$i][1].'</option >';
+    echo '<option value='.$datos[$i][0].'>'.$datos[$i][0].'</option >';
   }
 
 
@@ -251,7 +250,6 @@ echo"
        <div class=\"card card-block\">
 
     <script >
-
     var mymap = L.map('mapid').setView([6.2441988,-75.6512531,12], 13);
     
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -264,14 +262,13 @@ echo"
         zoomOffset: -1
       }).addTo(mymap);
 
-    
-       /* L.circle([6.2441988,-75.6512531,12], 300, {
+      L.circle([6.2441988,-75.6512531,12], 300, {
         color: 'red',
         fillColor: '#f03',
         fillOpacity: 0.5
       }).addTo(mymap).bindPopup(\"I am a circle.\");
-    */
-      
+    
+    
       function onMapClick(e) {
         popup
           .setLatLng(e.latlng)
