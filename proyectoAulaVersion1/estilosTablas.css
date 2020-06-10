@@ -58,3 +58,13 @@ table th{
   background: #239629;
 }
 
+.foot{
+
+background: #313831;
+font-family: 'Numans', sans-serif;
+color: white;
+padding: 2px 3px;
+font-size:50px;
+text-align: center;
+
+}

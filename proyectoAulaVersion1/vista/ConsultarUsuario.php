@@ -44,6 +44,7 @@
             <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js\"></script>
             <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
             <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
+            <link rel=\"StyleSheet\" href=\"../estilosTablas.css\">
             <title>Usuario</title>
 
             <script type=\"text/javascript\">
@@ -181,6 +182,25 @@ function validar(){
     </form>
           
                 </body>
+                <footer class=\"foot\">
+                  <div class=\"foot\">
+                  <li class=\"list-inline-item\">
+                    <h4> Proyecto Aula dirigido por : <br>
+                    Carlos Castro </h4>
+                    <h4> Instituto Tecnologico Metropolitano </h4>
+                  </li>
+                  <li class=\"list-inline-item\">
+                    <h4 > Desarrollo <br>
+                      @Astrid Chavarria Serna<br> 
+                      @Kevin Orrego Castañeda</h4>
+                  </li>
+                  <li class=\"list-inline-item\">
+                    <h4 > Redes Sociales <br>
+                      Github:astriCh1234 <br>
+                      Github:Kibadachy</h4>
+                  </li>
+                  </div>
+                  </footer>
             </html>
             ";
       

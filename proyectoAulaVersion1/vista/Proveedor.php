@@ -233,7 +233,8 @@
                             <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\"></script>
                             <script src=\"//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\"></script>
                             <script src = \"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"> </script>
-                            <title>Proveedor</title>
+                            <link rel=\"StyleSheet\" href=\"../estilosTablas.css\">
+                            <title>Administracion de Proveedores</title>
 
 
                             <script type=\"text/javascript\">
@@ -283,7 +284,7 @@
                         <span class=\"navbar-toggler-icon\"></span>
                       </button>
                       <div class=\"collapse navbar-collapse\" id=\"navbarToggler\">
-                        <a class=\"navbar-brand\" href=\"#\">Proveedores</a>
+                        <a class=\"navbar-brand\" href=\"#\">Administracion de Proveedores</a>
                         <ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">
               <li class=\"nav-item dropdown\">
         
@@ -473,6 +474,25 @@
                             </div>
                             </div>
                             </body>
+                            <footer class=\"foot\">
+                  <div class=\"foot\">
+                  <li class=\"list-inline-item\">
+                    <h4> Proyecto Aula dirigido por : <br>
+                    Carlos Castro </h4>
+                    <h4> Instituto Tecnologico Metropolitano </h4>
+                  </li>
+                  <li class=\"list-inline-item\">
+                    <h4 > Desarrollo <br>
+                      @Astrid Chavarria Serna<br> 
+                      @Kevin Orrego Castañeda</h4>
+                  </li>
+                  <li class=\"list-inline-item\">
+                    <h4 > Redes Sociales <br>
+                      Github:astriCh1234 <br>
+                      Github:Kibadachy</h4>
+                  </li>
+                  </div>
+                  </footer>
                             </html>
                             ";
                       
