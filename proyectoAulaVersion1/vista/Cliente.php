@@ -451,24 +451,15 @@
                   <input type=\"text\" class=\"form-control\"value=\"$BARRIO\" id=\"barrio\" name=\"txtBarrio\" placeholder=\"Barrio de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
                   </div>
 
+
                   <div class=\"form-group\">
-                  <label for=\"comuna\">Latitud de su ubicacion geografica</label>
-                  <input type=\"text\" class=\"form-control\" value=\"$LONGITUD\" id=\"comuna\" name=\"txtLongitud\" placeholder=\"Comuna de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  <label for=\"longitud\">Latitud de su ubicacion geografica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$LONGITUD\" id=\"longitud\" name=\"txtLongitud\" placeholder=\"Longitud de  ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
                   </div>
 
                   <div class=\"form-group\">
-                  <label for=\"barrio\">Longitud de su ubicacion geofrafica</label>
-                  <input type=\"text\" class=\"form-control\" value=\"$LATITUD\" id=\"barrio\" name=\"txtLatitud\" placeholder=\"Barrio de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
-                  </div>
-
-                  <div class=\"form-group\">
-                  <label for=\"comuna\">Latitud de su ubicacion geografica</label>
-                  <input type=\"text\" class=\"form-control\" value=\"$LONGITUD\" id=\"comuna\" name=\"txtLongitud\" placeholder=\"Longitud de  ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
-                  </div>
-
-                  <div class=\"form-group\">
-                  <label for=\"barrio\">Longitud de su ubicacion geofrafica</label>
-                  <input type=\"text\" class=\"form-control\" value=\"$LATITUD\" id=\"barrio\" name=\"txtLatitud\" placeholder=\"Latitud de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
+                  <label for=\"latitud\">Longitud de su ubicacion geofrafica</label>
+                  <input type=\"text\" class=\"form-control\" value=\"$LATITUD\" id=\"latitud\" name=\"txtLatitud\" placeholder=\"Latitud de ubicacion\" onkeyup=\"this.value = this.value.toUpperCase();\">
                   </div>
 
                   <br>

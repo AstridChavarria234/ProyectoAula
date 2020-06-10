@@ -37,7 +37,7 @@
                 $arrayObj= explode("&", $cadenaObj);
 
 
-              $objEmpleado= new Empleado($arrayObj[0],$arrayObj[1],$arrayObj[2],$arrayObj[3],$arrayObj[4],$arrayObj[5],$arrayObj[6],$arrayObj[7],$arrayObj[8],$arrayObj[9],$arrayObj[10],$arrayObj[11],$arrayObj[12],$arrayObj[13]);
+              $objEmpleado= new Empleado($arrayObj[0],$arrayObj[1],$arrayObj[2],$arrayObj[3],$arrayObj[4],$arrayObj[5],$arrayObj[6],$arrayObj[7],$arrayObj[8],$arrayObj[9],$arrayObj[10],$arrayObj[11],$arrayObj[12],$arrayObj[13],$arrayObj[14],$arrayObj[15]);
 
               $objControlEmpleado= new ControlEmpleado($objEmpleado);
               $objControlEmpleado->modificar();
@@ -49,7 +49,7 @@
                 $arrayObj= explode("&", $cadenaObj);
 
 
-              $objProveedor= new Proveedor($arrayObj[0],$arrayObj[1],$arrayObj[2],$arrayObj[3],$arrayObj[4],$arrayObj[5],$arrayObj[6],$arrayObj[7],$arrayObj[8],$arrayObj[9],$arrayObj[10]);
+              $objProveedor= new Proveedor($arrayObj[0],$arrayObj[1],$arrayObj[2],$arrayObj[3],$arrayObj[4],$arrayObj[5],$arrayObj[6],$arrayObj[7],$arrayObj[8],$arrayObj[9],$arrayObj[10],$arrayObj[11],$arrayObj[12]);
 
               $objControlProveedor= new ControlProveedor($objProveedor);
               $objControlProveedor->modificar();
@@ -61,7 +61,7 @@
                 $arrayObj= explode("&", $cadenaObj);
 
 
-              $objCliente= new Cliente($arrayObj[0],$arrayObj[1],$arrayObj[2],$arrayObj[3],$arrayObj[4],$arrayObj[5],$arrayObj[6],$arrayObj[7],$arrayObj[8],$arrayObj[9],$arrayObj[10],$arrayObj[11]);
+              $objCliente= new Cliente($arrayObj[0],$arrayObj[1],$arrayObj[2],$arrayObj[3],$arrayObj[4],$arrayObj[5],$arrayObj[6],$arrayObj[7],$arrayObj[8],$arrayObj[9],$arrayObj[10],$arrayObj[11],$arrayObj[12],$arrayObj[13]);
 
               $objControlCliente= new ControlCliente($objCliente);
               $objControlCliente->modificar();

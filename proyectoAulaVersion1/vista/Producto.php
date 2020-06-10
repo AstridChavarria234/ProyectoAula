@@ -47,7 +47,7 @@
                 $objControlRelacion= new ControlRelacion($objRelacion);
                 $dato=$objControlRelacion->consultar($objetoSesion->getCodigo());
 
-                $objProveedor= new Proveedor($dato,"","","","","","","","","",0);
+                $objProveedor= new Proveedor($dato,"","","","","","","","","",0,"","");
                 $objControlProveedor= new ControlProveedor($objProveedor);
                 $objProveedor1=$objControlProveedor->consultar($dato);
       
